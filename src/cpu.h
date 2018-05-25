@@ -10,7 +10,7 @@ typedef struct Cpu {
 								   //t increments with each clock step, m being a quarter of t
 } Cpu;
 
-enum flag {
+enum CpuFlags {
 	CARRY_FLAG = 0x10,				/* Last operation result was over 255 (addition)
 									or under 0 (subtraction) */
 	HALFCARRY_FLAG = 0x20,			/* Last operation's result's lower half of
@@ -22,6 +22,7 @@ enum flag {
 void set_flag(Cpu* cpu, int flag); 
 void clear_flag(Cpu* cpu, int flag);
 
+void add_to_accumulator(Cpu* cpu, uint8_t n);
 void add_a_8bit_constant(Cpu* cpu, uint8_t n);
 void add_a_a(Cpu* cpu);
 void add_a_b(Cpu* cpu);
