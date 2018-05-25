@@ -1,13 +1,16 @@
 #pragma once
 #include <stdint.h>
 
+#include "memory.h"
+
 typedef struct Cpu {
 	uint8_t a;                      //Accumulator register
 	uint8_t f;                      //Flag register (lower 4 bits are always 0)
 	uint8_t b, c, d, e, h, l;       //8 bit registers 
-	uint16_t sp, pc;               //16 bit registers
-	uint8_t m, t;                  //clocks for last instruction
-								   //t increments with each clock step, m being a quarter of t
+	uint16_t sp, pc;               	//16 bit registers
+	uint8_t m, t;				   	//clocks for last instruction
+								   	//t increments with each clock step, m being a quarter of t
+	uint8_t memory[UINT16_MAX]		//16 bit address bus
 } Cpu;
 
 enum CpuFlags {
