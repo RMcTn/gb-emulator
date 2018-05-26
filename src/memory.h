@@ -7,7 +7,9 @@
 #define GRAPHICS_RAM                0x8000  //0x8000 - 0x9FFF
 #define EXTERNAL_CARTRIDGE_RAM      0xA000  //0xA000 - 0xBFFF
 #define WORKING_RAM                 0xC000  //0xC000 - 0xDFFF
+#define WORKING_RAM_END             0xDFFF
 #define WORKING_RAM_SHADOW          0xE000  //0xE000 - 0xFDFF
+#define WORKING_RAM_SHADOW_END      0xFDFF
 #define SPRITE_INFO                 0xFE00  //0xFE00 - 0xFE9F
 #define MEM_MAPPED_IO               0xFF00  //0xFF00 - 0xFF7F
 #define ZERO_PAGE_RAM               0xFF80  //0xFF80 - 0xFFFF

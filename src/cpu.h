@@ -10,7 +10,7 @@ typedef struct Cpu {
 	uint16_t sp, pc;               	//16 bit registers
 	uint8_t m, t;				   	//clocks for last instruction
 								   	//t increments with each clock step, m being a quarter of t
-	uint8_t memory[UINT16_MAX]		//16 bit address bus
+	uint8_t memory[UINT16_MAX];		//16 bit address bus
 } Cpu;
 
 enum CpuFlags {
