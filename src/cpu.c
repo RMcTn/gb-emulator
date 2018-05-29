@@ -86,6 +86,29 @@ void xor_with_accumulator(Cpu* cpu, uint8_t n) {
     if (cpu->a == 0)
         set_flag(cpu, ZERO_FLAG);
 }
+
+void or_with_accumulator(Cpu* cpu, uint8_t n) {
+    cpu->f = 0;
+    cpu->a = cpu->a | n;
+    if (cpu->a == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
+
+/*
+    Zero flag set if equal
+    Halfcarry flag set if accumulator > n
+    Carry flag set if accumulator < n
+*/
+void compare_with_accumulator(Cpu* cpu, uint8_t n) {
+    cpu->f = 0;
+    set_flag(cpu, SUBTRACTION_FLAG);
+    if (cpu->a == n)
+        set_flag(cpu, ZERO_FLAG);
+    if (cpu->a > n)
+        set_flag(cpu, HALFCARRY_FLAG);
+    if (cpu->a < n)
+        set_flag(cpu, CARRY_FLAG);
+}
 //Opcode groupings
 
 //0x
@@ -428,6 +451,106 @@ void xor_a(Cpu* cpu) {
 }
 //TODO:
 //Bx
+//0xB0
+void or_b(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB1
+void or_c(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB2
+void or_d(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB3
+void or_e(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB4
+void or_h(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB5
+void or_l(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB6
+void or_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    or_with_accumulator(cpu, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0xB7
+void or_a(Cpu* cpu) {
+    or_with_accumulator(cpu, cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB8
+void cp_b(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xB9
+void cp_c(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xBA
+void cp_d(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xBB
+void cp_e(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xBC
+void cp_h(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xBD
+void cp_l(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xBE
+void cp_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    compare_with_accumulator(cpu, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0xBF
+void cp_a(Cpu* cpu) {
+    compare_with_accumulator(cpu, cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //TODO:
 //Cx
 //TODO:
