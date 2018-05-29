@@ -4,15 +4,22 @@
 
 void print_cpu_contents(Cpu* cpu) {
     printf("REGISTERS\n");
-    printf("A: %d, B: %d, C: %d, D: %d, E: %d, H: %d, L: %d, SP: %d, PC: %d\n", cpu->a, cpu->b, cpu->c,
-                                                              cpu->d, cpu->e, cpu->h, cpu->l, cpu->sp, cpu->pc);
+    printf("A: %d (0x%hhX), ", cpu->a,  cpu->a);
+    printf("B: %d (0x%hhX), ", cpu->b,  cpu->b);
+    printf("C: %d (0x%hhX), ", cpu->c,  cpu->c);
+    printf("D: %d (0x%hhX), ", cpu->d,  cpu->d);
+    printf("E: %d (0x%hhX), ", cpu->e,  cpu->e);
+    printf("H: %d (0x%hhX), ", cpu->h,  cpu->h);
+    printf("L: %d (0x%hhX), ", cpu->l,  cpu->l);
+    printf("SP: %d (0x%hhX), ", cpu->sp,  cpu->sp);
+    printf("PC: %d (0x%hhX)\n", cpu->pc,  cpu->pc);
     printf("CLOCKS\n");
     printf("T: %d, M: %d\n", cpu->t, cpu->m);
 
     printf("FLAGS\n");
-    printf("Zero: %d\n", cpu->f & ZERO_FLAG ? 1 : 0);
-    printf("Subtraction: %d\n", cpu->f & SUBTRACTION_FLAG ? 1 : 0);
-    printf("Halfcarry: %d\n", cpu->f & HALFCARRY_FLAG ? 1 : 0);
+    printf("Zero: %d ", cpu->f & ZERO_FLAG ? 1 : 0);
+    printf("Subtraction: %d ", cpu->f & SUBTRACTION_FLAG ? 1 : 0);
+    printf("Halfcarry: %d ", cpu->f & HALFCARRY_FLAG ? 1 : 0);
     printf("Carry: %d\n", cpu->f & CARRY_FLAG ? 1 : 0);
     
 }
