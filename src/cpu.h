@@ -86,7 +86,39 @@ void adc_a_hl(Cpu* cpu);
 //0x8F
 void adc_a_a(Cpu* cpu);
 //9x
-//TODO:
+
+//0x90
+void sub_b(Cpu* cpu);
+//0x91
+void sub_c(Cpu* cpu);
+//0x92
+void sub_d(Cpu* cpu);
+//0x93
+void sub_e(Cpu* cpu);
+//0x94
+void sub_h(Cpu* cpu);
+//0x95
+void sub_l(Cpu* cpu);
+//0x96
+void sub_hl(Cpu* cpu);
+//0x97
+void sub_a(Cpu* cpu);
+//0x98
+void sbc_a_b(Cpu* cpu);
+//0x99
+void sbc_a_c(Cpu* cpu);
+//0x9A
+void sbc_a_d(Cpu* cpu);
+//0x9B
+void sbc_a_e(Cpu* cpu);
+//0x9C
+void sbc_a_h(Cpu* cpu);
+//0x9D
+void sbc_a_l(Cpu* cpu);
+//0x9E
+void sbc_a_hl(Cpu* cpu);
+//0x9F
+void sbc_a_a(Cpu* cpu);
 //Ax
 //TODO:
 //Bx
