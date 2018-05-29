@@ -65,6 +65,20 @@ void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n) {
         subtract_from_accumulator(cpu, n);
 }
 
+void and_with_accumulator(Cpu* cpu, uint8_t n) {
+    cpu->f = 0;
+    set_flag(cpu, HALFCARRY_FLAG);
+    cpu->a = cpu->a & n;
+    if (cpu->a == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
+
+void xor_with_accumulator(Cpu* cpu, uint8_t n) {
+    cpu->f = 0;
+    cpu->a = cpu->a ^ n;
+    if (cpu->a == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
 //Opcode groupings
 
 //0x
@@ -305,6 +319,106 @@ void sbc_a_a(Cpu* cpu)  {
     cpu->t = 4;
 }
 //Ax
+//0xA0
+void and_b(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA1
+void and_c(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA2
+void and_d(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA3
+void and_e(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA4
+void and_h(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA5
+void and_l(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA6
+void and_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    and_with_accumulator(cpu, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0xA7
+void and_a(Cpu* cpu) {
+    and_with_accumulator(cpu, cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA8
+void xor_b(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xA9
+void xor_c(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xAA
+void xor_d(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xAB
+void xor_e(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xAC
+void xor_h(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xAD
+void xor_l(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xAE
+void xor_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    xor_with_accumulator(cpu, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0xAF
+void xor_a(Cpu* cpu) {
+    xor_with_accumulator(cpu, cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //TODO:
 //Bx
 //TODO:

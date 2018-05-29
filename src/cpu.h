@@ -33,6 +33,8 @@ void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n);
 void subtract_from_accumulator(Cpu* cpu, uint8_t n);
 void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n);
 
+void and_with_accumulator(Cpu* cpu, uint8_t n);
+void xor_with_accumulator(Cpu* cpu, uint8_t n);
 //Opcode groupings
 
 //0x
@@ -120,7 +122,38 @@ void sbc_a_hl(Cpu* cpu);
 //0x9F
 void sbc_a_a(Cpu* cpu);
 //Ax
-//TODO:
+//0xA0
+void and_b(Cpu* cpu);
+//0xA1
+void and_c(Cpu* cpu);
+//0xA2
+void and_d(Cpu* cpu);
+//0xA3
+void and_e(Cpu* cpu);
+//0xA4
+void and_h(Cpu* cpu);
+//0xA5
+void and_l(Cpu* cpu);
+//0xA6
+void and_hl(Cpu* cpu);
+//0xA7
+void and_a(Cpu* cpu);
+//0xA8
+void xor_b(Cpu* cpu);
+//0xA9
+void xor_c(Cpu* cpu);
+//0xAA
+void xor_d(Cpu* cpu);
+//0xAB
+void xor_e(Cpu* cpu);
+//0xAC
+void xor_h(Cpu* cpu);
+//0xAD
+void xor_l(Cpu* cpu);
+//0xAE
+void xor_hl(Cpu* cpu);
+//0xAF
+void xor_a(Cpu* cpu);
 //Bx
 //TODO:
 //Cx
