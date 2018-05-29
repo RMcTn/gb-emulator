@@ -30,6 +30,9 @@ void clear_flag(Cpu* cpu, int flag);
 void add_to_accumulator(Cpu* cpu, uint8_t n);
 void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n);
 
+void subtract_from_accumulator(Cpu* cpu, uint8_t n);
+void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n);
+
 //Opcode groupings
 
 //0x

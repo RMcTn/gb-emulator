@@ -26,11 +26,11 @@ void clear_flag(Cpu* cpu, int flag) {
 }
 
 void add_to_accumulator(Cpu* cpu, uint8_t n) {
-    clear_flag(cpu, SUBTRACTION_FLAG);
+    cpu->f = 0;
     if (cpu->a + n > UINT8_MAX)
 		set_flag(cpu, CARRY_FLAG);
     //Get first nibbles, then AND with 0x10 to check for overflow over 15
-    if ((((cpu->a & 0xF) +  (n & 0xF)) & 0x10) == 0x10)
+    if ((((cpu->a & 0xF) + (n & 0xF)) & 0x10) == 0x10)
         set_flag(cpu, HALFCARRY_FLAG);
     cpu->a += n;
     if (cpu->a == 0)
@@ -43,6 +43,28 @@ void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n) {
     else
         add_to_accumulator(cpu, n);
 }
+
+void subtract_from_accumulator(Cpu* cpu, uint8_t n) {
+    cpu->f = 0;
+    set_flag(cpu, SUBTRACTION_FLAG);
+    if (cpu->a - n < 0)
+        set_flag(cpu, CARRY_FLAG);
+    if (((cpu->a & 0xF) - (n & 0xF)) < 0)
+        set_flag(cpu, HALFCARRY_FLAG);
+
+    cpu->a -= n;
+    if (cpu->a == 0)
+        set_flag(cpu, ZERO_FLAG);
+    
+}
+
+void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n) {
+    if (cpu->f & CARRY_FLAG)
+        subtract_from_accumulator(cpu, n + 1); //Subract with carry
+    else
+        subtract_from_accumulator(cpu, n);
+}
+
 //Opcode groupings
 
 //0x
