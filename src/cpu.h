@@ -82,7 +82,38 @@ void ld_c_hl(Cpu* cpu);
 //0x4F
 void ld_c_a(Cpu* cpu);
 //5x
-//TODO:
+//0x50
+void ld_d_b(Cpu* cpu);
+//0x51
+void ld_d_c(Cpu* cpu);
+//0x52
+void ld_d_d(Cpu* cpu);
+//0x53
+void ld_d_e(Cpu* cpu);
+//0x55
+void ld_d_h(Cpu* cpu);
+//0x55
+void ld_d_l(Cpu* cpu);
+//0x56
+void ld_d_hl(Cpu* cpu);
+//0x57
+void ld_d_a(Cpu* cpu);
+//0x58
+void ld_e_b(Cpu* cpu);
+//0x59
+void ld_e_c(Cpu* cpu);
+//0x5A
+void ld_e_d(Cpu* cpu);
+//0x5B
+void ld_e_e(Cpu* cpu);
+//0x5C
+void ld_e_h(Cpu* cpu);
+//0x5D
+void ld_e_l(Cpu* cpu);
+//0x5E
+void ld_e_hl(Cpu* cpu);
+//0x5F
+void ld_e_a(Cpu* cpu);
 //6x
 //TODO:
 //7x
