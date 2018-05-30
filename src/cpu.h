@@ -24,6 +24,8 @@ enum CpuFlags {
 
 void print_cpu_contents();
 
+void reset_cpu(Cpu* cpu);
+
 void set_flag(Cpu* cpu, int flag); 
 void clear_flag(Cpu* cpu, int flag);
 

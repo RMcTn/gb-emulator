@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "cpu.h" 
 
@@ -22,6 +23,10 @@ void print_cpu_contents(Cpu* cpu) {
     printf("Halfcarry: %d ", cpu->f & HALFCARRY_FLAG ? 1 : 0);
     printf("Carry: %d\n", cpu->f & CARRY_FLAG ? 1 : 0);
     
+}
+
+void reset_cpu(Cpu* cpu) {
+    memset(cpu, 0, sizeof(Cpu));
 }
 
 void set_flag(Cpu* cpu, int flag) {
