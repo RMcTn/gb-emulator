@@ -245,7 +245,7 @@ void ld_d_e(Cpu* cpu) {
     cpu->m = 1;
     cpu->t = 4;
 }
-//0x55
+//0x54
 void ld_d_h(Cpu* cpu) {
     cpu->d = cpu->h;
     cpu->m = 1;
@@ -322,7 +322,106 @@ void ld_e_a(Cpu* cpu) {
     cpu->t = 4;
 }
 //6x
-//TODO:
+//0x60
+void ld_h_b(Cpu* cpu) {
+    cpu->h = cpu->b;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x61
+void ld_h_c(Cpu* cpu) {
+    cpu->h = cpu->c;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x62
+void ld_h_d(Cpu* cpu) {
+    cpu->h = cpu->d;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x63
+void ld_h_e(Cpu* cpu) {
+    cpu->h = cpu->e;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x64
+void ld_h_h(Cpu* cpu) {
+    cpu->h = cpu->h;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x65
+void ld_h_l(Cpu* cpu) {
+    cpu->h = cpu->l;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x66
+void ld_h_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->h = value;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x67
+void ld_h_a(Cpu* cpu) {
+    cpu->h = cpu->a;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x68
+void ld_l_b(Cpu* cpu) {
+    cpu->l = cpu->b;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x69
+void ld_l_c(Cpu* cpu) {
+    cpu->l = cpu->c;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x6A
+void ld_l_d(Cpu* cpu) {
+    cpu->l = cpu->d;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x6B
+void ld_l_e(Cpu* cpu) {
+    cpu->l = cpu->e;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x6C
+void ld_l_h(Cpu* cpu) {
+    cpu->l = cpu->h;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x6D
+void ld_l_l(Cpu* cpu) {
+    cpu->l = cpu->l;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x6E
+void ld_l_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->l = value;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x6F
+void ld_l_a(Cpu* cpu) {
+    cpu->l = cpu->a;
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //7x
 //TODO:
 //8x
