@@ -49,7 +49,38 @@ void compare_with_accumulator(Cpu* cpu, uint8_t n);
 //3x
 //TODO:
 //4x
-//TODO:
+//0x40
+void ld_b_b(Cpu* cpu);
+//0x41
+void ld_b_c(Cpu* cpu);
+//0x42
+void ld_b_d(Cpu* cpu);
+//0x43
+void ld_b_e(Cpu* cpu);
+//0x44
+void ld_b_h(Cpu* cpu);
+//0x45
+void ld_b_l(Cpu* cpu);
+//0x46
+void ld_b_hl(Cpu* cpu);
+//0x47
+void ld_b_a(Cpu* cpu);
+//0x48
+void ld_c_b(Cpu* cpu);
+//0x49
+void ld_c_c(Cpu* cpu);
+//0x4A
+void ld_c_d(Cpu* cpu);
+//0x4B
+void ld_c_e(Cpu* cpu);
+//0x4C
+void ld_c_h(Cpu* cpu);
+//0x4D
+void ld_c_l(Cpu* cpu);
+//0x4E
+void ld_c_hl(Cpu* cpu);
+//0x4F
+void ld_c_a(Cpu* cpu);
 //5x
 //TODO:
 //6x

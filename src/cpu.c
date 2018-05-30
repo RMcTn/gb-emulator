@@ -120,7 +120,106 @@ void compare_with_accumulator(Cpu* cpu, uint8_t n) {
 //3x
 //TODO:
 //4x
-//TODO:
+//0x40
+void ld_b_b(Cpu* cpu) {
+    cpu->b = cpu->b;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x41
+void ld_b_c(Cpu* cpu) {
+    cpu->b = cpu->c;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x42
+void ld_b_d(Cpu* cpu) {
+    cpu->b = cpu->d;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x43
+void ld_b_e(Cpu* cpu) {
+    cpu->b = cpu->e;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x44
+void ld_b_h(Cpu* cpu) {
+    cpu->b = cpu->h;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x45
+void ld_b_l(Cpu* cpu) {
+    cpu->b = cpu->l;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x46
+void ld_b_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->b = value;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x47
+void ld_b_a(Cpu* cpu) {
+    cpu->b = cpu->a;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x48
+void ld_c_b(Cpu* cpu) {
+    cpu->c = cpu->b;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x49
+void ld_c_c(Cpu* cpu) {
+    cpu->c = cpu->c;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x4A
+void ld_c_d(Cpu* cpu) {
+    cpu->c = cpu->d;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x4B
+void ld_c_e(Cpu* cpu) {
+    cpu->c = cpu->e;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x4C
+void ld_c_h(Cpu* cpu) {
+    cpu->c = cpu->h;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x4D
+void ld_c_l(Cpu* cpu) {
+    cpu->c = cpu->l;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x4E
+void ld_c_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->c = value;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x4F
+void ld_c_a(Cpu* cpu) {
+    cpu->c = cpu->a;
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //5x
 //TODO:
 //6x
