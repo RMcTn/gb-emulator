@@ -32,12 +32,25 @@ void reset_cpu(Cpu* cpu) {
     memset(cpu, 0, sizeof(Cpu));
 }
 
+uint16_t join_registers(uint8_t a, uint8_t b) {
+    return (a << 8) | b;
+};
+
+void write_to_16bit_registers(uint8_t* r1, uint8_t* r2, uint16_t n) {
+    *r1 = n >> 8;        //Top 8 bits
+    *r2 = (uint8_t)n;    //Bottom 8 bits
+}
+
 void set_flag(Cpu* cpu, int flag) {
 	cpu->f |= flag;
 }
 
 void clear_flag(Cpu* cpu, int flag) {
 	cpu->f &= ~flag;
+}
+
+bool is_flag_set(Cpu* cpu, int flag) {
+    return cpu->f & flag;
 }
 
 void add_to_accumulator(Cpu* cpu, uint8_t n) {
@@ -57,6 +70,20 @@ void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n) {
         add_to_accumulator(cpu, n + 1); //Add with carry
     else
         add_to_accumulator(cpu, n);
+}
+
+void add_to_16bit_register(Cpu* cpu, uint8_t* reg1, uint8_t* reg2, uint16_t n) {
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, CARRY_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    uint16_t reg_value = join_registers(*reg1, *reg2);
+    if (n + reg_value > UINT16_MAX)
+        set_flag(cpu, CARRY_FLAG);
+    //Check bit 11 for overflow
+    if ((((reg_value & 0xF00) + (n & 0xF00)) & 0x800) == 0x800)
+        set_flag(cpu, HALFCARRY_FLAG);
+    reg_value += n;
+    write_to_16bit_registers(reg1, reg2, reg_value);
 }
 
 void subtract_from_accumulator(Cpu* cpu, uint8_t n) {
@@ -117,10 +144,171 @@ void compare_with_accumulator(Cpu* cpu, uint8_t n) {
     if (cpu->a < n)
         set_flag(cpu, CARRY_FLAG);
 }
+
+void increment_8bit_register(Cpu* cpu, uint8_t* reg) {
+    clear_flag(cpu, ZERO_FLAG);
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    *reg = *reg + 1;
+    if (*reg == 0)
+        set_flag(cpu, ZERO_FLAG);
+    //Check 4th bit of incremented value and non incremented value
+    if ((((*reg & 0xF) + ((*reg - 1) & 0xF)) & 0x10) == 0x10)
+        set_flag(cpu, HALFCARRY_FLAG);
+
+}
+
+void decrement_8bit_register(Cpu* cpu, uint8_t* reg) {
+    clear_flag(cpu, ZERO_FLAG);
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    *reg = *reg - 1;
+    if (*reg == 0)
+        set_flag(cpu, ZERO_FLAG);
+    //Check 4th bit of incremented value and non incremented value
+    if (((*reg & 0xF) - ((*reg - 1) & 0xF)) < 0)
+        set_flag(cpu, HALFCARRY_FLAG);
+}
+
+void increment_16bit_register(uint8_t* reg1, uint8_t* reg2) {
+    //No flags changed here
+    uint16_t value = join_registers(*reg1, *reg2);
+    value++;
+    write_to_16bit_registers(reg1, reg2, value);
+}
+
+void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2) {
+    //No flags changed here
+    uint16_t value = join_registers(*reg1, *reg2);
+    value--;
+    write_to_16bit_registers(reg1, reg2, value);
+}
+
 //Opcode groupings
 
+/*
+	Two registers together lowercase means value at the 
+	address held in those registers.
+	ld_a_bc, load the value at address in bc, into a
+
+	Two registers together UPPERCASE means the value held in 
+	those registers.
+	ld_HL_BC, load the value in bc, into registers hl 
+*/
+
 //0x
-//TODO:
+//0x00
+void nop(Cpu* cpu) {
+    //No operation
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x01
+void ld_BC_16bit_immediate(Cpu* cpu, uint16_t n) {
+    write_to_16bit_registers(&cpu->b, &cpu->c, n);
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x02
+void ld_bc_a(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->b, cpu->c); 
+    write_byte(cpu->memory, address, cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x03
+void inc_BC(Cpu* cpu) {
+    increment_16bit_register(&cpu->b, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x04
+void inc_b(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x05
+void dec_b(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->b);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x06
+void ld_b_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->b = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x07
+void rlca(Cpu* cpu) {
+    cpu->f = 0;
+    if ((cpu->a << 1) > UINT8_MAX)
+        set_flag(cpu, CARRY_FLAG);
+    cpu->a = cpu->a << 1;
+    //Shift is meant to move 7th bit to 0th bit if overflowing
+    if (is_flag_set(cpu, CARRY_FLAG))
+        cpu->a = cpu->a | 0x1;     
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x08
+void ld_16bit_address_sp(Cpu* cpu, uint16_t address) {
+    write_byte(cpu->memory, address, cpu->sp);
+    cpu->m = 5;
+    cpu->t = 20;
+}
+//0x09
+void add_HL_BC(Cpu* cpu) {
+    uint16_t bc_value = join_registers(cpu->b, cpu->c);
+    add_to_16bit_register(cpu, &cpu->h, &cpu->l, bc_value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x0A
+void ld_a_bc(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->b, cpu->c);
+    cpu->a = read_byte(cpu->memory, address);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x0B
+void dec_BC(Cpu* cpu) {
+    decrement_16bit_register(&cpu->b, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x0C
+void inc_c(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x0D
+void dec_c(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->c);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x0E
+void ld_c_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->c = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x0F
+void rrca(Cpu* cpu) {
+    cpu->f = 0;
+    //If the bottom bit is set, there's going to be a carry
+    if (cpu->a & 0x1)
+        set_flag(cpu, CARRY_FLAG);
+    cpu->a = cpu->a >> 1;
+    //Shift is meant to move 0th bit to 7th bit if overflowing
+    if (is_flag_set(cpu, CARRY_FLAG))
+        cpu->a = cpu->a | 0x80;
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //1x
 //TODO:
 //2x
@@ -474,11 +662,7 @@ void ld_hl_l(Cpu* cpu) {
     cpu->t = 8;
 }
 //0x76
-void halt(Cpu* cpu) {
-    //TODO
-    printf("HALT NOT IMPLEMENTED (0x76)\n");
-    exit(EXIT_FAILURE);
-}
+//TODO
 //0x77
 void ld_hl_a(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
@@ -963,7 +1147,7 @@ void cp_a(Cpu* cpu) {
 //Cx
 //TODO:
 //0xC6
-void add_a_8bit_constant(Cpu* cpu, uint8_t n) {
+void add_a_8bit_immediate(Cpu* cpu, uint8_t n) {
     add_to_accumulator(cpu, n);
     cpu->m = 2;
     cpu->t = 8;

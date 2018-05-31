@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "memory.h"
 
@@ -27,11 +28,17 @@ void print_cpu_contents();
 
 void reset_cpu(Cpu* cpu);
 
+uint16_t join_registers(uint8_t a, uint8_t b);
+void write_to_16bit_registers(uint8_t* r1, uint8_t* r2, uint16_t value);
+
 void set_flag(Cpu* cpu, int flag); 
 void clear_flag(Cpu* cpu, int flag);
+bool is_flag_set(Cpu* cpu, int flag);
 
 void add_to_accumulator(Cpu* cpu, uint8_t n);
 void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n);
+
+void add_to_16bit_register(Cpu* cpu, uint8_t* reg1, uint8_t* reg2, uint16_t n);
 
 void subtract_from_accumulator(Cpu* cpu, uint8_t n);
 void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n);
@@ -41,10 +48,58 @@ void xor_with_accumulator(Cpu* cpu, uint8_t n);
 
 void or_with_accumulator(Cpu* cpu, uint8_t n);
 void compare_with_accumulator(Cpu* cpu, uint8_t n);
+
+void increment_8bit_register(Cpu* cpu, uint8_t* reg);
+void decrement_8bit_register(Cpu* cpu, uint8_t* reg);
+
+void increment_16bit_register(uint8_t* reg1, uint8_t* reg2);
+void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2);
+
 //Opcode groupings
 
+/*
+	Two registers together lowercase means value at the 
+	address held in those registers.
+	ld_a_bc, load the value at address in bc, into a
+
+	Two registers together UPPERCASE means the value held in 
+	those registers.
+	ld_HL_BC, load the value in bc, into registers hl 
+*/
+
 //0x
-//TODO:
+//0x00
+void nop(Cpu* cpu);
+//0x01
+void ld_BC_16bit_immediate(Cpu* cpu, uint16_t n);
+//0x02
+void ld_bc_a(Cpu* cpu);
+//0x03
+void inc_BC(Cpu* cpu);
+//0x04
+void inc_b(Cpu* cpu);
+//0x05
+void dec_b(Cpu* cpu);
+//0x06
+void ld_b_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x07
+void rlca(Cpu* cpu);
+//0x08
+void ld_16bit_address_sp(Cpu* cpu, uint16_t address);
+//0x09
+void add_HL_BC(Cpu* cpu);
+//0x0A
+void ld_a_bc(Cpu* cpu);
+//0x0B
+void dec_BC(Cpu* cpu);
+//0x0C
+void inc_c(Cpu* cpu);
+//0x0D
+void dec_c(Cpu* cpu);
+//0x0E
+void ld_c_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x0F
+void rrca(Cpu* cpu);
 //1x
 //TODO:
 //2x
@@ -320,7 +375,7 @@ void cp_a(Cpu* cpu);
 //Cx
 //TODO:
 //0xC6
-void add_a_8bit_constant(Cpu* cpu, uint8_t n);
+void add_a_8bit_immediate(Cpu* cpu, uint8_t n);
 //Dx
 //TODO:
 //Ex
