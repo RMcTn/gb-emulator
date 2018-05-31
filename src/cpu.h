@@ -8,8 +8,9 @@ typedef struct Cpu {
 	uint8_t f;                      //Flag register (lower 4 bits are always 0)
 	uint8_t b, c, d, e, h, l;       //8 bit registers 
 	uint16_t sp, pc;               	//16 bit registers
-	uint8_t m, t;				   	//clocks for last instruction
+	uint8_t m, t;					//clocks for last instruction
 									//t increments with each clock step, m being a quarter of t
+	uint8_t total_m, total_t;
 	uint8_t memory[UINT16_MAX];		//16 bit address bus
 } Cpu;
 
@@ -150,7 +151,38 @@ void ld_l_hl(Cpu* cpu);
 //0x6F
 void ld_l_a(Cpu* cpu);
 //7x
-//TODO:
+//0x70
+void ld_hl_b(Cpu* cpu);
+//0x71
+void ld_hl_c(Cpu* cpu);
+//0x72
+void ld_hl_d(Cpu* cpu);
+//0x73
+void ld_hl_e(Cpu* cpu);
+//0x74
+void ld_hl_h(Cpu* cpu);
+//0x75
+void ld_hl_l(Cpu* cpu);
+//0x76
+void halt(Cpu* cpu); //TODO
+//0x77
+void ld_hl_a(Cpu* cpu);
+//0x78
+void ld_a_b(Cpu* cpu);
+//0x79
+void ld_a_c(Cpu* cpu);
+//0x7A
+void ld_a_d(Cpu* cpu);
+//0x7B
+void ld_a_e(Cpu* cpu);
+//0x7C
+void ld_a_h(Cpu* cpu);
+//0x7D
+void ld_a_l(Cpu* cpu);
+//0x7E
+void ld_a_hl(Cpu* cpu);
+//0x7F
+void ld_a_a(Cpu* cpu);
 //8x
 
 //0x80

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "cpu.h" 
 
@@ -16,6 +17,8 @@ void print_cpu_contents(Cpu* cpu) {
     printf("PC: %d (0x%hhX)\n", cpu->pc,  cpu->pc);
     printf("CLOCKS\n");
     printf("T: %d, M: %d\n", cpu->t, cpu->m);
+    printf("Total T: %d, Total M: %d\n", cpu->total_t, cpu->total_m);
+    
 
     printf("FLAGS\n");
     printf("Zero: %d ", cpu->f & ZERO_FLAG ? 1 : 0);
@@ -428,9 +431,112 @@ void ld_l_a(Cpu* cpu) {
     cpu->t = 4;
 }
 //7x
-//TODO:
+//0x70
+void ld_hl_b(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x71
+void ld_hl_c(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x72
+void ld_hl_d(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x73
+void ld_hl_e(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x74
+void ld_hl_h(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x75
+void ld_hl_l(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x76
+void halt(Cpu* cpu) {
+    //TODO
+    printf("HALT NOT IMPLEMENTED (0x76)\n");
+    exit(EXIT_FAILURE);
+}
+//0x77
+void ld_hl_a(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    write_byte(cpu->memory, address, cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x78
+void ld_a_b(Cpu* cpu) {
+    cpu->a = cpu->b;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x79
+void ld_a_c(Cpu* cpu) {
+    cpu->a = cpu->c;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x7A
+void ld_a_d(Cpu* cpu) {
+    cpu->a = cpu->d;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x7B
+void ld_a_e(Cpu* cpu) {
+    cpu->a = cpu->e;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x7C
+void ld_a_h(Cpu* cpu) {
+    cpu->a = cpu->h;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x7D
+void ld_a_l(Cpu* cpu) {
+    cpu->a = cpu->l;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x7E
+void ld_a_hl(Cpu* cpu) {
+    uint16_t address = (cpu->h << 8) | cpu->l;
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->a = value;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x7F
+void ld_a_a(Cpu* cpu) {
+    cpu->a = cpu->a;
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //8x
-
 //0x80
 void add_a_b(Cpu* cpu) {
     add_to_accumulator(cpu, cpu->b);
