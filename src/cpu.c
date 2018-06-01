@@ -440,9 +440,116 @@ void rra(Cpu* cpu) {
     cpu->m = 1;
     cpu->t = 4;
 }
-//TODO:
 //2x
-//TODO:
+//0x20
+void jr_nz_8bit_immediate(Cpu* cpu, int8_t n) {
+    if (is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't jump
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+    cpu->pc += n;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x21
+void ld_HL_16bit_immediate(Cpu* cpu, uint16_t n) {
+    write_to_16bit_registers(&cpu->h, &cpu->l, n);
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x22
+void ld_hlincrement_a(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    write_byte(cpu->memory, address, cpu->a);
+    increment_16bit_register(&cpu->h, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x23
+void inc_HL(Cpu* cpu) {
+    increment_16bit_register(&cpu->h, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x24
+void inc_h(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x25
+void dec_h(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->h);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x26
+void ld_h_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->h = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x27
+//TODO
+//0x28
+void jr_z_8bit_immediate(Cpu* cpu, int8_t n) {
+    if (!is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't jump
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+    cpu->pc += n;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x29
+void add_HL_HL(Cpu* cpu) {
+    uint16_t value = join_registers(cpu->h, cpu->l);
+    add_to_16bit_register(cpu, &cpu->h, &cpu->l, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x2A
+void ld_a_hlincrement(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    cpu->a = read_byte(cpu->memory, address);
+    increment_16bit_register(&cpu->h, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x2B
+void dec_HL(Cpu* cpu) {
+    decrement_16bit_register(&cpu->h, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x2C
+void inc_l(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x2D
+void dec_l(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x2E
+void ld_l_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->l = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x2F
+void cpl(Cpu* cpu) {
+    set_flag(cpu, SUBTRACTION_FLAG);
+    set_flag(cpu, HALFCARRY_FLAG);
+    cpu->a = ~cpu->a;
+}
 //3x
 //TODO:
 //4x
