@@ -101,7 +101,38 @@ void ld_c_8bit_immediate(Cpu* cpu, uint8_t n);
 //0x0F
 void rrca(Cpu* cpu);
 //1x
-//TODO:
+//0x10
+void stop(Cpu* cpu);
+//0x11
+void ld_DE_16bit_immediate(Cpu* cpu, uint16_t n);
+//0x12
+void ld_de_a(Cpu* cpu);
+//0x13
+void inc_DE(Cpu* cpu);
+//0x14
+void inc_d(Cpu* cpu);
+//0x15
+void dec_d(Cpu* cpu);
+//0x16
+void ld_d_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x17
+void rla(Cpu* cpu);
+//0x18
+void jr_8bit_immediate(Cpu* cpu, int8_t n);
+//0x19
+void add_HL_DE(Cpu* cpu);
+//0x1A
+void ld_a_de(Cpu* cpu);
+//0x1B
+void dec_DE(Cpu* cpu);
+//0x1C
+void inc_e(Cpu* cpu);
+//0x1D
+void dec_e(Cpu* cpu);
+//0x1E
+void ld_e_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x1F
+void rra(Cpu* cpu);
 //2x
 //TODO:
 //3x

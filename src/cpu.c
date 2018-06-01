@@ -310,6 +310,136 @@ void rrca(Cpu* cpu) {
     cpu->t = 4;
 }
 //1x
+//0x10
+//TODO
+//0x11
+void ld_DE_16bit_immediate(Cpu* cpu, uint16_t n) {
+    write_to_16bit_registers(&cpu->d, &cpu->e, n);
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x12
+void ld_de_a(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->d, cpu->e); 
+    write_byte(cpu->memory, address, cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x13
+void inc_DE(Cpu* cpu) {
+    increment_16bit_register(&cpu->d, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x14
+void inc_d(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x15
+void dec_d(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->d);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x16
+void ld_d_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->d = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x17
+void rla(Cpu* cpu) {
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, ZERO_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    bool set_carry = false;
+    if ((cpu->a << 1) > UINT8_MAX)
+        set_carry = true;
+
+    cpu->a = cpu->a << 1;
+
+    //0th bit gets rotated through from carry flag, so set it afterwards
+    if (is_flag_set(cpu, CARRY_FLAG))
+        cpu->a = cpu->a | 0x1;     
+    else
+        cpu->a = cpu->a & ~(0x1);
+    if (set_carry)
+        set_flag(cpu, CARRY_FLAG);
+    else
+        clear_flag(cpu, CARRY_FLAG);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x18
+void jr_8bit_immediate(Cpu* cpu, int8_t n) {
+    //Not sure if this handles correctly like the gameboy
+    cpu->pc += n;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x19
+void add_HL_DE(Cpu* cpu) {
+    uint16_t bc_value = join_registers(cpu->d, cpu->e);
+    add_to_16bit_register(cpu, &cpu->h, &cpu->l, bc_value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x1A
+void ld_a_de(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->d, cpu->e);
+    cpu->a = read_byte(cpu->memory, address);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x1B
+void dec_DE(Cpu* cpu) {
+    decrement_16bit_register(&cpu->d, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x1C
+void inc_e(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x1D
+void dec_e(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->e);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x1E
+void ld_e_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->e = n;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x1F
+void rra(Cpu* cpu) {
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, ZERO_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    bool set_carry = false;
+    if (cpu->a & 0x1)
+        set_carry = true;
+
+    cpu->a = cpu->a >> 1;
+
+    //7th bit gets rotated through from carry flag, so set it afterwards
+    if (is_flag_set(cpu, CARRY_FLAG))
+        cpu->a = cpu->a | 0x80;     
+    else
+        cpu->a = cpu->a & ~(0x80);
+    if (set_carry)
+        set_flag(cpu, CARRY_FLAG);
+    else
+        clear_flag(cpu, CARRY_FLAG);
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //TODO:
 //2x
 //TODO:
