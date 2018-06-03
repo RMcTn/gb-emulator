@@ -57,6 +57,7 @@ void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2);
 
 //Opcode groupings
 
+void unimplemented_opcode(uint8_t opcode);
 /*
 	Two registers together lowercase means value at the 
 	address held in those registers.
@@ -436,11 +437,23 @@ void cp_hl(Cpu* cpu);
 void cp_a(Cpu* cpu);
 //Cx
 //TODO:
+//0xC2
+void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xC3
+void jp_16bit_immediate(Cpu* cpu, uint16_t n);
 //0xC6
 void add_a_8bit_immediate(Cpu* cpu, uint8_t n);
+//0xCA
+void jp_z_16bit_immediate(Cpu* cpu, uint16_t n);
 //Dx
 //TODO:
+//0xD2
+void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xDA
+void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 //Ex
 //TODO:
+//0xE9
+void jp_hl(Cpu* cpu);
 //Fx
 //TODO:

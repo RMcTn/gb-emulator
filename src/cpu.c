@@ -185,7 +185,10 @@ void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2) {
 }
 
 //Opcode groupings
-
+void unimplemented_opcode(uint8_t opcode) {
+    printf("Opcode not implemented: %hhX\n", opcode);
+    exit(1);
+}
 /*
 	Two registers together lowercase means value at the 
 	address held in those registers.
@@ -1383,15 +1386,83 @@ void cp_a(Cpu* cpu) {
 //TODO:
 //Cx
 //TODO:
+//0xC2
+void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
+    if (is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't jump
+        cpu->pc += 2;
+        cpu->m = 3;
+        cpu->t = 12;
+        return;
+    }
+
+    cpu->pc = n;
+    cpu->m = 4;
+    cpu->t = 16;
+}
+//0xC3
+void jp_16bit_immediate(Cpu*cpu, uint16_t n) {
+    cpu->pc = n;
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //0xC6
 void add_a_8bit_immediate(Cpu* cpu, uint8_t n) {
     add_to_accumulator(cpu, n);
     cpu->m = 2;
     cpu->t = 8;
 }
+//0xCA
+void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
+    if (!is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't jump
+        cpu->m = 3;
+        cpu->t = 12;
+        cpu->pc += 2;
+        return;
+    }
+
+    cpu->pc = n;
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //Dx
 //TODO:
+//0xD2
+void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n) {
+    if (is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't jump
+        cpu->pc += 2;
+        cpu->m = 3;
+        cpu->t = 12;
+        return;
+    }
+
+    cpu->pc = n;
+    cpu->m = 4;
+    cpu->t = 16;
+}
+//0xDA
+void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {
+    if (!is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't jump
+        cpu->pc += 2;
+        cpu->m = 3;
+        cpu->t = 12;
+        return;
+    }
+
+    cpu->pc = n;
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //Ex
 //TODO:
+//0xE9
+void jp_hl(Cpu* cpu) {
+    cpu->pc = join_registers(cpu->h, cpu->l);
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //Fx
 //TODO:
