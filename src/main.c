@@ -4,7 +4,7 @@
 
 void loop(Cpu* cpu) {
     int i = 0;
-    while (i < 10) {
+    while (i < 100000) {
         printf("PC: 0x%hX\t", cpu->pc);
         uint8_t opcode = read_byte(cpu->memory, cpu->pc++);
         printf("Opcode: 0x%hhX\n", opcode);
@@ -211,52 +211,67 @@ void loop(Cpu* cpu) {
                 cpl(cpu);
                 break;
             case 0x30:
-                unimplemented_opcode(opcode);
+            {
+                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                jr_nc_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0x31:
-                unimplemented_opcode(opcode);
+            {
+                uint16_t immediate = read_word(cpu->memory, cpu->pc);
+                ld_sp_16bit_immediate(cpu, immediate);
                 break;
+            }
             case 0x32:
-                unimplemented_opcode(opcode);
+                ld_hldecrement_a(cpu);
                 break;
             case 0x33:
-                unimplemented_opcode(opcode);
+                inc_sp(cpu);
                 break;
             case 0x34:
-                unimplemented_opcode(opcode);
+                inc_hl(cpu);
                 break;
             case 0x35:
-                unimplemented_opcode(opcode);
+                dec_hl(cpu);
                 break;
             case 0x36:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                ld_hl_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0x37:
-                unimplemented_opcode(opcode);
+                scf(cpu);
                 break;
             case 0x38:
-                unimplemented_opcode(opcode);
+            {
+                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                jr_c_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0x39:
-                unimplemented_opcode(opcode);
+                add_HL_sp(cpu);
                 break;
             case 0x3A:
-                unimplemented_opcode(opcode);
+                ld_a_hldecrement(cpu);
                 break;
             case 0x3B:
-                unimplemented_opcode(opcode);
+                dec_sp(cpu);
                 break;
             case 0x3C:
-                unimplemented_opcode(opcode);
+                inc_a(cpu);
                 break;
             case 0x3D:
-                unimplemented_opcode(opcode);
+                dec_a(cpu);
                 break;
             case 0x3E:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                ld_a_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0x3F:
-                unimplemented_opcode(opcode);
+                ccf(cpu);
                 break;
             case 0x40:
                 ld_b_b(cpu);
