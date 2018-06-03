@@ -57,6 +57,8 @@ void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2);
 
 //Opcode groupings
 
+//TODO: Put program counter increments into opcode functions(?)
+
 void unimplemented_opcode(uint8_t opcode);
 /*
 	Two registers together lowercase means value at the 
@@ -168,7 +170,38 @@ void ld_l_8bit_immediate(Cpu* cpu, uint8_t n);
 //0x2F
 void cpl(Cpu* cpu);
 //3x
-//TODO:
+//0x30
+void jr_nc_8bit_immediate(Cpu* cpu, int8_t n);
+//0x31
+void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n);
+//0x32
+void ld_hldecrement_a(Cpu* cpu);
+//0x33
+void inc_sp(Cpu* cpu);
+//0x34
+void inc_hl(Cpu* cpu);
+//0x35
+void dec_hl(Cpu* cpu);
+//0x36
+void ld_hl_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x37
+void scf(Cpu* cpu);
+//0x38
+void jr_c_8bit_immediate(Cpu* cpu, int8_t n);
+//0x39
+void add_HL_sp(Cpu* cpu);
+//0x3A
+void ld_a_hldecrement(Cpu* cpu);
+//0x3B
+void dec_sp(Cpu* cpu);
+//0x3C
+void inc_a(Cpu* cpu);
+//0x3D
+void dec_a(Cpu* cpu);
+//0x3E
+void ld_a_8bit_immediate(Cpu* cpu, uint8_t n);
+//0x3F
+void ccf(Cpu* cpu);
 //4x
 //0x40
 void ld_b_b(Cpu* cpu);

@@ -160,7 +160,7 @@ void increment_8bit_register(Cpu* cpu, uint8_t* reg) {
 
 void decrement_8bit_register(Cpu* cpu, uint8_t* reg) {
     clear_flag(cpu, ZERO_FLAG);
-    clear_flag(cpu, SUBTRACTION_FLAG);
+    set_flag(cpu, SUBTRACTION_FLAG);
     clear_flag(cpu, HALFCARRY_FLAG);
     *reg = *reg - 1;
     if (*reg == 0)
@@ -554,7 +554,135 @@ void cpl(Cpu* cpu) {
     cpu->a = ~cpu->a;
 }
 //3x
-//TODO:
+//0x30
+void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {
+    if (is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't jump
+        cpu->pc++;
+        cpu->m = 2;
+        cpu->t = 8;
+    }
+    cpu->pc += n;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x31
+void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {
+    uint16_t value = read_word(cpu->memory, n);
+    cpu->sp = value;
+    cpu->pc += 2;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x32
+void ld_hldecrement_a(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    write_byte(cpu->memory, address, cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x33
+void inc_sp(Cpu* cpu) {
+    cpu->sp++;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x34
+void inc_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu->memory, address);
+    increment_8bit_register(cpu, &value);
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x35
+void dec_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu->memory, address);
+    decrement_8bit_register(cpu, &value);
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x36
+void ld_hl_8bit_immediate(Cpu* cpu, uint8_t n) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    write_byte(cpu->memory, address, n);
+    cpu->pc++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x37
+void scf(Cpu* cpu) {
+    set_flag(cpu, CARRY_FLAG);
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x38
+void jr_c_8bit_immediate(Cpu* cpu, int8_t n) {
+    if (!is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't jump
+        cpu->pc++;
+        cpu->m = 2;
+        cpu->t = 8;
+    }
+    cpu->pc += n;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0x39
+void add_HL_sp(Cpu* cpu) {
+    add_to_16bit_register(cpu, &cpu->h, &cpu->l, cpu->sp);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x3A
+void ld_a_hldecrement(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu->memory, address);
+    cpu->a = value;
+    value++;
+    write_byte(cpu->memory, address, value);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x3B
+void dec_sp(Cpu* cpu) {
+    cpu->sp--;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x3C
+void inc_a(Cpu* cpu) {
+    increment_8bit_register(cpu, &cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x3D
+void dec_a(Cpu* cpu) {
+    decrement_8bit_register(cpu, &cpu->a);
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0x3E
+void ld_a_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->a = n;
+    cpu->pc++;
+    cpu->m = 2;
+    cpu->t = 8;
+}
+//0x3F
+void ccf(Cpu* cpu) {
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    if (is_flag_set(cpu, CARRY_FLAG))
+        clear_flag(cpu, CARRY_FLAG);
+    else
+        set_flag(cpu, CARRY_FLAG);
+    cpu->m = 1;
+    cpu->t = 4;
+}
 //4x
 //0x40
 void ld_b_b(Cpu* cpu) {
