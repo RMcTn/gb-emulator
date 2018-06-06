@@ -15,6 +15,8 @@ typedef struct Cpu {
 	int total_m, total_t;
 	uint8_t memory[UINT16_MAX];		//16 bit address bus
 
+	bool interrupt_master_enable;
+
 	Gpu gpu;
 } Cpu;
 
@@ -489,7 +491,17 @@ void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n);
 void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 //Ex
 //TODO:
+//0xE0
+void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n);
 //0xE9
 void jp_hl(Cpu* cpu);
 //Fx
 //TODO:
+//0xF0
+void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n);
+//0xF3
+void di(Cpu* cpu);
+//0xFB
+void ei(Cpu* cpu);
+//0xFE
+void cp_8bit_immediate(Cpu* cpu, uint8_t n);

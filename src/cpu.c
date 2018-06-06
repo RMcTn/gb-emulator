@@ -1586,6 +1586,13 @@ void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {
 }
 //Ex
 //TODO:
+//0xE0
+void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n) {
+    write_byte(cpu->memory, MEM_MAPPED_IO + n, cpu->a);
+    cpu->pc++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
 //0xE9
 void jp_hl(Cpu* cpu) {
     cpu->pc = join_registers(cpu->h, cpu->l);
@@ -1594,3 +1601,29 @@ void jp_hl(Cpu* cpu) {
 }
 //Fx
 //TODO:
+//0xF0
+void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n) {
+    cpu->a = read_byte(cpu->memory, MEM_MAPPED_IO + n);
+    cpu->pc++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0xF3
+void di(Cpu* cpu) {
+    cpu->interrupt_master_enable = false;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xFB
+void ei(Cpu* cpu) {
+    cpu->interrupt_master_enable = true;
+    cpu->m = 1;
+    cpu->t = 4;
+}
+//0xFE
+void cp_8bit_immediate(Cpu* cpu, uint8_t n) {
+    compare_with_accumulator(cpu, n);
+    cpu->pc++;
+    cpu->m = 2;
+    cpu->t = 8;
+}

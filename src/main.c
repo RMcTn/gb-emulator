@@ -764,8 +764,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xE0:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                ldh_8bit_immediate_a(cpu, immediate);
                 break;
+            }
             case 0xE1:
                 unimplemented_opcode(opcode);
                 break;
@@ -812,8 +815,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xF0:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                ldh_a_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0xF1:
                 unimplemented_opcode(opcode);
                 break;
@@ -821,7 +827,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xF3:
-                unimplemented_opcode(opcode);
+                di(cpu);
                 break;
             case 0xF4:
                 unimplemented_opcode(opcode);
@@ -845,7 +851,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xFB:
-                unimplemented_opcode(opcode);
+                ei(cpu);
                 break;
             case 0xFC:
                 unimplemented_opcode(opcode);
@@ -854,8 +860,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xFE:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                cp_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0xFF:
                 unimplemented_opcode(opcode);
                 break;
