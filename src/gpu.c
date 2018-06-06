@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <string.h>
 
 #include "gpu.h"
 
@@ -6,7 +6,7 @@ void reset_gpu(Gpu* gpu) {
     memset(gpu, 0, sizeof(Gpu));
 }
 
-void gpu_step(Gpu* gpu, uint8_t last_t_clock) {
+uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock) {
     gpu->mode_clock += last_t_clock;
 
     switch(gpu->mode) {
@@ -32,6 +32,8 @@ void gpu_step(Gpu* gpu, uint8_t last_t_clock) {
 
                 if (gpu->line == MAX_DISPLAY_LINES) {
                     gpu->mode = VBLANK;
+                    //vblank flag
+                    return 0x1;
                     //TODO: draw frame
                 } else {
                     gpu->mode = SCANLINE_OAM;
@@ -51,4 +53,7 @@ void gpu_step(Gpu* gpu, uint8_t last_t_clock) {
             }
             break;
     }
+
+    //No interrupts
+    return 0;
 }

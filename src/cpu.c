@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "cpu.h" 
+#include "gpu.h"
 
 void print_cpu_contents(Cpu* cpu) {
     printf("REGISTERS\n");
@@ -29,7 +30,28 @@ void print_cpu_contents(Cpu* cpu) {
 }
 
 void reset_cpu(Cpu* cpu) {
-    memset(cpu, 0, sizeof(Cpu));
+    cpu->a = 0;
+    cpu->b = 0;
+    cpu->c = 0;
+    cpu->d = 0;
+    cpu->e = 0;
+    cpu->h = 0;
+    cpu->l = 0;
+    cpu->sp = 0;
+    cpu->pc = 0;
+
+    cpu->m = 0;
+    cpu->t = 0;
+    cpu->total_m = 0;
+    cpu->total_t = 0;
+
+    memset(cpu->memory, 0, MEMORY_SIZE);
+
+    cpu->interrupt_master_enable = true;
+    cpu->interrupt_enable = 0xF;
+    cpu->interrupt_flags = 0;
+    reset_gpu(&cpu->gpu);
+    
 }
 
 uint16_t join_registers(uint8_t a, uint8_t b) {
@@ -215,7 +237,7 @@ void ld_BC_16bit_immediate(Cpu* cpu, uint16_t n) {
 //0x02
 void ld_bc_a(Cpu* cpu) {
     uint16_t address = join_registers(cpu->b, cpu->c); 
-    write_byte(cpu->memory, address, cpu->a);
+    write_byte(cpu, address, cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -257,7 +279,7 @@ void rlca(Cpu* cpu) {
 }
 //0x08
 void ld_16bit_address_sp(Cpu* cpu, uint16_t address) {
-    write_byte(cpu->memory, address, cpu->sp);
+    write_byte(cpu, address, cpu->sp);
     cpu->m = 5;
     cpu->t = 20;
 }
@@ -271,7 +293,7 @@ void add_HL_BC(Cpu* cpu) {
 //0x0A
 void ld_a_bc(Cpu* cpu) {
     uint16_t address = join_registers(cpu->b, cpu->c);
-    cpu->a = read_byte(cpu->memory, address);
+    cpu->a = read_byte(cpu, address);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -324,7 +346,7 @@ void ld_DE_16bit_immediate(Cpu* cpu, uint16_t n) {
 //0x12
 void ld_de_a(Cpu* cpu) {
     uint16_t address = join_registers(cpu->d, cpu->e); 
-    write_byte(cpu->memory, address, cpu->a);
+    write_byte(cpu, address, cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -392,7 +414,7 @@ void add_HL_DE(Cpu* cpu) {
 //0x1A
 void ld_a_de(Cpu* cpu) {
     uint16_t address = join_registers(cpu->d, cpu->e);
-    cpu->a = read_byte(cpu->memory, address);
+    cpu->a = read_byte(cpu, address);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -465,7 +487,7 @@ void ld_HL_16bit_immediate(Cpu* cpu, uint16_t n) {
 //0x22
 void ld_hlincrement_a(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    write_byte(cpu->memory, address, cpu->a);
+    write_byte(cpu, address, cpu->a);
     increment_16bit_register(&cpu->h, &cpu->l);
     cpu->m = 2;
     cpu->t = 8;
@@ -518,7 +540,7 @@ void add_HL_HL(Cpu* cpu) {
 //0x2A
 void ld_a_hlincrement(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    cpu->a = read_byte(cpu->memory, address);
+    cpu->a = read_byte(cpu, address);
     increment_16bit_register(&cpu->h, &cpu->l);
     cpu->m = 2;
     cpu->t = 8;
@@ -568,7 +590,7 @@ void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {
 }
 //0x31
 void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {
-    uint16_t value = read_word(cpu->memory, n);
+    uint16_t value = read_word(cpu, n);
     cpu->sp = value;
     cpu->pc += 2;
     cpu->m = 3;
@@ -577,7 +599,7 @@ void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {
 //0x32
 void ld_hldecrement_a(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    write_byte(cpu->memory, address, cpu->a);
+    write_byte(cpu, address, cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -590,7 +612,7 @@ void inc_sp(Cpu* cpu) {
 //0x34
 void inc_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     increment_8bit_register(cpu, &value);
     cpu->m = 3;
     cpu->t = 12;
@@ -598,7 +620,7 @@ void inc_hl(Cpu* cpu) {
 //0x35
 void dec_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     decrement_8bit_register(cpu, &value);
     cpu->m = 3;
     cpu->t = 12;
@@ -606,7 +628,7 @@ void dec_hl(Cpu* cpu) {
 //0x36
 void ld_hl_8bit_immediate(Cpu* cpu, uint8_t n) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    write_byte(cpu->memory, address, n);
+    write_byte(cpu, address, n);
     cpu->pc++;
     cpu->m = 3;
     cpu->t = 12;
@@ -640,10 +662,10 @@ void add_HL_sp(Cpu* cpu) {
 //0x3A
 void ld_a_hldecrement(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->a = value;
     value++;
-    write_byte(cpu->memory, address, value);
+    write_byte(cpu, address, value);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -723,7 +745,7 @@ void ld_b_l(Cpu* cpu) {
 //0x46
 void ld_b_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->b = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -773,7 +795,7 @@ void ld_c_l(Cpu* cpu) {
 //0x4E
 void ld_c_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->c = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -824,7 +846,7 @@ void ld_d_l(Cpu* cpu) {
 //0x56
 void ld_d_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->d = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -874,7 +896,7 @@ void ld_e_l(Cpu* cpu) {
 //0x5E
 void ld_e_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->e = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -925,7 +947,7 @@ void ld_h_l(Cpu* cpu) {
 //0x66
 void ld_h_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->h = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -975,7 +997,7 @@ void ld_l_l(Cpu* cpu) {
 //0x6E
 void ld_l_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->l = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -990,42 +1012,42 @@ void ld_l_a(Cpu* cpu) {
 //0x70
 void ld_hl_b(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->b);
+    write_byte(cpu, address, cpu->b);
     cpu->m = 2;
     cpu->t = 8;
 }
 //0x71
 void ld_hl_c(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->c);
+    write_byte(cpu, address, cpu->c);
     cpu->m = 2;
     cpu->t = 8;
 }
 //0x72
 void ld_hl_d(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->d);
+    write_byte(cpu, address, cpu->d);
     cpu->m = 2;
     cpu->t = 8;
 }
 //0x73
 void ld_hl_e(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->e);
+    write_byte(cpu, address, cpu->e);
     cpu->m = 2;
     cpu->t = 8;
 }
 //0x74
 void ld_hl_h(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->h);
+    write_byte(cpu, address, cpu->h);
     cpu->m = 2;
     cpu->t = 8;
 }
 //0x75
 void ld_hl_l(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->l);
+    write_byte(cpu, address, cpu->l);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -1034,7 +1056,7 @@ void ld_hl_l(Cpu* cpu) {
 //0x77
 void ld_hl_a(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    write_byte(cpu->memory, address, cpu->a);
+    write_byte(cpu, address, cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -1077,7 +1099,7 @@ void ld_a_l(Cpu* cpu) {
 //0x7E
 void ld_a_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     cpu->a = value;
     cpu->m = 2;
     cpu->t = 8;
@@ -1134,7 +1156,7 @@ void add_a_l(Cpu* cpu) {
 //0x86
 void add_a_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     add_to_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1191,7 +1213,7 @@ void adc_a_l(Cpu* cpu) {
 //0x8E
 void adc_a_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     add_to_accumulator_with_carry(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1244,7 +1266,7 @@ void sub_l(Cpu* cpu)  {
 //0x96
 void sub_hl(Cpu* cpu)  {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     subtract_from_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1297,7 +1319,7 @@ void sbc_a_l(Cpu* cpu)  {
 //0x9E
 void sbc_a_hl(Cpu* cpu)  {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     subtract_from_accumulator_with_carry(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1348,7 +1370,7 @@ void and_l(Cpu* cpu) {
 //0xA6
 void and_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     and_with_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1398,7 +1420,7 @@ void xor_l(Cpu* cpu) {
 //0xAE
 void xor_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     xor_with_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1450,7 +1472,7 @@ void or_l(Cpu* cpu) {
 //0xB6
 void or_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     or_with_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1500,7 +1522,7 @@ void cp_l(Cpu* cpu) {
 //0xBE
 void cp_hl(Cpu* cpu) {
     uint16_t address = (cpu->h << 8) | cpu->l;
-    uint8_t value = read_byte(cpu->memory, address);
+    uint8_t value = read_byte(cpu, address);
     compare_with_accumulator(cpu, value);
     cpu->m = 2;
     cpu->t = 8;
@@ -1570,6 +1592,18 @@ void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->m = 4;
     cpu->t = 16;
 }
+//0xD9
+void reti(Cpu* cpu) {
+    //Enable interrupts
+    cpu->interrupt_master_enable = true;
+
+    //Jump to pc on stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+
+    cpu->m = 3;
+    cpu->t = 12;
+}
 //0xDA
 void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {
     if (!is_flag_set(cpu, CARRY_FLAG)) {
@@ -1588,7 +1622,7 @@ void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {
 //TODO:
 //0xE0
 void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n) {
-    write_byte(cpu->memory, MEM_MAPPED_IO + n, cpu->a);
+    write_byte(cpu, MEM_MAPPED_IO + n, cpu->a);
     cpu->pc++;
     cpu->m = 3;
     cpu->t = 12;
@@ -1603,7 +1637,7 @@ void jp_hl(Cpu* cpu) {
 //TODO:
 //0xF0
 void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n) {
-    cpu->a = read_byte(cpu->memory, MEM_MAPPED_IO + n);
+    cpu->a = read_byte(cpu, MEM_MAPPED_IO + n);
     cpu->pc++;
     cpu->m = 3;
     cpu->t = 12;
@@ -1626,4 +1660,19 @@ void cp_8bit_immediate(Cpu* cpu, uint8_t n) {
     cpu->pc++;
     cpu->m = 2;
     cpu->t = 8;
+}
+
+//Vblank interrupt
+void rst_40(Cpu* cpu) {
+    //Disable interrupts
+    cpu->interrupt_master_enable = false;
+
+    //Store pc on stack
+    cpu->sp -= 2;
+    write_word(cpu, cpu->sp, cpu->pc);
+
+    //Jump to interrupt handler
+    cpu->pc = 0x0040;
+    cpu->m = 3;
+    cpu->t = 12;
 }

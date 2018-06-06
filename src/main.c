@@ -7,7 +7,7 @@ void loop(Cpu* cpu) {
     int i = 0;
     while (i < 100000) {
         printf("PC: 0x%hX\t", cpu->pc);
-        uint8_t opcode = read_byte(cpu->memory, cpu->pc++);
+        uint8_t opcode = read_byte(cpu, cpu->pc++);
         printf("Opcode: 0x%hhX\n", opcode);
 //        print_cpu_contents(cpu);
         switch (opcode) {
@@ -16,7 +16,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x01:
             {
-                uint16_t immediate = read_word(cpu->memory, cpu->pc);
+                uint16_t immediate = read_word(cpu, cpu->pc);
                 ld_BC_16bit_immediate(cpu, immediate);
                 cpu->pc += 2;
                 break;
@@ -35,7 +35,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x06:
             {
-                uint8_t immediate = read_word(cpu->memory, cpu->pc);
+                uint8_t immediate = read_word(cpu, cpu->pc);
                 ld_b_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -45,7 +45,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x08:
             {
-                uint16_t address = read_word(cpu->memory, cpu->pc);
+                uint16_t address = read_word(cpu, cpu->pc);
                 ld_16bit_address_sp(cpu, address);
                 cpu->pc += 2;
                 break;
@@ -67,7 +67,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x0E:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_c_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -82,7 +82,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x11:
             {
-                uint16_t immediate = read_word(cpu->memory, cpu->pc);
+                uint16_t immediate = read_word(cpu, cpu->pc);
                 ld_DE_16bit_immediate(cpu, immediate);
                 cpu->pc += 2;
                 break;
@@ -101,7 +101,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x16:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_d_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -111,7 +111,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x18:
             {
-                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -133,7 +133,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x1E:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_e_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -143,14 +143,14 @@ void loop(Cpu* cpu) {
                 break;
             case 0x20:
             {
-                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_nz_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
             }
             case 0x21:
             {
-                uint16_t immediate = read_word(cpu->memory, cpu->pc);
+                uint16_t immediate = read_word(cpu, cpu->pc);
                 ld_HL_16bit_immediate(cpu, immediate);
                 cpu->pc += 2;
                 break;
@@ -169,7 +169,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x26:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_h_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -181,7 +181,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x28:
             {
-                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_z_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -203,7 +203,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x2E:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_l_8bit_immediate(cpu, immediate);
                 cpu->pc++;
                 break;
@@ -213,13 +213,13 @@ void loop(Cpu* cpu) {
                 break;
             case 0x30:
             {
-                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_nc_8bit_immediate(cpu, immediate);
                 break;
             }
             case 0x31:
             {
-                uint16_t immediate = read_word(cpu->memory, cpu->pc);
+                uint16_t immediate = read_word(cpu, cpu->pc);
                 ld_sp_16bit_immediate(cpu, immediate);
                 break;
             }
@@ -237,7 +237,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x36:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_hl_8bit_immediate(cpu, immediate);
                 break;
             }
@@ -246,7 +246,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x38:
             {
-                int8_t immediate = read_byte(cpu->memory, cpu->pc);
+                int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_c_8bit_immediate(cpu, immediate);
                 break;
             }
@@ -267,7 +267,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0x3E:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ld_a_8bit_immediate(cpu, immediate);
                 break;
             }
@@ -671,7 +671,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0xC3:
                 {
-                    uint16_t address = read_word(cpu->memory, cpu->pc);
+                    uint16_t address = read_word(cpu, cpu->pc);
                     jp_16bit_immediate(cpu, address);
                     break;
                 }
@@ -683,7 +683,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0xC6:
                 {
-                    uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                    uint8_t immediate = read_byte(cpu, cpu->pc);
                     add_a_8bit_immediate(cpu, immediate);
                     cpu->pc++;
                     break;
@@ -765,7 +765,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0xE0:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ldh_8bit_immediate_a(cpu, immediate);
                 break;
             }
@@ -816,7 +816,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0xF0:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 ldh_a_8bit_immediate(cpu, immediate);
                 break;
             }
@@ -861,7 +861,7 @@ void loop(Cpu* cpu) {
                 break;
             case 0xFE:
             {
-                uint8_t immediate = read_byte(cpu->memory, cpu->pc);
+                uint8_t immediate = read_byte(cpu, cpu->pc);
                 cp_8bit_immediate(cpu, immediate);
                 break;
             }
@@ -872,7 +872,17 @@ void loop(Cpu* cpu) {
         cpu->total_m += cpu->m;
         cpu->total_t += cpu->t;
 
-        gpu_step(&cpu->gpu, cpu->t);
+        uint8_t interrupts_to_set = gpu_step(&cpu->gpu, cpu->t);
+        cpu->interrupt_flags |= interrupts_to_set;
+
+        if (cpu->interrupt_master_enable && cpu->interrupt_enable && cpu->interrupt_flags) {
+            //Get the interrupts which are actually enabled, and have been set
+            uint8_t interrupts = cpu->interrupt_enable & cpu->interrupt_flags;
+            if (interrupts & 0x01) {
+                cpu->interrupt_flags &= ~(0x01);
+                rst_40(cpu);
+            }
+        }
 
         i++;
         
@@ -881,7 +891,8 @@ void loop(Cpu* cpu) {
 }
 
 int main(int argc, char** argv) {
-    Cpu cpu = {0};
+    Cpu cpu;
+    reset_cpu(&cpu);
 
     if (argc == 2) {
         //Load rom

@@ -5,6 +5,7 @@
 #include "gpu.h"
 #include "memory.h"
 
+struct Gpu;
 typedef struct Cpu {
 	uint8_t a;                      //Accumulator register
 	uint8_t f;                      //Flag register (lower 4 bits are always 0)
@@ -16,6 +17,8 @@ typedef struct Cpu {
 	uint8_t memory[UINT16_MAX];		//16 bit address bus
 
 	bool interrupt_master_enable;
+	uint8_t interrupt_enable;		//Bits 1-4
+	uint8_t interrupt_flags;		//Bits 1-4
 
 	Gpu gpu;
 } Cpu;
@@ -487,6 +490,8 @@ void jp_z_16bit_immediate(Cpu* cpu, uint16_t n);
 //TODO:
 //0xD2
 void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xD9
+void reti(Cpu* cpu);
 //0xDA
 void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 //Ex
@@ -505,3 +510,6 @@ void di(Cpu* cpu);
 void ei(Cpu* cpu);
 //0xFE
 void cp_8bit_immediate(Cpu* cpu, uint8_t n);
+
+//Vblank interrupt
+void rst_40(Cpu* cpu);

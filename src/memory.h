@@ -1,5 +1,7 @@
+#pragma once
 #include <stdint.h>
 
+#include "cpu.h"
 #define CARTRIDGE_ROM_BANK_0        0x0000  //0x0000 - 0x3FFF
 #define BIOS                        0x0000  //0x0000 - 0x00FF
 #define CARTRIDGE_HEADER            0x0100  //0x0100 - 0x014F
@@ -15,8 +17,16 @@
 #define ZERO_PAGE_RAM               0xFF80  //0xFF80 - 0xFFFF
 #define MEMORY_SIZE                 0xFFFF
 
-uint8_t read_byte(uint8_t memory[], uint16_t address);
-uint16_t read_word(uint8_t memory[], uint16_t address);
+enum InterruptAddresses {
+    INTERRUPT_ENABLE_ADDRESS    = 0xFFFF,
+    INTERRUPT_FLAGS_ADDRESS     = 0xFF0F,   
+};
 
-void write_byte(uint8_t memory[], uint16_t address, uint8_t value);
-void write_word(uint8_t memory[], uint16_t address, uint16_t value);
+
+struct Cpu;
+
+uint8_t read_byte(struct Cpu* cpu, uint16_t address);
+uint16_t read_word(struct Cpu* cpu, uint16_t address);
+
+void write_byte(struct Cpu* cpu, uint16_t address, uint8_t value);
+void write_word(struct Cpu* cpu, uint16_t address, uint16_t value);

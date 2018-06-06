@@ -30,4 +30,6 @@ enum GpuClocks {
 
 void reset_gpu(Gpu* gpu);
 
-void gpu_step(Gpu* gpu, uint8_t last_t_clock);
+//Processes timings and modes for gpu
+//Returns a number which is used to set interrupts
+uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock);
