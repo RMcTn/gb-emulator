@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "cpu.h"
 #include "memory.h"
+#include "gpu.h"
 
 void loop(Cpu* cpu) {
     int i = 0;
@@ -859,8 +860,15 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
         }
+        cpu->total_m += cpu->m;
+        cpu->total_t += cpu->t;
+
+        gpu_step(&cpu->gpu, cpu->t);
+
         i++;
+        
     }
+    
 }
 
 int main(int argc, char** argv) {

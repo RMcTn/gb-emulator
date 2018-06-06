@@ -1,4 +1,10 @@
+#include <stdlib.h>
+
 #include "gpu.h"
+
+void reset_gpu(Gpu* gpu) {
+    memset(gpu, 0, sizeof(Gpu));
+}
 
 void gpu_step(Gpu* gpu, uint8_t last_t_clock) {
     gpu->mode_clock += last_t_clock;

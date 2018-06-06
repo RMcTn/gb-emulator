@@ -13,6 +13,7 @@
 #define SPRITE_INFO                 0xFE00  //0xFE00 - 0xFE9F
 #define MEM_MAPPED_IO               0xFF00  //0xFF00 - 0xFF7F
 #define ZERO_PAGE_RAM               0xFF80  //0xFF80 - 0xFFFF
+#define MEMORY_SIZE                 0xFFFF
 
 uint8_t read_byte(uint8_t memory[], uint16_t address);
 uint16_t read_word(uint8_t memory[], uint16_t address);
