@@ -63,6 +63,7 @@ void decrement_8bit_register(Cpu* cpu, uint8_t* reg);
 void increment_16bit_register(uint8_t* reg1, uint8_t* reg2);
 void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2);
 
+void push_16bit_register(Cpu* cpu, uint8_t reg1, uint8_t reg2);
 //Opcode groupings
 
 //TODO: Put program counter increments into opcode functions(?)
@@ -478,18 +479,30 @@ void cp_hl(Cpu* cpu);
 void cp_a(Cpu* cpu);
 //Cx
 //TODO:
+//0xC0
+void ret_nz(Cpu* cpu);
 //0xC2
 void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n);
 //0xC3
 void jp_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xC5
+void push_BC(Cpu* cpu);
 //0xC6
 void add_a_8bit_immediate(Cpu* cpu, uint8_t n);
+//0xC8
+void ret_z(Cpu* cpu);
 //0xCA
 void jp_z_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xCD
+void call_16bit_immediate(Cpu* cpu, uint16_t n);
 //Dx
 //TODO:
 //0xD2
 void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xD5
+void push_DE(Cpu* cpu);
+//0xD8
+void ret_c(Cpu* cpu);
 //0xD9
 void reti(Cpu* cpu);
 //0xDA
@@ -498,6 +511,8 @@ void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 //TODO:
 //0xE0
 void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n);
+//0xE5
+void push_HL(Cpu* cpu);
 //0xE9
 void jp_hl(Cpu* cpu);
 //Fx
@@ -506,6 +521,10 @@ void jp_hl(Cpu* cpu);
 void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n);
 //0xF3
 void di(Cpu* cpu);
+//0xF5
+void push_AF(Cpu* cpu);
+//0xFA
+void ld_a_16bit_address(Cpu* cpu, uint16_t address);
 //0xFB
 void ei(Cpu* cpu);
 //0xFE

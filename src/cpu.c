@@ -206,6 +206,12 @@ void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2) {
     write_to_16bit_registers(reg1, reg2, value);
 }
 
+void push_16bit_register(Cpu* cpu, uint8_t reg1, uint8_t reg2) {
+    cpu->sp -= 2;
+    uint16_t value = join_registers(reg1, reg2);
+    write_word(cpu, cpu->sp, value);
+}
+
 //Opcode groupings
 void unimplemented_opcode(uint8_t opcode) {
     printf("Opcode not implemented: %hhX\n", opcode);
@@ -1536,6 +1542,21 @@ void cp_a(Cpu* cpu) {
 //TODO:
 //Cx
 //TODO:
+//0xC0
+void ret_nz(Cpu* cpu) {
+    if (is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't return from call
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+
+    //Pop pc off stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+    cpu->m = 5;
+    cpu->t = 20;
+}
 //0xC2
 void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
     if (is_flag_set(cpu, ZERO_FLAG)) {
@@ -1556,11 +1577,32 @@ void jp_16bit_immediate(Cpu*cpu, uint16_t n) {
     cpu->m = 4;
     cpu->t = 16;
 }
+//0xC5
+void push_BC(Cpu* cpu) {
+    push_16bit_register(cpu, cpu->b, cpu->c);
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //0xC6
 void add_a_8bit_immediate(Cpu* cpu, uint8_t n) {
     add_to_accumulator(cpu, n);
     cpu->m = 2;
     cpu->t = 8;
+}
+//0xC8
+void ret_z(Cpu* cpu) {
+    if (!is_flag_set(cpu, ZERO_FLAG)) {
+        //Don't return from call
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+
+    //Pop pc off stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+    cpu->m = 5;
+    cpu->t = 20;
 }
 //0xCA
 void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
@@ -1575,6 +1617,16 @@ void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->pc = n;
     cpu->m = 4;
     cpu->t = 16;
+}
+//0xCD
+void call_16bit_immediate(Cpu* cpu, uint16_t n) {
+    //Push the resulting program counter after the call
+    cpu->sp -= 2;
+    write_word(cpu, cpu->sp, cpu->pc + 2);
+
+    cpu->pc = n;
+    cpu->m = 6;
+    cpu->t = 24;
 }
 //Dx
 //TODO:
@@ -1591,6 +1643,27 @@ void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->pc = n;
     cpu->m = 4;
     cpu->t = 16;
+}
+//0xD5
+void push_DE(Cpu* cpu) {
+    push_16bit_register(cpu, cpu->d, cpu->e);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+//0xD8
+void ret_c(Cpu* cpu) {
+    if (!is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't return from call
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+
+    //Pop pc off stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+    cpu->m = 5;
+    cpu->t = 20;
 }
 //0xD9
 void reti(Cpu* cpu) {
@@ -1627,6 +1700,12 @@ void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n) {
     cpu->m = 3;
     cpu->t = 12;
 }
+//0xE5
+void push_HL(Cpu* cpu) {
+    push_16bit_register(cpu, cpu->h, cpu->l);
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //0xE9
 void jp_hl(Cpu* cpu) {
     cpu->pc = join_registers(cpu->h, cpu->l);
@@ -1647,6 +1726,19 @@ void di(Cpu* cpu) {
     cpu->interrupt_master_enable = false;
     cpu->m = 1;
     cpu->t = 4;
+}
+//0xF5
+void push_AF(Cpu* cpu) {
+    push_16bit_register(cpu, cpu->a, cpu->f);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+//0xFA
+void ld_a_16bit_address(Cpu* cpu, uint16_t address) {
+    cpu->a = read_byte(cpu, address);
+    cpu->pc += 2;
+    cpu->m = 4;
+    cpu->t = 16;
 }
 //0xFB
 void ei(Cpu* cpu) {

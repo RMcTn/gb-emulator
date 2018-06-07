@@ -661,7 +661,7 @@ void loop(Cpu* cpu) {
                 cp_a(cpu);
                 break;
             case 0xC0:
-                unimplemented_opcode(opcode);
+                ret_nz(cpu);
                 break;
             case 0xC1:
                 unimplemented_opcode(opcode);
@@ -679,7 +679,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xC5:
-                unimplemented_opcode(opcode);
+                push_BC(cpu);
                 break;
             case 0xC6:
                 {
@@ -692,7 +692,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xC8:
-                unimplemented_opcode(opcode);
+                ret_z(cpu);
                 break;
             case 0xC9:
                 unimplemented_opcode(opcode);
@@ -707,8 +707,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xCD:
-                unimplemented_opcode(opcode);
+            {
+                uint16_t immediate = read_word(cpu, cpu->pc);
+                call_16bit_immediate(cpu, immediate);
                 break;
+            }
             case 0xCE:
                 unimplemented_opcode(opcode);
                 break;
@@ -731,7 +734,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xD5:
-                unimplemented_opcode(opcode);
+                push_DE(cpu);
                 break;
             case 0xD6:
                 unimplemented_opcode(opcode);
@@ -740,7 +743,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xD8:
-                unimplemented_opcode(opcode);
+                ret_c(cpu);
                 break;
             case 0xD9:
                 unimplemented_opcode(opcode);
@@ -782,7 +785,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xE5:
-                unimplemented_opcode(opcode);
+                push_HL(cpu);
                 break;
             case 0xE6:
                 unimplemented_opcode(opcode);
@@ -833,7 +836,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xF5:
-                unimplemented_opcode(opcode);
+                push_AF(cpu);
                 break;
             case 0xF6:
                 unimplemented_opcode(opcode);
@@ -848,8 +851,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xFA:
-                unimplemented_opcode(opcode);
+            {
+                uint16_t address = read_word(cpu, cpu->pc);
+                ld_a_16bit_address(cpu, address);
                 break;
+            }
             case 0xFB:
                 ei(cpu);
                 break;
