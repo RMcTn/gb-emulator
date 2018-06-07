@@ -1848,6 +1848,35 @@ void rotate_8bit_right_through_carry(Cpu* cpu, uint8_t* n) {
     if (*n == 0)
         set_flag(cpu, ZERO_FLAG);
 }
+
+void rotate_8bit_left_arithmetic(Cpu* cpu, uint8_t* n) {
+    bool last_bit_set = (*n & 0x80) == 1;
+    *n = *n << 1;
+    //Last bit gets shifted to carry flag
+    //First bit gets reset in the shift
+    if (last_bit_set) {
+        set_flag(cpu, CARRY_FLAG);
+    } else {
+        clear_flag(cpu, CARRY_FLAG);
+    }
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
+
+}
+
+void rotate_8bit_right_arithmetic(Cpu* cpu, uint8_t* n) {
+    bool first_bit_set = (*n & 0x1) == 1;
+    *n = (int8_t)*n >> 1;
+    //0th bit gets shifted to carry flag
+    if (first_bit_set) {
+        set_flag(cpu, CARRY_FLAG);
+    } else {
+        clear_flag(cpu, CARRY_FLAG);
+    }
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
+
+}
 //Prefix CB opcodes
 //0x
 void rlc_b(Cpu* cpu) {
@@ -2051,6 +2080,109 @@ void rr_hl(Cpu* cpu) {
 
 void rr_a(Cpu* cpu) {
     rotate_8bit_right_through_carry(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+//2x
+void sla_b(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_c(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_d(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_e(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_h(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_l(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sla_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_left_arithmetic(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void sla_a(Cpu* cpu) {
+    rotate_8bit_left_arithmetic(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_b(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_c(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_d(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_e(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_h(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_l(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void sra_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_right_arithmetic(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void sra_a(Cpu* cpu) {
+    rotate_8bit_right_arithmetic(cpu, &cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
