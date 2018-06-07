@@ -1789,7 +1789,7 @@ void rotate_8bit_left(Cpu* cpu, uint8_t* n) {
         clear_flag(cpu, CARRY_FLAG);
         *n &= 0x1;
     }
-    if (n == 0)
+    if (*n == 0)
         set_flag(cpu, ZERO_FLAG);
 
 }
@@ -1806,9 +1806,47 @@ void rotate_8bit_right(Cpu* cpu, uint8_t* n) {
         clear_flag(cpu, CARRY_FLAG);
         *n &= 0x1;
     }
-    if (n == 0)
+    if (*n == 0)
         set_flag(cpu, ZERO_FLAG);
 
+}
+
+void rotate_8bit_left_through_carry(Cpu* cpu, uint8_t* n) {
+    bool last_bit_set = (*n & 0x80) == 1;
+    bool carry_set = is_flag_set(cpu, CARRY_FLAG);
+    *n = *n << 1;
+
+    //Carry becomes 0th bit, last bit becomes carry
+    if (last_bit_set)
+        set_flag(cpu, CARRY_FLAG);
+    else
+        clear_flag(cpu, CARRY_FLAG);
+
+    if (carry_set)
+        *n |= 0x1;
+    else
+        *n &= 0x1;
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
+
+void rotate_8bit_right_through_carry(Cpu* cpu, uint8_t* n) {
+    bool first_bit_set = (*n & 0x1) == 1;
+    bool carry_set = is_flag_set(cpu, CARRY_FLAG);
+    *n = *n >> 1;
+
+    //Carry becomes 7th bit, first bit becomes carry
+    if (first_bit_set)
+        set_flag(cpu, CARRY_FLAG);
+    else
+        clear_flag(cpu, CARRY_FLAG);
+
+    if (carry_set)
+        *n |= 0x80;
+    else
+        *n &= 0x80;
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
 }
 //Prefix CB opcodes
 //0x
@@ -1910,6 +1948,109 @@ void rrc_hl(Cpu* cpu) {
 
 void rrc_a(Cpu* cpu) {
     rotate_8bit_right(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+//1x
+void rl_b(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_c(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_d(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_e(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_h(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_l(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rl_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_left_through_carry(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void rl_a(Cpu* cpu) {
+    rotate_8bit_left_through_carry(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_b(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_c(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_d(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_e(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_h(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_l(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rr_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_right_through_carry(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void rr_a(Cpu* cpu) {
+    rotate_8bit_right_through_carry(cpu, &cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }
