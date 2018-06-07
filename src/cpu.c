@@ -1618,6 +1618,14 @@ void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->m = 4;
     cpu->t = 16;
 }
+//0xCB
+void prefix_cb(Cpu* cpu, uint8_t opcode) {
+    //Big switch here? Function mapping?
+    //Move this to the end of file (near) if it's a big switch
+    
+    cpu->a = opcode;    //Here to remove unused variable warnings
+    cpu->pc++;          //Every prefix cb call has the same length in bytes
+}
 //0xCD
 void call_16bit_immediate(Cpu* cpu, uint16_t n) {
     //Push the resulting program counter after the call
@@ -1767,4 +1775,141 @@ void rst_40(Cpu* cpu) {
     cpu->pc = 0x0040;
     cpu->m = 3;
     cpu->t = 12;
+}
+
+void rotate_8bit_left(Cpu* cpu, uint8_t* n) {
+    bool last_bit_set = (*n & 0x80) == 1;
+    *n = *n << 1;
+    //Last bit gets shifted to carry flag
+    //Last bit rotates around
+    if (last_bit_set) {
+        set_flag(cpu, CARRY_FLAG);
+        *n |= 0x1;
+    } else {
+        clear_flag(cpu, CARRY_FLAG);
+        *n &= 0x1;
+    }
+    if (n == 0)
+        set_flag(cpu, ZERO_FLAG);
+
+}
+
+void rotate_8bit_right(Cpu* cpu, uint8_t* n) {
+    bool first_bit_set = (*n & 0x1) == 1;
+    *n = *n >> 1;
+    //First bit gets shifted to carry flag
+    //First bit rotates around
+    if (first_bit_set) {
+        set_flag(cpu, CARRY_FLAG);
+        *n |= 0x80;
+    } else {
+        clear_flag(cpu, CARRY_FLAG);
+        *n &= 0x1;
+    }
+    if (n == 0)
+        set_flag(cpu, ZERO_FLAG);
+
+}
+//Prefix CB opcodes
+//0x
+void rlc_b(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_c(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_d(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_e(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_h(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_l(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rlc_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_left(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void rlc_a(Cpu* cpu) {
+    rotate_8bit_left(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_b(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_c(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_d(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_e(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_h(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_l(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rrc_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_right(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void rrc_a(Cpu* cpu) {
+    rotate_8bit_right(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
 }

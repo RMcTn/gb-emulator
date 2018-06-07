@@ -493,6 +493,8 @@ void add_a_8bit_immediate(Cpu* cpu, uint8_t n);
 void ret_z(Cpu* cpu);
 //0xCA
 void jp_z_16bit_immediate(Cpu* cpu, uint16_t n);
+//0xCB
+void prefix_cb(Cpu* cpu, uint8_t opcode);
 //0xCD
 void call_16bit_immediate(Cpu* cpu, uint16_t n);
 //Dx
