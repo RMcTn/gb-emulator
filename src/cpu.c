@@ -76,7 +76,7 @@ bool is_flag_set(Cpu* cpu, int flag) {
 }
 
 void add_to_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     if (cpu->a + n > UINT8_MAX)
 		set_flag(cpu, CARRY_FLAG);
     //Get first nibbles, then AND with 0x10 to check for overflow over 15
@@ -109,7 +109,7 @@ void add_to_16bit_register(Cpu* cpu, uint8_t* reg1, uint8_t* reg2, uint16_t n) {
 }
 
 void subtract_from_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     set_flag(cpu, SUBTRACTION_FLAG);
     if (cpu->a - n < 0)
         set_flag(cpu, CARRY_FLAG);
@@ -130,7 +130,7 @@ void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n) {
 }
 
 void and_with_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     set_flag(cpu, HALFCARRY_FLAG);
     cpu->a = cpu->a & n;
     if (cpu->a == 0)
@@ -138,14 +138,14 @@ void and_with_accumulator(Cpu* cpu, uint8_t n) {
 }
 
 void xor_with_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     cpu->a = cpu->a ^ n;
     if (cpu->a == 0)
         set_flag(cpu, ZERO_FLAG);
 }
 
 void or_with_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     cpu->a = cpu->a | n;
     if (cpu->a == 0)
         set_flag(cpu, ZERO_FLAG);
@@ -157,7 +157,7 @@ void or_with_accumulator(Cpu* cpu, uint8_t n) {
     Carry flag set if accumulator < n
 */
 void compare_with_accumulator(Cpu* cpu, uint8_t n) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     set_flag(cpu, SUBTRACTION_FLAG);
     if (cpu->a == n)
         set_flag(cpu, ZERO_FLAG);
@@ -273,7 +273,7 @@ void ld_b_8bit_immediate(Cpu* cpu, uint8_t n) {
 }
 //0x07
 void rlca(Cpu* cpu) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     if ((cpu->a << 1) > UINT8_MAX)
         set_flag(cpu, CARRY_FLAG);
     cpu->a = cpu->a << 1;
@@ -329,7 +329,7 @@ void ld_c_8bit_immediate(Cpu* cpu, uint8_t n) {
 }
 //0x0F
 void rrca(Cpu* cpu) {
-    cpu->f = 0;
+    clear_flag(cpu, ALL_FLAGS);
     //If the bottom bit is set, there's going to be a carry
     if (cpu->a & 0x1)
         set_flag(cpu, CARRY_FLAG);
@@ -1778,6 +1778,7 @@ void rst_40(Cpu* cpu) {
 }
 
 void rotate_8bit_left(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool last_bit_set = (*n & 0x80) == 1;
     *n = *n << 1;
     //Last bit gets shifted to carry flag
@@ -1795,6 +1796,7 @@ void rotate_8bit_left(Cpu* cpu, uint8_t* n) {
 }
 
 void rotate_8bit_right(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool first_bit_set = (*n & 0x1) == 1;
     *n = *n >> 1;
     //First bit gets shifted to carry flag
@@ -1812,6 +1814,7 @@ void rotate_8bit_right(Cpu* cpu, uint8_t* n) {
 }
 
 void rotate_8bit_left_through_carry(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool last_bit_set = (*n & 0x80) == 1;
     bool carry_set = is_flag_set(cpu, CARRY_FLAG);
     *n = *n << 1;
@@ -1831,6 +1834,7 @@ void rotate_8bit_left_through_carry(Cpu* cpu, uint8_t* n) {
 }
 
 void rotate_8bit_right_through_carry(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool first_bit_set = (*n & 0x1) == 1;
     bool carry_set = is_flag_set(cpu, CARRY_FLAG);
     *n = *n >> 1;
@@ -1850,6 +1854,7 @@ void rotate_8bit_right_through_carry(Cpu* cpu, uint8_t* n) {
 }
 
 void rotate_8bit_left_arithmetic(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool last_bit_set = (*n & 0x80) == 1;
     *n = *n << 1;
     //Last bit gets shifted to carry flag
@@ -1865,6 +1870,7 @@ void rotate_8bit_left_arithmetic(Cpu* cpu, uint8_t* n) {
 }
 
 void rotate_8bit_right_arithmetic(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
     bool first_bit_set = (*n & 0x1) == 1;
     *n = (int8_t)*n >> 1;
     //0th bit gets shifted to carry flag
@@ -2183,6 +2189,129 @@ void sra_hl(Cpu* cpu) {
 
 void sra_a(Cpu* cpu) {
     rotate_8bit_right_arithmetic(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+//Swaps the upper 4 bits with lower 4 bits
+//Zero set if result is 0, other flags are cleared
+void swap_8bit(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
+    uint8_t lower = *n & 0xF;
+    uint8_t higher = *n & 0xF0;
+    *n = lower | higher;        //Swap lower and higher
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
+//3x
+void swap_b(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_c(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_d(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_e(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_h(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_l(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void swap_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    swap_8bit(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void swap_a(Cpu* cpu) {
+    swap_8bit(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void rotate_8bit_right_logical(Cpu* cpu, uint8_t* n) {
+    clear_flag(cpu, ALL_FLAGS);
+    bool last_bit_set = *n & 0x1 == 1;
+    *n = *n >> 1;
+    if (last_bit_set)
+        set_flag(cpu, CARRY_FLAG);
+    if (*n == 0)
+        set_flag(cpu, ZERO_FLAG);
+}
+
+void srl_b(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->b);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_c(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->c);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_d(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->d);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_e(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->e);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_h(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->h);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_l(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->l);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void srl_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    rotate_8bit_right_logical(cpu, &value);
+    write_byte(cpu, address, value);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void srl_a(Cpu* cpu) {
+    rotate_8bit_right_logical(cpu, &cpu->a);
     cpu->m = 2;
     cpu->t = 8;
 }

@@ -29,7 +29,8 @@ enum CpuFlags {
 	HALFCARRY_FLAG = 0x20,			/* Last operation's result's lower half of
 									byte overflowed past 15 */
 	SUBTRACTION_FLAG = 0x40,		//Last operation was a subtraction
-	ZERO_FLAG = 0x80				//Last operation had result of 0
+	ZERO_FLAG = 0x80,				//Last operation had result of 0
+	ALL_FLAGS = CARRY_FLAG + HALFCARRY_FLAG + SUBTRACTION_FLAG + ZERO_FLAG
 };
 
 void print_cpu_contents();
