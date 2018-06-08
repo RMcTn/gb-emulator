@@ -2435,3 +2435,104 @@ void bit_1_a(Cpu* cpu) {
     cpu->m = 2;
     cpu->t = 8;
 }
+
+//5x
+void bit_2_b(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->b, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_c(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->c, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_d(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->d, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_e(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->e, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_h(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->h, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_l(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->l, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_2_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    test_bit_8bit(cpu, value, 2);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void bit_2_a(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->a, 2)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_b(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->b, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_c(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->c, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_d(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->d, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_e(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->e, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_h(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->h, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_l(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->l, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_3_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    test_bit_8bit(cpu, value, 3);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void bit_3_a(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->a, 3)
+    cpu->m = 2;
+    cpu->t = 8;
+}
