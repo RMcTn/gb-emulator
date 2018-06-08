@@ -2257,7 +2257,7 @@ void swap_a(Cpu* cpu) {
 
 void rotate_8bit_right_logical(Cpu* cpu, uint8_t* n) {
     clear_flag(cpu, ALL_FLAGS);
-    bool last_bit_set = *n & 0x1 == 1;
+    bool last_bit_set = (*n & 0x1) == 1;
     *n = *n >> 1;
     if (last_bit_set)
         set_flag(cpu, CARRY_FLAG);
@@ -2312,6 +2312,126 @@ void srl_hl(Cpu* cpu) {
 
 void srl_a(Cpu* cpu) {
     rotate_8bit_right_logical(cpu, &cpu->a);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+//4x
+
+//Tests the given bit (starting at 0th bit) of n. Only bits 0th-7th
+//Sets zero flag if the bit is not set.
+//Subtraction flag reset, halfcarry flag set, carry flag unchanged
+void test_bit_8bit(Cpu* cpu, uint8_t n, uint8_t bit_to_test) {
+    if (bit_to_test > 7) {
+        printf("Cannot test bit %d in an 8 bit number\n", bit_to_test);
+    }
+    clear_flag(cpu, SUBTRACTION_FLAG);
+    clear_flag(cpu, HALFCARRY_FLAG);
+    uint8_t mask;
+    mask = 1 << bit_to_test; 
+
+    if ((*n & mask) == 0)
+        set_flag(cpu, ZERO_FLAG);
+    else
+        clear_flag(cpu, ZERO_FLAG);
+}
+
+void bit_0_b(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->b, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_c(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->c, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_d(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->d, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_e(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->e, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_h(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->h, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_l(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->l, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_0_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    test_bit_8bit(cpu, value, 0);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void bit_0_a(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->a, 0)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_b(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->b, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_c(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->c, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_d(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->d, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_e(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->e, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_h(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->h, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_l(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->l, 1)
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_1_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    test_bit_8bit(cpu, value, 1);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void bit_1_a(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->a, 1)
     cpu->m = 2;
     cpu->t = 8;
 }
