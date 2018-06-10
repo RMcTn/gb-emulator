@@ -2638,7 +2638,7 @@ void bit_5_a(Cpu* cpu) {
     cpu->t = 8;
 }
 
-//6x
+//7x
 void bit_6_b(Cpu* cpu) {
     test_bit_8bit(cpu, cpu->b, 6);
     cpu->m = 2;
@@ -2685,6 +2685,116 @@ void bit_6_hl(Cpu* cpu) {
 
 void bit_6_a(Cpu* cpu) {
     test_bit_8bit(cpu, cpu->a, 6);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+//8x
+void reset_bit_8bit(uint8_t* n, uint8_t bit_to_reset) {
+    if (bit_to_reset > 7) {
+        printf("Cannot reset bit %d in an 8 bit number\n", bit_to_reset);
+    }
+    uint8_t mask;
+    mask = ~(1 << bit_to_reset); 
+    *n &= mask;
+}
+
+void res_0_b(Cpu* cpu) {
+    reset_bit_8bit(&cpu->b, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_c(Cpu* cpu) {
+    reset_bit_8bit(&cpu->c, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_d(Cpu* cpu) {
+    reset_bit_8bit(&cpu->d, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_e(Cpu* cpu) {
+    reset_bit_8bit(&cpu->e, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_h(Cpu* cpu) {
+    reset_bit_8bit(&cpu->h, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_l(Cpu* cpu) {
+    reset_bit_8bit(&cpu->l, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_0_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    reset_bit_8bit(&value, 0);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void res_0_a(Cpu* cpu) {
+    reset_bit_8bit(&cpu->a, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_b(Cpu* cpu) {
+    reset_bit_8bit(&cpu->b, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_c(Cpu* cpu) {
+    reset_bit_8bit(&cpu->c, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_d(Cpu* cpu) {
+    reset_bit_8bit(&cpu->d, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_e(Cpu* cpu) {
+    reset_bit_8bit(&cpu->e, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_h(Cpu* cpu) {
+    reset_bit_8bit(&cpu->h, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_l(Cpu* cpu) {
+    reset_bit_8bit(&cpu->l, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void res_1_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    reset_bit_8bit(&value, 1);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void res_1_a(Cpu* cpu) {
+    reset_bit_8bit(&cpu->a, 1);
     cpu->m = 2;
     cpu->t = 8;
 }
