@@ -3150,3 +3150,113 @@ void res_7_a(Cpu* cpu) {
     cpu->m = 2;
     cpu->t = 8;
 }
+
+//Cx
+void set_bit_8bit(uint8_t* n, uint8_t bit_to_set) {
+    if (bit_to_set > 7) {
+        printf("Cannot set bit %d in an 8 bit number\n", bit_to_set);
+    }
+    uint8_t mask;
+    mask = 1 << bit_to_set; 
+    *n |= mask;
+}
+
+void set_0_b(Cpu* cpu) {
+    set_bit_8bit(&cpu->b, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_c(Cpu* cpu) {
+    set_bit_8bit(&cpu->c, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_d(Cpu* cpu) {
+    set_bit_8bit(&cpu->d, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_e(Cpu* cpu) {
+    set_bit_8bit(&cpu->e, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_h(Cpu* cpu) {
+    set_bit_8bit(&cpu->h, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_l(Cpu* cpu) {
+    set_bit_8bit(&cpu->l, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_0_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    set_bit_8bit(&value, 0);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void set_0_a(Cpu* cpu) {
+    set_bit_8bit(&cpu->a, 0);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_b(Cpu* cpu) {
+    set_bit_8bit(&cpu->b, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_c(Cpu* cpu) {
+    set_bit_8bit(&cpu->c, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_d(Cpu* cpu) {
+    set_bit_8bit(&cpu->d, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_e(Cpu* cpu) {
+    set_bit_8bit(&cpu->e, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_h(Cpu* cpu) {
+    set_bit_8bit(&cpu->h, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_l(Cpu* cpu) {
+    set_bit_8bit(&cpu->l, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void set_1_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    set_bit_8bit(&value, 1);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void set_1_a(Cpu* cpu) {
+    set_bit_8bit(&cpu->a, 1);
+    cpu->m = 2;
+    cpu->t = 8;
+}
