@@ -2689,6 +2689,55 @@ void bit_6_a(Cpu* cpu) {
     cpu->t = 8;
 }
 
+void bit_7_b(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->b, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_c(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->c, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_d(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->d, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_e(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->e, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_h(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->h, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_l(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->l, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
+
+void bit_7_hl(Cpu* cpu) {
+    uint16_t address = join_registers(cpu->h, cpu->l);
+    uint8_t value = read_byte(cpu, address);
+    test_bit_8bit(cpu, value, 7);
+    cpu->m = 4;
+    cpu->t = 16;
+}
+
+void bit_7_a(Cpu* cpu) {
+    test_bit_8bit(cpu, cpu->a, 7);
+    cpu->m = 2;
+    cpu->t = 8;
+}
 //8x
 void reset_bit_8bit(uint8_t* n, uint8_t bit_to_reset) {
     if (bit_to_reset > 7) {
