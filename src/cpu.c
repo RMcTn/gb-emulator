@@ -1619,13 +1619,7 @@ void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->t = 16;
 }
 //0xCB
-void prefix_cb(Cpu* cpu, uint8_t opcode) {
-    //Big switch here? Function mapping?
-    //Move this to the end of file (near) if it's a big switch
-    
-    cpu->a = opcode;    //Here to remove unused variable warnings
-    cpu->pc++;          //Every prefix cb call has the same length in bytes
-}
+void prefix_cb(Cpu* cpu, uint8_t opcode);       //Function at end of file
 //0xCD
 void call_16bit_immediate(Cpu* cpu, uint16_t n) {
     //Push the resulting program counter after the call
@@ -3562,4 +3556,780 @@ void set_7_a(Cpu* cpu) {
     set_bit_8bit(&cpu->a, 7);
     cpu->m = 2;
     cpu->t = 8;
+}
+
+void prefix_cb(Cpu* cpu, uint8_t opcode) {
+    //Move this to the end of file (near) if it's a big switch
+    switch(opcode) {
+        case 0x00:
+            rlc_b(cpu);
+            break;
+        case 0x01:
+            rlc_c(cpu);
+            break;
+        case 0x02:
+            rlc_d(cpu);
+            break;
+        case 0x03:
+            rlc_e(cpu);
+            break;
+        case 0x04:
+            rlc_h(cpu);
+            break;
+        case 0x05:
+            rlc_l(cpu);
+            break;
+        case 0x06:
+            rlc_hl(cpu);
+            break;
+        case 0x07:
+            rlc_a(cpu);
+            break;
+        case 0x08:
+            rrc_b(cpu);
+            break;
+        case 0x09:
+            rrc_c(cpu);
+            break;
+        case 0x0A:
+            rrc_d(cpu);
+            break;
+        case 0x0B:
+            rrc_e(cpu);
+            break;
+        case 0x0C:
+            rrc_h(cpu);
+            break;
+        case 0x0D:
+            rrc_l(cpu);
+            break;
+        case 0x0E:
+            rrc_hl(cpu);
+            break;
+        case 0x0F:
+            rrc_a(cpu);
+            break;
+        case 0x10:
+            rl_b(cpu);
+            break;
+        case 0x11:
+            rl_c(cpu);
+            break;
+        case 0x12:
+            rl_d(cpu);
+            break;
+        case 0x13:
+            rl_e(cpu);
+            break;
+        case 0x14:
+            rl_h(cpu);
+            break;
+        case 0x15:
+            rl_l(cpu);
+            break;
+        case 0x16:
+            rl_hl(cpu);
+            break;
+        case 0x17:
+            rl_a(cpu);
+            break;
+        case 0x18:
+            rr_b(cpu);
+            break;
+        case 0x19:
+            rr_c(cpu);
+            break;
+        case 0x1A:
+            rr_d(cpu);
+            break;
+        case 0x1B:
+            rr_e(cpu);
+            break;
+        case 0x1C:
+            rr_h(cpu);
+            break;
+        case 0x1D:
+            rr_l(cpu);
+            break;
+        case 0x1E:
+            rr_hl(cpu);
+            break;
+        case 0x1F:
+            rr_a(cpu);
+            break;
+        case 0x20:
+            sla_b(cpu);
+            break;
+        case 0x21:
+            sla_c(cpu);
+            break;
+        case 0x22:
+            sla_d(cpu);
+            break;
+        case 0x23:
+            sla_e(cpu);
+            break;
+        case 0x24:
+            sla_h(cpu);
+            break;
+        case 0x25:
+            sla_l(cpu);
+            break;
+        case 0x26:
+            sla_hl(cpu);
+            break;
+        case 0x27:
+            sla_a(cpu);
+            break;
+        case 0x28:
+            sra_b(cpu);
+            break;
+        case 0x29:
+            sra_c(cpu);
+            break;
+        case 0x2A:
+            sra_d(cpu);
+            break;
+        case 0x2B:
+            sra_e(cpu);
+            break;
+        case 0x2C:
+            sra_h(cpu);
+            break;
+        case 0x2D:
+            sra_l(cpu);
+            break;
+        case 0x2E:
+            sra_hl(cpu);
+            break;
+        case 0x2F:
+            sra_a(cpu);
+            break;
+        case 0x30:
+            swap_b(cpu);
+            break;
+        case 0x31:
+            swap_c(cpu);
+            break;
+        case 0x32:
+            swap_d(cpu);
+            break;
+        case 0x33:
+            swap_e(cpu);
+            break;
+        case 0x34:
+            swap_h(cpu);
+            break;
+        case 0x35:
+            swap_l(cpu);
+            break;
+        case 0x36:
+            swap_hl(cpu);
+            break;
+        case 0x37:
+            swap_a(cpu);
+            break;
+        case 0x38:
+            srl_b(cpu);
+            break;
+        case 0x39:
+            srl_c(cpu);
+            break;
+        case 0x3A:
+            srl_d(cpu);
+            break;
+        case 0x3B:
+            srl_e(cpu);
+            break;
+        case 0x3C:
+            srl_h(cpu);
+            break;
+        case 0x3D:
+            srl_l(cpu);
+            break;
+        case 0x3E:
+            srl_hl(cpu);
+            break;
+        case 0x3F:
+            srl_a(cpu);
+            break;
+        case 0x40:
+            bit_0_b(cpu);
+            break;
+        case 0x41:
+            bit_0_c(cpu);
+            break;
+        case 0x42:
+            bit_0_d(cpu);
+            break;
+        case 0x43:
+            bit_0_e(cpu);
+            break;
+        case 0x44:
+            bit_0_h(cpu);
+            break;
+        case 0x45:
+            bit_0_l(cpu);
+            break;
+        case 0x46:
+            bit_0_hl(cpu);
+            break;
+        case 0x47:
+            bit_0_a(cpu);
+            break;
+        case 0x48:
+            bit_1_b(cpu);
+            break;
+        case 0x49:
+            bit_1_c(cpu);
+            break;
+        case 0x4A:
+            bit_1_d(cpu);
+            break;
+        case 0x4B:
+            bit_1_e(cpu);
+            break;
+        case 0x4C:
+            bit_1_h(cpu);
+            break;
+        case 0x4D:
+            bit_1_l(cpu);
+            break;
+        case 0x4E:
+            bit_1_hl(cpu);
+            break;
+        case 0x4F:
+            bit_1_a(cpu);
+            break;
+        case 0x50:
+            bit_2_b(cpu);
+            break;
+        case 0x51:
+            bit_2_c(cpu);
+            break;
+        case 0x52:
+            bit_2_d(cpu);
+            break;
+        case 0x53:
+            bit_2_e(cpu);
+            break;
+        case 0x54:
+            bit_2_h(cpu);
+            break;
+        case 0x55:
+            bit_2_l(cpu);
+            break;
+        case 0x56:
+            bit_2_hl(cpu);
+            break;
+        case 0x57:
+            bit_2_a(cpu);
+            break;
+        case 0x58:
+            bit_3_b(cpu);
+            break;
+        case 0x59:
+            bit_3_c(cpu);
+            break;
+        case 0x5A:
+            bit_3_d(cpu);
+            break;
+        case 0x5B:
+            bit_3_e(cpu);
+            break;
+        case 0x5C:
+            bit_3_h(cpu);
+            break;
+        case 0x5D:
+            bit_3_l(cpu);
+            break;
+        case 0x5E:
+            bit_3_hl(cpu);
+            break;
+        case 0x5F:
+            bit_3_a(cpu);
+            break;
+        case 0x60:
+            bit_4_b(cpu);
+            break;
+        case 0x61:
+            bit_4_c(cpu);
+            break;
+        case 0x62:
+            bit_4_d(cpu);
+            break;
+        case 0x63:
+            bit_4_e(cpu);
+            break;
+        case 0x64:
+            bit_4_h(cpu);
+            break;
+        case 0x65:
+            bit_4_l(cpu);
+            break;
+        case 0x66:
+            bit_4_hl(cpu);
+            break;
+        case 0x67:
+            bit_4_a(cpu);
+            break;
+        case 0x68:
+            bit_5_b(cpu);
+            break;
+        case 0x69:
+            bit_5_c(cpu);
+            break;
+        case 0x6A:
+            bit_5_d(cpu);
+            break;
+        case 0x6B:
+            bit_5_e(cpu);
+            break;
+        case 0x6C:
+            bit_5_h(cpu);
+            break;
+        case 0x6D:
+            bit_5_l(cpu);
+            break;
+        case 0x6E:
+            bit_5_hl(cpu);
+            break;
+        case 0x6F:
+            bit_5_a(cpu);
+            break;
+        case 0x70:
+            bit_6_b(cpu);
+            break;
+        case 0x71:
+            bit_6_c(cpu);
+            break;
+        case 0x72:
+            bit_6_d(cpu);
+            break;
+        case 0x73:
+            bit_6_e(cpu);
+            break;
+        case 0x74:
+            bit_6_h(cpu);
+            break;
+        case 0x75:
+            bit_6_l(cpu);
+            break;
+        case 0x76:
+            bit_6_hl(cpu);
+            break;
+        case 0x77:
+            bit_6_a(cpu);
+            break;
+        case 0x78:
+            bit_7_b(cpu);
+            break;
+        case 0x79:
+            bit_7_c(cpu);
+            break;
+        case 0x7A:
+            bit_7_d(cpu);
+            break;
+        case 0x7B:
+            bit_7_e(cpu);
+            break;
+        case 0x7C:
+            bit_7_h(cpu);
+            break;
+        case 0x7D:
+            bit_7_l(cpu);
+            break;
+        case 0x7E:
+            bit_7_hl(cpu);
+            break;
+        case 0x7F:
+            bit_7_a(cpu);
+            break;
+        case 0x80:
+            res_0_b(cpu);
+            break;
+        case 0x81:
+            res_0_c(cpu);
+            break;
+        case 0x82:
+            res_0_d(cpu);
+            break;
+        case 0x83:
+            res_0_e(cpu);
+            break;
+        case 0x84:
+            res_0_h(cpu);
+            break;
+        case 0x85:
+            res_0_l(cpu);
+            break;
+        case 0x86:
+            res_0_hl(cpu);
+            break;
+        case 0x87:
+            res_0_a(cpu);
+            break;
+        case 0x88:
+            res_1_b(cpu);
+            break;
+        case 0x89:
+            res_1_c(cpu);
+            break;
+        case 0x8A:
+            res_1_d(cpu);
+            break;
+        case 0x8B:
+            res_1_e(cpu);
+            break;
+        case 0x8C:
+            res_1_h(cpu);
+            break;
+        case 0x8D:
+            res_1_l(cpu);
+            break;
+        case 0x8E:
+            res_1_hl(cpu);
+            break;
+        case 0x8F:
+            res_1_a(cpu);
+            break;
+        case 0x90:
+            res_2_b(cpu);
+            break;
+        case 0x91:
+            res_2_c(cpu);
+            break;
+        case 0x92:
+            res_2_d(cpu);
+            break;
+        case 0x93:
+            res_2_e(cpu);
+            break;
+        case 0x94:
+            res_2_h(cpu);
+            break;
+        case 0x95:
+            res_2_l(cpu);
+            break;
+        case 0x96:
+            res_2_hl(cpu);
+            break;
+        case 0x97:
+            res_2_a(cpu);
+            break;
+        case 0x98:
+            res_3_b(cpu);
+            break;
+        case 0x99:
+            res_3_c(cpu);
+            break;
+        case 0x9A:
+            res_3_d(cpu);
+            break;
+        case 0x9B:
+            res_3_e(cpu);
+            break;
+        case 0x9C:
+            res_3_h(cpu);
+            break;
+        case 0x9D:
+            res_3_l(cpu);
+            break;
+        case 0x9E:
+            res_3_hl(cpu);
+            break;
+        case 0x9F:
+            res_3_a(cpu);
+            break;
+        case 0xA0:
+            res_4_b(cpu);
+            break;
+        case 0xA1:
+            res_4_c(cpu);
+            break;
+        case 0xA2:
+            res_4_d(cpu);
+            break;
+        case 0xA3:
+            res_4_e(cpu);
+            break;
+        case 0xA4:
+            res_4_h(cpu);
+            break;
+        case 0xA5:
+            res_4_l(cpu);
+            break;
+        case 0xA6:
+            res_4_hl(cpu);
+            break;
+        case 0xA7:
+            res_4_a(cpu);
+            break;
+        case 0xA8:
+            res_5_b(cpu);
+            break;
+        case 0xA9:
+            res_5_c(cpu);
+            break;
+        case 0xAA:
+            res_5_d(cpu);
+            break;
+        case 0xAB:
+            res_5_e(cpu);
+            break;
+        case 0xAC:
+            res_5_h(cpu);
+            break;
+        case 0xAD:
+            res_5_l(cpu);
+            break;
+        case 0xAE:
+            res_5_hl(cpu);
+            break;
+        case 0xAF:
+            res_5_a(cpu);
+            break;
+        case 0xB0:
+            res_6_b(cpu);
+            break;
+        case 0xB1:
+            res_6_c(cpu);
+            break;
+        case 0xB2:
+            res_6_d(cpu);
+            break;
+        case 0xB3:
+            res_6_e(cpu);
+            break;
+        case 0xB4:
+            res_6_h(cpu);
+            break;
+        case 0xB5:
+            res_6_l(cpu);
+            break;
+        case 0xB6:
+            res_6_hl(cpu);
+            break;
+        case 0xB7:
+            res_6_a(cpu);
+            break;
+        case 0xB8:
+            res_7_b(cpu);
+            break;
+        case 0xB9:
+            res_7_c(cpu);
+            break;
+        case 0xBA:
+            res_7_d(cpu);
+            break;
+        case 0xBB:
+            res_7_e(cpu);
+            break;
+        case 0xBC:
+            res_7_h(cpu);
+            break;
+        case 0xBD:
+            res_7_l(cpu);
+            break;
+        case 0xBE:
+            res_7_hl(cpu);
+            break;
+        case 0xBF:
+            res_7_a(cpu);
+            break;
+        case 0xC0:
+            set_0_b(cpu);
+            break;
+        case 0xC1:
+            set_0_c(cpu);
+            break;
+        case 0xC2:
+            set_0_d(cpu);
+            break;
+        case 0xC3:
+            set_0_e(cpu);
+            break;
+        case 0xC4:
+            set_0_h(cpu);
+            break;
+        case 0xC5:
+            set_0_l(cpu);
+            break;
+        case 0xC6:
+            set_0_hl(cpu);
+            break;
+        case 0xC7:
+            set_0_a(cpu);
+            break;
+        case 0xC8:
+            set_1_b(cpu);
+            break;
+        case 0xC9:
+            set_1_c(cpu);
+            break;
+        case 0xCA:
+            set_1_d(cpu);
+            break;
+        case 0xCB:
+            set_1_e(cpu);
+            break;
+        case 0xCC:
+            set_1_h(cpu);
+            break;
+        case 0xCD:
+            set_1_l(cpu);
+            break;
+        case 0xCE:
+            set_1_hl(cpu);
+            break;
+        case 0xCF:
+            set_1_a(cpu);
+            break;
+        case 0xD0:
+            set_2_b(cpu);
+            break;
+        case 0xD1:
+            set_2_c(cpu);
+            break;
+        case 0xD2:
+            set_2_d(cpu);
+            break;
+        case 0xD3:
+            set_2_e(cpu);
+            break;
+        case 0xD4:
+            set_2_h(cpu);
+            break;
+        case 0xD5:
+            set_2_l(cpu);
+            break;
+        case 0xD6:
+            set_2_hl(cpu);
+            break;
+        case 0xD7:
+            set_2_a(cpu);
+            break;
+        case 0xD8:
+            set_3_b(cpu);
+            break;
+        case 0xD9:
+            set_3_c(cpu);
+            break;
+        case 0xDA:
+            set_3_d(cpu);
+            break;
+        case 0xDB:
+            set_3_e(cpu);
+            break;
+        case 0xDC:
+            set_3_h(cpu);
+            break;
+        case 0xDD:
+            set_3_l(cpu);
+            break;
+        case 0xDE:
+            set_3_hl(cpu);
+            break;
+        case 0xDF:
+            set_3_a(cpu);
+            break;
+        case 0xE0:
+            set_4_b(cpu);
+            break;
+        case 0xE1:
+            set_4_c(cpu);
+            break;
+        case 0xE2:
+            set_4_d(cpu);
+            break;
+        case 0xE3:
+            set_4_e(cpu);
+            break;
+        case 0xE4:
+            set_4_h(cpu);
+            break;
+        case 0xE5:
+            set_4_l(cpu);
+            break;
+        case 0xE6:
+            set_4_hl(cpu);
+            break;
+        case 0xE7:
+            set_4_a(cpu);
+            break;
+        case 0xE8:
+            set_5_b(cpu);
+            break;
+        case 0xE9:
+            set_5_c(cpu);
+            break;
+        case 0xEA:
+            set_5_d(cpu);
+            break;
+        case 0xEB:
+            set_5_e(cpu);
+            break;
+        case 0xEC:
+            set_5_h(cpu);
+            break;
+        case 0xED:
+            set_5_l(cpu);
+            break;
+        case 0xEE:
+            set_5_hl(cpu);
+            break;
+        case 0xEF:
+            set_5_a(cpu);
+            break;
+        case 0xF0:
+            set_6_b(cpu);
+            break;
+        case 0xF1:
+            set_6_c(cpu);
+            break;
+        case 0xF2:
+            set_6_d(cpu);
+            break;
+        case 0xF3:
+            set_6_e(cpu);
+            break;
+        case 0xF4:
+            set_6_h(cpu);
+            break;
+        case 0xF5:
+            set_6_l(cpu);
+            break;
+        case 0xF6:
+            set_6_hl(cpu);
+            break;
+        case 0xF7:
+            set_6_a(cpu);
+            break;
+        case 0xF8:
+            set_7_b(cpu);
+            break;
+        case 0xF9:
+            set_7_c(cpu);
+            break;
+        case 0xFA:
+            set_7_d(cpu);
+            break;
+        case 0xFB:
+            set_7_e(cpu);
+            break;
+        case 0xFC:
+            set_7_h(cpu);
+            break;
+        case 0xFD:
+            set_7_l(cpu);
+            break;
+        case 0xFE:
+            set_7_hl(cpu);
+            break;
+        case 0xFF:
+            set_7_a(cpu);
+            break;
+    }
+    
+    cpu->pc++;          //Every prefix cb call has the same length in bytes
 }

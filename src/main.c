@@ -701,8 +701,11 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xCB:
-                unimplemented_opcode(opcode);
-                break;
+                {
+                    uint8_t opcode = read_byte(cpu, cpu->pc);
+                    prefix_cb(cpu, opcode);
+                    break;
+                }
             case 0xCC:
                 unimplemented_opcode(opcode);
                 break;
