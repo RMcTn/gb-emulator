@@ -4,8 +4,9 @@
 #include "gpu.h"
 
 void loop(Cpu* cpu) {
+    //TODO: Move this to a function in cpu, get rid of function headers for opcodes
     int i = 0;
-    while (i < 100000) {
+    while (i < 5000000) {
         printf("PC: 0x%hX\t", cpu->pc);
         uint8_t opcode = read_byte(cpu, cpu->pc++);
         printf("Opcode: 0x%hhX\n", opcode);
@@ -664,7 +665,7 @@ void loop(Cpu* cpu) {
                 ret_nz(cpu);
                 break;
             case 0xC1:
-                unimplemented_opcode(opcode);
+                pop_BC(cpu);
                 break;
             case 0xC2:
                 unimplemented_opcode(opcode);
@@ -695,7 +696,7 @@ void loop(Cpu* cpu) {
                 ret_z(cpu);
                 break;
             case 0xC9:
-                unimplemented_opcode(opcode);
+                ret(cpu);
                 break;
             case 0xCA:
                 unimplemented_opcode(opcode);
@@ -725,7 +726,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xD1:
-                unimplemented_opcode(opcode);
+                pop_DE(cpu);
                 break;
             case 0xD2:
                 unimplemented_opcode(opcode);
@@ -749,7 +750,7 @@ void loop(Cpu* cpu) {
                 ret_c(cpu);
                 break;
             case 0xD9:
-                unimplemented_opcode(opcode);
+                reti(cpu);
                 break;
             case 0xDA:
                 unimplemented_opcode(opcode);
@@ -776,7 +777,7 @@ void loop(Cpu* cpu) {
                 break;
             }
             case 0xE1:
-                unimplemented_opcode(opcode);
+                pop_HL(cpu);
                 break;
             case 0xE2:
                 unimplemented_opcode(opcode);
@@ -785,7 +786,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xE4:
-                unimplemented_opcode(opcode);
+                //No opcode here
                 break;
             case 0xE5:
                 push_HL(cpu);
@@ -827,7 +828,7 @@ void loop(Cpu* cpu) {
                 break;
             }
             case 0xF1:
-                unimplemented_opcode(opcode);
+                pop_AF(cpu);
                 break;
             case 0xF2:
                 unimplemented_opcode(opcode);

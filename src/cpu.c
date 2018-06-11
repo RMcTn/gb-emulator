@@ -1557,6 +1557,15 @@ void ret_nz(Cpu* cpu) {
     cpu->m = 5;
     cpu->t = 20;
 }
+//0xC1
+void pop_BC(Cpu* cpu) {
+    cpu->c = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->b = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
 //0xC2
 void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
     if (is_flag_set(cpu, ZERO_FLAG)) {
@@ -1604,6 +1613,14 @@ void ret_z(Cpu* cpu) {
     cpu->m = 5;
     cpu->t = 20;
 }
+//0xC9
+void ret(Cpu* cpu) {
+    //Pop pc off stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+    cpu->m = 4;
+    cpu->t = 16;
+}
 //0xCA
 void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {
     if (!is_flag_set(cpu, ZERO_FLAG)) {
@@ -1632,6 +1649,15 @@ void call_16bit_immediate(Cpu* cpu, uint16_t n) {
 }
 //Dx
 //TODO:
+//0xD1
+void pop_DE(Cpu* cpu) {
+    cpu->e = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->d = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
 //0xD2
 void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n) {
     if (is_flag_set(cpu, CARRY_FLAG)) {
@@ -1676,8 +1702,8 @@ void reti(Cpu* cpu) {
     cpu->pc = read_word(cpu, cpu->sp);
     cpu->sp += 2;
 
-    cpu->m = 3;
-    cpu->t = 12;
+    cpu->m = 4;
+    cpu->t = 16;
 }
 //0xDA
 void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {
@@ -1702,6 +1728,15 @@ void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n) {
     cpu->m = 3;
     cpu->t = 12;
 }
+//0xE1
+void pop_HL(Cpu* cpu) {
+    cpu->l = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->h = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
 //0xE5
 void push_HL(Cpu* cpu) {
     push_16bit_register(cpu, cpu->h, cpu->l);
@@ -1720,6 +1755,16 @@ void jp_hl(Cpu* cpu) {
 void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n) {
     cpu->a = read_byte(cpu, MEM_MAPPED_IO + n);
     cpu->pc++;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+//0xF1
+void pop_AF(Cpu* cpu) {
+    //TODO: check if flags are affected here at all
+    cpu->f = read_byte(cpu, cpu->sp);
+    cpu->sp++;
+    cpu->a = read_byte(cpu, cpu->sp);
+    cpu->sp++;
     cpu->m = 3;
     cpu->t = 12;
 }

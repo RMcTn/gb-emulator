@@ -482,6 +482,8 @@ void cp_a(Cpu* cpu);
 //TODO:
 //0xC0
 void ret_nz(Cpu* cpu);
+//0xC1
+void pop_BC(Cpu* cpu);
 //0xC2
 void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n);
 //0xC3
@@ -492,6 +494,8 @@ void push_BC(Cpu* cpu);
 void add_a_8bit_immediate(Cpu* cpu, uint8_t n);
 //0xC8
 void ret_z(Cpu* cpu);
+//0xC9
+void ret(Cpu* cpu);
 //0xCA
 void jp_z_16bit_immediate(Cpu* cpu, uint16_t n);
 //0xCB
@@ -500,6 +504,8 @@ void prefix_cb(Cpu* cpu, uint8_t opcode);
 void call_16bit_immediate(Cpu* cpu, uint16_t n);
 //Dx
 //TODO:
+//0xD1
+void pop_DE(Cpu* cpu);
 //0xD2
 void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n);
 //0xD5
@@ -514,6 +520,8 @@ void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 //TODO:
 //0xE0
 void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n);
+//0xE1
+void pop_HL(Cpu* cpu);
 //0xE5
 void push_HL(Cpu* cpu);
 //0xE9
@@ -522,6 +530,8 @@ void jp_hl(Cpu* cpu);
 //TODO:
 //0xF0
 void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n);
+//0xF1
+void pop_AF(Cpu* cpu);
 //0xF3
 void di(Cpu* cpu);
 //0xF5
