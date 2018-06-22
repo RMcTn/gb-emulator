@@ -45,7 +45,7 @@ uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock) {
                 gpu->mode_clock = 0;
                 gpu->line++;
 
-                if (gpu->line > MAX_DISPLAY_LINES) {
+                if (gpu->line > MAX_LINES) {
                     //TODO: Double check this if this is correct
                     gpu->mode = SCANLINE_OAM;
                     gpu->line = 0;

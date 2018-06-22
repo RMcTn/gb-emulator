@@ -1,7 +1,8 @@
 #pragma once
 #include <stdint.h>
 
-#define MAX_DISPLAY_LINES 143
+#define MAX_DISPLAY_LINES 144				//Amount of lines shown before vblank state is entered
+#define MAX_LINES 153						//Max lines including vblank period
 #define ROWS_IN_TILE 8                      //Each row of a tile is 8 pixels
 #define NUM_OF_INDIVIDUAL_TILES 348         //2 tilesets of 256 tiles, but half of each tileset is shared
 

@@ -2,13 +2,27 @@
 #include "memory.h"
 
 uint8_t read_byte(Cpu* cpu, uint16_t address) {
-    if (address == INTERRUPT_FLAGS_ADDRESS)
-        return cpu->interrupt_flags;
+	if (address == INTERRUPT_FLAGS_ADDRESS)
+		return cpu->interrupt_flags;
 
-    if (address == INTERRUPT_ENABLE_ADDRESS)
-        return cpu->interrupt_enable;
+	if (address == INTERRUPT_ENABLE_ADDRESS)
+		return cpu->interrupt_enable;
 
-    return cpu->memory[address];
+	//Hardware i/o registers
+	//Check pandocs for rest
+
+	//0xFF42 - Scroll y
+	//0xFF43 - Scroll x
+	//0xFF44 - LCD LY
+	if (address == 0xFF44) {
+		//LCD LY
+		return cpu->gpu.line;
+
+		//0xFF45 - LY compare
+
+	}
+
+	return cpu->memory[address];
 }
 
 uint16_t read_word(Cpu* cpu, uint16_t address) {
