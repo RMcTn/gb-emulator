@@ -47,8 +47,8 @@ void reset_cpu(Cpu* cpu) {
 
     memset(cpu->memory, 0, MEMORY_SIZE);
 
-    cpu->interrupt_master_enable = true;
-    cpu->interrupt_enable = 0xF;
+    cpu->interrupt_master_enable = false;
+    cpu->interrupt_enable = 0x0;
     cpu->interrupt_flags = 0;
     reset_gpu(&cpu->gpu);
     
