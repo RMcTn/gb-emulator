@@ -5,12 +5,27 @@
 
 void loop(Cpu* cpu) {
     //TODO: Move this to a function in cpu, get rid of function headers for opcodes
+	
+	//Pandocs says these values are used at program execution
+	//Commented out for now as it does not seem to have made an impact yet
+	//cpu->a = 0x01;
+	//cpu->f = 0xB0;
+	//cpu->b = 0x00;
+	//cpu->c = 0x13;
+	//cpu->d = 0x00;
+	//cpu->e = 0xD8;
+	//cpu->h = 0x01;
+	//cpu->l = 0x4D;
+	//cpu->sp = 0xFFFE;
     int i = 0;
-    while (i < 5000000) {
-        printf("PC: 0x%hX\t", cpu->pc);
+    while (i < 500000) {
+        printf("PC:0x%02hX\t", cpu->pc);
         uint8_t opcode = read_byte(cpu, cpu->pc++);
-        printf("Opcode: 0x%hhX\n", opcode);
-//        print_cpu_contents(cpu);
+        printf("Op:0x%02hhX", opcode);
+        uint16_t operand = read_word(cpu, cpu->pc);
+        printf("\tOp 1st:0x%02hhX", (uint8_t)(operand >> 8));
+        printf("\tOp 2nd:0x%02hhX", (uint8_t)operand);
+        printf("\tOp both:0x%02X\n", operand);
         switch (opcode) {
             case 0x00:
                 nop(cpu);

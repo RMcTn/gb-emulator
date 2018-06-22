@@ -14,8 +14,8 @@ void print_cpu_contents(Cpu* cpu) {
     printf("E: %d (0x%hhX), ", cpu->e,  cpu->e);
     printf("H: %d (0x%hhX), ", cpu->h,  cpu->h);
     printf("L: %d (0x%hhX), ", cpu->l,  cpu->l);
-    printf("SP: %d (0x%hhX), ", cpu->sp,  cpu->sp);
-    printf("PC: %d (0x%hhX)\n", cpu->pc,  cpu->pc);
+    printf("SP: %d (0x%hX), ", cpu->sp,  cpu->sp);
+    printf("PC: %d (0x%hX)\n", cpu->pc,  cpu->pc);
     printf("CLOCKS\n");
     printf("T: %d, M: %d\n", cpu->t, cpu->m);
     printf("Total T: %d, Total M: %d\n", cpu->total_t, cpu->total_m);
