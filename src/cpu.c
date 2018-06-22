@@ -606,6 +606,7 @@ void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {
 void ld_hldecrement_a(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     write_byte(cpu, address, cpu->a);
+	decrement_16bit_register(&cpu->h, &cpu->l);
     cpu->m = 2;
     cpu->t = 8;
 }
@@ -649,9 +650,9 @@ void scf(Cpu* cpu) {
 }
 //0x38
 void jr_c_8bit_immediate(Cpu* cpu, int8_t n) {
+        cpu->pc++;
     if (!is_flag_set(cpu, CARRY_FLAG)) {
         //Don't jump
-        cpu->pc++;
         cpu->m = 2;
         cpu->t = 8;
     }
@@ -1811,7 +1812,7 @@ void rst_40(Cpu* cpu) {
     write_word(cpu, cpu->sp, cpu->pc);
 
     //Jump to interrupt handler
-    cpu->pc = 0x0040;
+    cpu->pc = 0x40;
     cpu->m = 3;
     cpu->t = 12;
 }
