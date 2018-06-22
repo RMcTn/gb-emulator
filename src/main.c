@@ -129,7 +129,6 @@ void loop(Cpu* cpu) {
             {
                 int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_8bit_immediate(cpu, immediate);
-                cpu->pc++;
                 break;
             }
             case 0x19:
@@ -161,7 +160,6 @@ void loop(Cpu* cpu) {
             {
                 int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_nz_8bit_immediate(cpu, immediate);
-                cpu->pc++;
                 break;
             }
             case 0x21:
@@ -199,7 +197,6 @@ void loop(Cpu* cpu) {
             {
                 int8_t immediate = read_byte(cpu, cpu->pc);
                 jr_z_8bit_immediate(cpu, immediate);
-                cpu->pc++;
                 break;
             }
             case 0x29:

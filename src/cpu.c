@@ -474,6 +474,7 @@ void rra(Cpu* cpu) {
 //2x
 //0x20
 void jr_nz_8bit_immediate(Cpu* cpu, int8_t n) {
+	cpu->pc++;
     if (is_flag_set(cpu, ZERO_FLAG)) {
         //Don't jump
         cpu->m = 2;
@@ -526,6 +527,7 @@ void ld_h_8bit_immediate(Cpu* cpu, uint8_t n) {
 //TODO
 //0x28
 void jr_z_8bit_immediate(Cpu* cpu, int8_t n) {
+	cpu->pc++;
     if (!is_flag_set(cpu, ZERO_FLAG)) {
         //Don't jump
         cpu->m = 2;
@@ -584,9 +586,9 @@ void cpl(Cpu* cpu) {
 //3x
 //0x30
 void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {
+	cpu->pc++;
     if (is_flag_set(cpu, CARRY_FLAG)) {
         //Don't jump
-        cpu->pc++;
         cpu->m = 2;
         cpu->t = 8;
     }
@@ -650,7 +652,7 @@ void scf(Cpu* cpu) {
 }
 //0x38
 void jr_c_8bit_immediate(Cpu* cpu, int8_t n) {
-        cpu->pc++;
+	cpu->pc++;
     if (!is_flag_set(cpu, CARRY_FLAG)) {
         //Don't jump
         cpu->m = 2;
