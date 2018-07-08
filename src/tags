@@ -1,0 +1,588 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALL_FLAGS	cpu.h	/^	ALL_FLAGS = CARRY_FLAG + HALFCARRY_FLAG + SUBTRACTION_FLAG + ZERO_FLAG$/;"	e	enum:CpuFlags
+BIOS	memory.h	6;"	d
+CARRY_FLAG	cpu.h	/^	CARRY_FLAG = 0x10,				\/* Last operation result was over 255 (addition)$/;"	e	enum:CpuFlags
+CARTRIDGE_HEADER	memory.h	7;"	d
+CARTRIDGE_ROM_BANK_0	memory.h	5;"	d
+CARTRIDGE_ROM_OTHER_BANKS	memory.h	8;"	d
+Cpu	cpu.h	/^typedef struct Cpu {$/;"	s
+Cpu	cpu.h	/^} Cpu;$/;"	t	typeref:struct:Cpu
+CpuFlags	cpu.h	/^enum CpuFlags {$/;"	g
+EXTERNAL_CARTRIDGE_RAM	memory.h	10;"	d
+FULL_FRAME_CLOCKS	gpu.h	/^    FULL_FRAME_CLOCKS       = 70224$/;"	e	enum:GpuClocks
+GRAPHICS_RAM	memory.h	9;"	d
+Gpu	gpu.h	/^typedef struct Gpu {$/;"	s
+Gpu	gpu.h	/^} Gpu;$/;"	t	typeref:struct:Gpu
+GpuClocks	gpu.h	/^enum GpuClocks {$/;"	g
+GpuModes	gpu.h	/^enum GpuModes {$/;"	g
+HALFCARRY_FLAG	cpu.h	/^	HALFCARRY_FLAG = 0x20,			\/* Last operation's result's lower half of$/;"	e	enum:CpuFlags
+HBLANK	gpu.h	/^    HBLANK          = 0,        \/\/204 clocks$/;"	e	enum:GpuModes
+HBLANK_CLOCKS	gpu.h	/^    HBLANK_CLOCKS           = 204,$/;"	e	enum:GpuClocks
+INTERRUPT_ENABLE_ADDRESS	memory.h	/^    INTERRUPT_ENABLE_ADDRESS    = 0xFFFF,$/;"	e	enum:InterruptAddresses
+INTERRUPT_FLAGS_ADDRESS	memory.h	/^    INTERRUPT_FLAGS_ADDRESS     = 0xFF0F,   $/;"	e	enum:InterruptAddresses
+InterruptAddresses	memory.h	/^enum InterruptAddresses {$/;"	g
+MAX_DISPLAY_LINES	gpu.h	4;"	d
+MAX_LINES	gpu.h	5;"	d
+MEMORY_SIZE	memory.h	18;"	d
+MEM_MAPPED_IO	memory.h	16;"	d
+NUM_OF_INDIVIDUAL_TILES	gpu.h	7;"	d
+ROWS_IN_TILE	gpu.h	6;"	d
+SCANLINE_OAM	gpu.h	/^    SCANLINE_OAM    = 2,        \/\/80 clocks$/;"	e	enum:GpuModes
+SCANLINE_OAM_CLOCKS	gpu.h	/^    SCANLINE_OAM_CLOCKS     = 80,$/;"	e	enum:GpuClocks
+SCANLINE_VRAM	gpu.h	/^    SCANLINE_VRAM   = 3,        \/\/172 clocks$/;"	e	enum:GpuModes
+SCANLINE_VRAM_CLOCKS	gpu.h	/^    SCANLINE_VRAM_CLOCKS    = 172,$/;"	e	enum:GpuClocks
+SINGLE_LINE_CLOCKS	gpu.h	/^    SINGLE_LINE_CLOCKS      = 456,      \/\/Hblank and scanline memory accesses summed$/;"	e	enum:GpuClocks
+SPRITE_INFO	memory.h	15;"	d
+SUBTRACTION_FLAG	cpu.h	/^	SUBTRACTION_FLAG = 0x40,		\/\/Last operation was a subtraction$/;"	e	enum:CpuFlags
+VBLANK	gpu.h	/^    VBLANK          = 1         \/\/4560 clocks$/;"	e	enum:GpuModes
+VBLANK_CLOCKS	gpu.h	/^    VBLANK_CLOCKS           = 4560,     \/\/10 single lines$/;"	e	enum:GpuClocks
+WORKING_RAM	memory.h	11;"	d
+WORKING_RAM_END	memory.h	12;"	d
+WORKING_RAM_SHADOW	memory.h	13;"	d
+WORKING_RAM_SHADOW_END	memory.h	14;"	d
+ZERO_FLAG	cpu.h	/^	ZERO_FLAG = 0x80,				\/\/Last operation had result of 0$/;"	e	enum:CpuFlags
+ZERO_PAGE_RAM	memory.h	17;"	d
+a	cpu.h	/^	uint8_t a;                      \/\/Accumulator register$/;"	m	struct:Cpu
+adc_a_a	cpu.c	/^void adc_a_a(Cpu* cpu) {$/;"	f
+adc_a_b	cpu.c	/^void adc_a_b(Cpu* cpu) {$/;"	f
+adc_a_c	cpu.c	/^void adc_a_c(Cpu* cpu) {$/;"	f
+adc_a_d	cpu.c	/^void adc_a_d(Cpu* cpu) {$/;"	f
+adc_a_e	cpu.c	/^void adc_a_e(Cpu* cpu) {$/;"	f
+adc_a_h	cpu.c	/^void adc_a_h(Cpu* cpu) {$/;"	f
+adc_a_hl	cpu.c	/^void adc_a_hl(Cpu* cpu) {$/;"	f
+adc_a_l	cpu.c	/^void adc_a_l(Cpu* cpu) {$/;"	f
+add_HL_BC	cpu.c	/^void add_HL_BC(Cpu* cpu) {$/;"	f
+add_HL_DE	cpu.c	/^void add_HL_DE(Cpu* cpu) {$/;"	f
+add_HL_HL	cpu.c	/^void add_HL_HL(Cpu* cpu) {$/;"	f
+add_HL_sp	cpu.c	/^void add_HL_sp(Cpu* cpu) {$/;"	f
+add_a_8bit_immediate	cpu.c	/^void add_a_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+add_a_a	cpu.c	/^void add_a_a(Cpu* cpu) {$/;"	f
+add_a_b	cpu.c	/^void add_a_b(Cpu* cpu) {$/;"	f
+add_a_c	cpu.c	/^void add_a_c(Cpu* cpu) {$/;"	f
+add_a_d	cpu.c	/^void add_a_d(Cpu* cpu) {$/;"	f
+add_a_e	cpu.c	/^void add_a_e(Cpu* cpu) {$/;"	f
+add_a_h	cpu.c	/^void add_a_h(Cpu* cpu) {$/;"	f
+add_a_hl	cpu.c	/^void add_a_hl(Cpu* cpu) {$/;"	f
+add_a_l	cpu.c	/^void add_a_l(Cpu* cpu) {$/;"	f
+add_to_16bit_register	cpu.c	/^void add_to_16bit_register(Cpu* cpu, uint8_t* reg1, uint8_t* reg2, uint16_t n) {$/;"	f
+add_to_accumulator	cpu.c	/^void add_to_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
+add_to_accumulator_with_carry	cpu.c	/^void add_to_accumulator_with_carry(Cpu* cpu, uint8_t n) {$/;"	f
+and_a	cpu.c	/^void and_a(Cpu* cpu) {$/;"	f
+and_b	cpu.c	/^void and_b(Cpu* cpu) {$/;"	f
+and_c	cpu.c	/^void and_c(Cpu* cpu) {$/;"	f
+and_d	cpu.c	/^void and_d(Cpu* cpu) {$/;"	f
+and_e	cpu.c	/^void and_e(Cpu* cpu) {$/;"	f
+and_h	cpu.c	/^void and_h(Cpu* cpu) {$/;"	f
+and_hl	cpu.c	/^void and_hl(Cpu* cpu) {$/;"	f
+and_l	cpu.c	/^void and_l(Cpu* cpu) {$/;"	f
+and_with_accumulator	cpu.c	/^void and_with_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
+b	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+bit_0_a	cpu.c	/^void bit_0_a(Cpu* cpu) {$/;"	f
+bit_0_b	cpu.c	/^void bit_0_b(Cpu* cpu) {$/;"	f
+bit_0_c	cpu.c	/^void bit_0_c(Cpu* cpu) {$/;"	f
+bit_0_d	cpu.c	/^void bit_0_d(Cpu* cpu) {$/;"	f
+bit_0_e	cpu.c	/^void bit_0_e(Cpu* cpu) {$/;"	f
+bit_0_h	cpu.c	/^void bit_0_h(Cpu* cpu) {$/;"	f
+bit_0_hl	cpu.c	/^void bit_0_hl(Cpu* cpu) {$/;"	f
+bit_0_l	cpu.c	/^void bit_0_l(Cpu* cpu) {$/;"	f
+bit_1_a	cpu.c	/^void bit_1_a(Cpu* cpu) {$/;"	f
+bit_1_b	cpu.c	/^void bit_1_b(Cpu* cpu) {$/;"	f
+bit_1_c	cpu.c	/^void bit_1_c(Cpu* cpu) {$/;"	f
+bit_1_d	cpu.c	/^void bit_1_d(Cpu* cpu) {$/;"	f
+bit_1_e	cpu.c	/^void bit_1_e(Cpu* cpu) {$/;"	f
+bit_1_h	cpu.c	/^void bit_1_h(Cpu* cpu) {$/;"	f
+bit_1_hl	cpu.c	/^void bit_1_hl(Cpu* cpu) {$/;"	f
+bit_1_l	cpu.c	/^void bit_1_l(Cpu* cpu) {$/;"	f
+bit_2_a	cpu.c	/^void bit_2_a(Cpu* cpu) {$/;"	f
+bit_2_b	cpu.c	/^void bit_2_b(Cpu* cpu) {$/;"	f
+bit_2_c	cpu.c	/^void bit_2_c(Cpu* cpu) {$/;"	f
+bit_2_d	cpu.c	/^void bit_2_d(Cpu* cpu) {$/;"	f
+bit_2_e	cpu.c	/^void bit_2_e(Cpu* cpu) {$/;"	f
+bit_2_h	cpu.c	/^void bit_2_h(Cpu* cpu) {$/;"	f
+bit_2_hl	cpu.c	/^void bit_2_hl(Cpu* cpu) {$/;"	f
+bit_2_l	cpu.c	/^void bit_2_l(Cpu* cpu) {$/;"	f
+bit_3_a	cpu.c	/^void bit_3_a(Cpu* cpu) {$/;"	f
+bit_3_b	cpu.c	/^void bit_3_b(Cpu* cpu) {$/;"	f
+bit_3_c	cpu.c	/^void bit_3_c(Cpu* cpu) {$/;"	f
+bit_3_d	cpu.c	/^void bit_3_d(Cpu* cpu) {$/;"	f
+bit_3_e	cpu.c	/^void bit_3_e(Cpu* cpu) {$/;"	f
+bit_3_h	cpu.c	/^void bit_3_h(Cpu* cpu) {$/;"	f
+bit_3_hl	cpu.c	/^void bit_3_hl(Cpu* cpu) {$/;"	f
+bit_3_l	cpu.c	/^void bit_3_l(Cpu* cpu) {$/;"	f
+bit_4_a	cpu.c	/^void bit_4_a(Cpu* cpu) {$/;"	f
+bit_4_b	cpu.c	/^void bit_4_b(Cpu* cpu) {$/;"	f
+bit_4_c	cpu.c	/^void bit_4_c(Cpu* cpu) {$/;"	f
+bit_4_d	cpu.c	/^void bit_4_d(Cpu* cpu) {$/;"	f
+bit_4_e	cpu.c	/^void bit_4_e(Cpu* cpu) {$/;"	f
+bit_4_h	cpu.c	/^void bit_4_h(Cpu* cpu) {$/;"	f
+bit_4_hl	cpu.c	/^void bit_4_hl(Cpu* cpu) {$/;"	f
+bit_4_l	cpu.c	/^void bit_4_l(Cpu* cpu) {$/;"	f
+bit_5_a	cpu.c	/^void bit_5_a(Cpu* cpu) {$/;"	f
+bit_5_b	cpu.c	/^void bit_5_b(Cpu* cpu) {$/;"	f
+bit_5_c	cpu.c	/^void bit_5_c(Cpu* cpu) {$/;"	f
+bit_5_d	cpu.c	/^void bit_5_d(Cpu* cpu) {$/;"	f
+bit_5_e	cpu.c	/^void bit_5_e(Cpu* cpu) {$/;"	f
+bit_5_h	cpu.c	/^void bit_5_h(Cpu* cpu) {$/;"	f
+bit_5_hl	cpu.c	/^void bit_5_hl(Cpu* cpu) {$/;"	f
+bit_5_l	cpu.c	/^void bit_5_l(Cpu* cpu) {$/;"	f
+bit_6_a	cpu.c	/^void bit_6_a(Cpu* cpu) {$/;"	f
+bit_6_b	cpu.c	/^void bit_6_b(Cpu* cpu) {$/;"	f
+bit_6_c	cpu.c	/^void bit_6_c(Cpu* cpu) {$/;"	f
+bit_6_d	cpu.c	/^void bit_6_d(Cpu* cpu) {$/;"	f
+bit_6_e	cpu.c	/^void bit_6_e(Cpu* cpu) {$/;"	f
+bit_6_h	cpu.c	/^void bit_6_h(Cpu* cpu) {$/;"	f
+bit_6_hl	cpu.c	/^void bit_6_hl(Cpu* cpu) {$/;"	f
+bit_6_l	cpu.c	/^void bit_6_l(Cpu* cpu) {$/;"	f
+bit_7_a	cpu.c	/^void bit_7_a(Cpu* cpu) {$/;"	f
+bit_7_b	cpu.c	/^void bit_7_b(Cpu* cpu) {$/;"	f
+bit_7_c	cpu.c	/^void bit_7_c(Cpu* cpu) {$/;"	f
+bit_7_d	cpu.c	/^void bit_7_d(Cpu* cpu) {$/;"	f
+bit_7_e	cpu.c	/^void bit_7_e(Cpu* cpu) {$/;"	f
+bit_7_h	cpu.c	/^void bit_7_h(Cpu* cpu) {$/;"	f
+bit_7_hl	cpu.c	/^void bit_7_hl(Cpu* cpu) {$/;"	f
+bit_7_l	cpu.c	/^void bit_7_l(Cpu* cpu) {$/;"	f
+c	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+call_16bit_immediate	cpu.c	/^void call_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+ccf	cpu.c	/^void ccf(Cpu* cpu) {$/;"	f
+clear_flag	cpu.c	/^void clear_flag(Cpu* cpu, int flag) {$/;"	f
+compare_with_accumulator	cpu.c	/^void compare_with_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
+cp_8bit_immediate	cpu.c	/^void cp_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+cp_a	cpu.c	/^void cp_a(Cpu* cpu) {$/;"	f
+cp_b	cpu.c	/^void cp_b(Cpu* cpu) {$/;"	f
+cp_c	cpu.c	/^void cp_c(Cpu* cpu) {$/;"	f
+cp_d	cpu.c	/^void cp_d(Cpu* cpu) {$/;"	f
+cp_e	cpu.c	/^void cp_e(Cpu* cpu) {$/;"	f
+cp_h	cpu.c	/^void cp_h(Cpu* cpu) {$/;"	f
+cp_hl	cpu.c	/^void cp_hl(Cpu* cpu) {$/;"	f
+cp_l	cpu.c	/^void cp_l(Cpu* cpu) {$/;"	f
+cpl	cpu.c	/^void cpl(Cpu* cpu) {$/;"	f
+d	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+dec_BC	cpu.c	/^void dec_BC(Cpu* cpu) {$/;"	f
+dec_DE	cpu.c	/^void dec_DE(Cpu* cpu) {$/;"	f
+dec_HL	cpu.c	/^void dec_HL(Cpu* cpu) {$/;"	f
+dec_a	cpu.c	/^void dec_a(Cpu* cpu) {$/;"	f
+dec_b	cpu.c	/^void dec_b(Cpu* cpu) {$/;"	f
+dec_c	cpu.c	/^void dec_c(Cpu* cpu) {$/;"	f
+dec_d	cpu.c	/^void dec_d(Cpu* cpu) {$/;"	f
+dec_e	cpu.c	/^void dec_e(Cpu* cpu) {$/;"	f
+dec_h	cpu.c	/^void dec_h(Cpu* cpu) {$/;"	f
+dec_hl	cpu.c	/^void dec_hl(Cpu* cpu) {$/;"	f
+dec_l	cpu.c	/^void dec_l(Cpu* cpu) {$/;"	f
+dec_sp	cpu.c	/^void dec_sp(Cpu* cpu) {$/;"	f
+decrement_16bit_register	cpu.c	/^void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2) {$/;"	f
+decrement_8bit_register	cpu.c	/^void decrement_8bit_register(Cpu* cpu, uint8_t* reg) {$/;"	f
+di	cpu.c	/^void di(Cpu* cpu) {$/;"	f
+e	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+ei	cpu.c	/^void ei(Cpu* cpu) {$/;"	f
+f	cpu.h	/^	uint8_t f;                      \/\/Flag register (lower 4 bits are always 0)$/;"	m	struct:Cpu
+gpu	cpu.h	/^	Gpu gpu;$/;"	m	struct:Cpu
+gpu_step	gpu.c	/^uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock) {$/;"	f
+h	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+inc_BC	cpu.c	/^void inc_BC(Cpu* cpu) {$/;"	f
+inc_DE	cpu.c	/^void inc_DE(Cpu* cpu) {$/;"	f
+inc_HL	cpu.c	/^void inc_HL(Cpu* cpu) {$/;"	f
+inc_a	cpu.c	/^void inc_a(Cpu* cpu) {$/;"	f
+inc_b	cpu.c	/^void inc_b(Cpu* cpu) {$/;"	f
+inc_c	cpu.c	/^void inc_c(Cpu* cpu) {$/;"	f
+inc_d	cpu.c	/^void inc_d(Cpu* cpu) {$/;"	f
+inc_e	cpu.c	/^void inc_e(Cpu* cpu) {$/;"	f
+inc_h	cpu.c	/^void inc_h(Cpu* cpu) {$/;"	f
+inc_hl	cpu.c	/^void inc_hl(Cpu* cpu) {$/;"	f
+inc_l	cpu.c	/^void inc_l(Cpu* cpu) {$/;"	f
+inc_sp	cpu.c	/^void inc_sp(Cpu* cpu) {$/;"	f
+increment_16bit_register	cpu.c	/^void increment_16bit_register(uint8_t* reg1, uint8_t* reg2) {$/;"	f
+increment_8bit_register	cpu.c	/^void increment_8bit_register(Cpu* cpu, uint8_t* reg) {$/;"	f
+interrupt_enable	cpu.h	/^	uint8_t interrupt_enable;		\/\/Bits 1-4$/;"	m	struct:Cpu
+interrupt_flags	cpu.h	/^	uint8_t interrupt_flags;		\/\/Bits 1-4$/;"	m	struct:Cpu
+interrupt_master_enable	cpu.h	/^	bool interrupt_master_enable;$/;"	m	struct:Cpu
+is_flag_set	cpu.c	/^bool is_flag_set(Cpu* cpu, int flag) {$/;"	f
+join_registers	cpu.c	/^uint16_t join_registers(uint8_t a, uint8_t b) {$/;"	f
+jp_16bit_immediate	cpu.c	/^void jp_16bit_immediate(Cpu*cpu, uint16_t n) {$/;"	f
+jp_c_16bit_immediate	cpu.c	/^void jp_c_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+jp_hl	cpu.c	/^void jp_hl(Cpu* cpu) {$/;"	f
+jp_nc_16bit_immediate	cpu.c	/^void jp_nc_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+jp_nz_16bit_immediate	cpu.c	/^void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+jp_z_16bit_immediate	cpu.c	/^void jp_z_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+jr_8bit_immediate	cpu.c	/^void jr_8bit_immediate(Cpu* cpu, int8_t n) {$/;"	f
+jr_c_8bit_immediate	cpu.c	/^void jr_c_8bit_immediate(Cpu* cpu, int8_t n) {$/;"	f
+jr_nc_8bit_immediate	cpu.c	/^void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {$/;"	f
+jr_nz_8bit_immediate	cpu.c	/^void jr_nz_8bit_immediate(Cpu* cpu, int8_t n) {$/;"	f
+jr_z_8bit_immediate	cpu.c	/^void jr_z_8bit_immediate(Cpu* cpu, int8_t n) {$/;"	f
+l	cpu.h	/^	uint8_t b, c, d, e, h, l;       \/\/8 bit registers $/;"	m	struct:Cpu
+ld_16_bit_immediate_a	cpu.c	/^void ld_16_bit_immediate_a(Cpu* cpu, uint16_t n)  {$/;"	f
+ld_16bit_address_sp	cpu.c	/^void ld_16bit_address_sp(Cpu* cpu, uint16_t address) {$/;"	f
+ld_BC_16bit_immediate	cpu.c	/^void ld_BC_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+ld_DE_16bit_immediate	cpu.c	/^void ld_DE_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+ld_HL_16bit_immediate	cpu.c	/^void ld_HL_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+ld_a_16bit_address	cpu.c	/^void ld_a_16bit_address(Cpu* cpu, uint16_t address) {$/;"	f
+ld_a_8bit_immediate	cpu.c	/^void ld_a_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_a_a	cpu.c	/^void ld_a_a(Cpu* cpu) {$/;"	f
+ld_a_b	cpu.c	/^void ld_a_b(Cpu* cpu) {$/;"	f
+ld_a_bc	cpu.c	/^void ld_a_bc(Cpu* cpu) {$/;"	f
+ld_a_c	cpu.c	/^void ld_a_c(Cpu* cpu) {$/;"	f
+ld_a_d	cpu.c	/^void ld_a_d(Cpu* cpu) {$/;"	f
+ld_a_de	cpu.c	/^void ld_a_de(Cpu* cpu) {$/;"	f
+ld_a_e	cpu.c	/^void ld_a_e(Cpu* cpu) {$/;"	f
+ld_a_h	cpu.c	/^void ld_a_h(Cpu* cpu) {$/;"	f
+ld_a_hl	cpu.c	/^void ld_a_hl(Cpu* cpu) {$/;"	f
+ld_a_hldecrement	cpu.c	/^void ld_a_hldecrement(Cpu* cpu) {$/;"	f
+ld_a_hlincrement	cpu.c	/^void ld_a_hlincrement(Cpu* cpu) {$/;"	f
+ld_a_l	cpu.c	/^void ld_a_l(Cpu* cpu) {$/;"	f
+ld_b_8bit_immediate	cpu.c	/^void ld_b_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_b_a	cpu.c	/^void ld_b_a(Cpu* cpu) {$/;"	f
+ld_b_b	cpu.c	/^void ld_b_b(Cpu* cpu) {$/;"	f
+ld_b_c	cpu.c	/^void ld_b_c(Cpu* cpu) {$/;"	f
+ld_b_d	cpu.c	/^void ld_b_d(Cpu* cpu) {$/;"	f
+ld_b_e	cpu.c	/^void ld_b_e(Cpu* cpu) {$/;"	f
+ld_b_h	cpu.c	/^void ld_b_h(Cpu* cpu) {$/;"	f
+ld_b_hl	cpu.c	/^void ld_b_hl(Cpu* cpu) {$/;"	f
+ld_b_l	cpu.c	/^void ld_b_l(Cpu* cpu) {$/;"	f
+ld_bc_a	cpu.c	/^void ld_bc_a(Cpu* cpu) {$/;"	f
+ld_c_8bit_immediate	cpu.c	/^void ld_c_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_c_a	cpu.c	/^void ld_c_a(Cpu* cpu) {$/;"	f
+ld_c_b	cpu.c	/^void ld_c_b(Cpu* cpu) {$/;"	f
+ld_c_c	cpu.c	/^void ld_c_c(Cpu* cpu) {$/;"	f
+ld_c_d	cpu.c	/^void ld_c_d(Cpu* cpu) {$/;"	f
+ld_c_e	cpu.c	/^void ld_c_e(Cpu* cpu) {$/;"	f
+ld_c_h	cpu.c	/^void ld_c_h(Cpu* cpu) {$/;"	f
+ld_c_hl	cpu.c	/^void ld_c_hl(Cpu* cpu) {$/;"	f
+ld_c_l	cpu.c	/^void ld_c_l(Cpu* cpu) {$/;"	f
+ld_d_8bit_immediate	cpu.c	/^void ld_d_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_d_a	cpu.c	/^void ld_d_a(Cpu* cpu) {$/;"	f
+ld_d_b	cpu.c	/^void ld_d_b(Cpu* cpu) {$/;"	f
+ld_d_c	cpu.c	/^void ld_d_c(Cpu* cpu) {$/;"	f
+ld_d_d	cpu.c	/^void ld_d_d(Cpu* cpu) {$/;"	f
+ld_d_e	cpu.c	/^void ld_d_e(Cpu* cpu) {$/;"	f
+ld_d_h	cpu.c	/^void ld_d_h(Cpu* cpu) {$/;"	f
+ld_d_hl	cpu.c	/^void ld_d_hl(Cpu* cpu) {$/;"	f
+ld_d_l	cpu.c	/^void ld_d_l(Cpu* cpu) {$/;"	f
+ld_de_a	cpu.c	/^void ld_de_a(Cpu* cpu) {$/;"	f
+ld_e_8bit_immediate	cpu.c	/^void ld_e_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_e_a	cpu.c	/^void ld_e_a(Cpu* cpu) {$/;"	f
+ld_e_b	cpu.c	/^void ld_e_b(Cpu* cpu) {$/;"	f
+ld_e_c	cpu.c	/^void ld_e_c(Cpu* cpu) {$/;"	f
+ld_e_d	cpu.c	/^void ld_e_d(Cpu* cpu) {$/;"	f
+ld_e_e	cpu.c	/^void ld_e_e(Cpu* cpu) {$/;"	f
+ld_e_h	cpu.c	/^void ld_e_h(Cpu* cpu) {$/;"	f
+ld_e_hl	cpu.c	/^void ld_e_hl(Cpu* cpu) {$/;"	f
+ld_e_l	cpu.c	/^void ld_e_l(Cpu* cpu) {$/;"	f
+ld_h_8bit_immediate	cpu.c	/^void ld_h_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_h_a	cpu.c	/^void ld_h_a(Cpu* cpu) {$/;"	f
+ld_h_b	cpu.c	/^void ld_h_b(Cpu* cpu) {$/;"	f
+ld_h_c	cpu.c	/^void ld_h_c(Cpu* cpu) {$/;"	f
+ld_h_d	cpu.c	/^void ld_h_d(Cpu* cpu) {$/;"	f
+ld_h_e	cpu.c	/^void ld_h_e(Cpu* cpu) {$/;"	f
+ld_h_h	cpu.c	/^void ld_h_h(Cpu* cpu) {$/;"	f
+ld_h_hl	cpu.c	/^void ld_h_hl(Cpu* cpu) {$/;"	f
+ld_h_l	cpu.c	/^void ld_h_l(Cpu* cpu) {$/;"	f
+ld_hl_8bit_immediate	cpu.c	/^void ld_hl_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_hl_a	cpu.c	/^void ld_hl_a(Cpu* cpu) {$/;"	f
+ld_hl_b	cpu.c	/^void ld_hl_b(Cpu* cpu) {$/;"	f
+ld_hl_c	cpu.c	/^void ld_hl_c(Cpu* cpu) {$/;"	f
+ld_hl_d	cpu.c	/^void ld_hl_d(Cpu* cpu) {$/;"	f
+ld_hl_e	cpu.c	/^void ld_hl_e(Cpu* cpu) {$/;"	f
+ld_hl_h	cpu.c	/^void ld_hl_h(Cpu* cpu) {$/;"	f
+ld_hl_l	cpu.c	/^void ld_hl_l(Cpu* cpu) {$/;"	f
+ld_hldecrement_a	cpu.c	/^void ld_hldecrement_a(Cpu* cpu) {$/;"	f
+ld_hlincrement_a	cpu.c	/^void ld_hlincrement_a(Cpu* cpu) {$/;"	f
+ld_l_8bit_immediate	cpu.c	/^void ld_l_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+ld_l_a	cpu.c	/^void ld_l_a(Cpu* cpu) {$/;"	f
+ld_l_b	cpu.c	/^void ld_l_b(Cpu* cpu) {$/;"	f
+ld_l_c	cpu.c	/^void ld_l_c(Cpu* cpu) {$/;"	f
+ld_l_d	cpu.c	/^void ld_l_d(Cpu* cpu) {$/;"	f
+ld_l_e	cpu.c	/^void ld_l_e(Cpu* cpu) {$/;"	f
+ld_l_h	cpu.c	/^void ld_l_h(Cpu* cpu) {$/;"	f
+ld_l_hl	cpu.c	/^void ld_l_hl(Cpu* cpu) {$/;"	f
+ld_l_l	cpu.c	/^void ld_l_l(Cpu* cpu) {$/;"	f
+ld_sp_16bit_immediate	cpu.c	/^void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {$/;"	f
+ldh_8bit_immediate_a	cpu.c	/^void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n) {$/;"	f
+ldh_a_8bit_immediate	cpu.c	/^void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n) {$/;"	f
+line	gpu.h	/^    int line; $/;"	m	struct:Gpu
+loop	main.c	/^void loop(Cpu* cpu) {$/;"	f
+m	cpu.h	/^	uint8_t m, t;					\/\/clocks for last instruction$/;"	m	struct:Cpu
+main	main.c	/^int main(int argc, char** argv) {$/;"	f
+memory	cpu.h	/^	uint8_t memory[UINT16_MAX];		\/\/16 bit address bus$/;"	m	struct:Cpu
+mode	gpu.h	/^    uint8_t mode;$/;"	m	struct:Gpu
+mode_clock	gpu.h	/^    int mode_clock;$/;"	m	struct:Gpu
+nop	cpu.c	/^void nop(Cpu* cpu) {$/;"	f
+or_a	cpu.c	/^void or_a(Cpu* cpu) {$/;"	f
+or_b	cpu.c	/^void or_b(Cpu* cpu) {$/;"	f
+or_c	cpu.c	/^void or_c(Cpu* cpu) {$/;"	f
+or_d	cpu.c	/^void or_d(Cpu* cpu) {$/;"	f
+or_e	cpu.c	/^void or_e(Cpu* cpu) {$/;"	f
+or_h	cpu.c	/^void or_h(Cpu* cpu) {$/;"	f
+or_hl	cpu.c	/^void or_hl(Cpu* cpu) {$/;"	f
+or_l	cpu.c	/^void or_l(Cpu* cpu) {$/;"	f
+or_with_accumulator	cpu.c	/^void or_with_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
+pc	cpu.h	/^	uint16_t sp, pc;               	\/\/16 bit registers$/;"	m	struct:Cpu
+pop_AF	cpu.c	/^void pop_AF(Cpu* cpu) {$/;"	f
+pop_BC	cpu.c	/^void pop_BC(Cpu* cpu) {$/;"	f
+pop_DE	cpu.c	/^void pop_DE(Cpu* cpu) {$/;"	f
+pop_HL	cpu.c	/^void pop_HL(Cpu* cpu) {$/;"	f
+prefix_cb	cpu.c	/^void prefix_cb(Cpu* cpu, uint8_t opcode) {$/;"	f
+print_cpu_contents	cpu.c	/^void print_cpu_contents(Cpu* cpu) {$/;"	f
+push_16bit_register	cpu.c	/^void push_16bit_register(Cpu* cpu, uint8_t reg1, uint8_t reg2) {$/;"	f
+push_AF	cpu.c	/^void push_AF(Cpu* cpu) {$/;"	f
+push_BC	cpu.c	/^void push_BC(Cpu* cpu) {$/;"	f
+push_DE	cpu.c	/^void push_DE(Cpu* cpu) {$/;"	f
+push_HL	cpu.c	/^void push_HL(Cpu* cpu) {$/;"	f
+read_byte	memory.c	/^uint8_t read_byte(Cpu* cpu, uint16_t address) {$/;"	f
+read_word	memory.c	/^uint16_t read_word(Cpu* cpu, uint16_t address) {$/;"	f
+res_0_a	cpu.c	/^void res_0_a(Cpu* cpu) {$/;"	f
+res_0_b	cpu.c	/^void res_0_b(Cpu* cpu) {$/;"	f
+res_0_c	cpu.c	/^void res_0_c(Cpu* cpu) {$/;"	f
+res_0_d	cpu.c	/^void res_0_d(Cpu* cpu) {$/;"	f
+res_0_e	cpu.c	/^void res_0_e(Cpu* cpu) {$/;"	f
+res_0_h	cpu.c	/^void res_0_h(Cpu* cpu) {$/;"	f
+res_0_hl	cpu.c	/^void res_0_hl(Cpu* cpu) {$/;"	f
+res_0_l	cpu.c	/^void res_0_l(Cpu* cpu) {$/;"	f
+res_1_a	cpu.c	/^void res_1_a(Cpu* cpu) {$/;"	f
+res_1_b	cpu.c	/^void res_1_b(Cpu* cpu) {$/;"	f
+res_1_c	cpu.c	/^void res_1_c(Cpu* cpu) {$/;"	f
+res_1_d	cpu.c	/^void res_1_d(Cpu* cpu) {$/;"	f
+res_1_e	cpu.c	/^void res_1_e(Cpu* cpu) {$/;"	f
+res_1_h	cpu.c	/^void res_1_h(Cpu* cpu) {$/;"	f
+res_1_hl	cpu.c	/^void res_1_hl(Cpu* cpu) {$/;"	f
+res_1_l	cpu.c	/^void res_1_l(Cpu* cpu) {$/;"	f
+res_2_a	cpu.c	/^void res_2_a(Cpu* cpu) {$/;"	f
+res_2_b	cpu.c	/^void res_2_b(Cpu* cpu) {$/;"	f
+res_2_c	cpu.c	/^void res_2_c(Cpu* cpu) {$/;"	f
+res_2_d	cpu.c	/^void res_2_d(Cpu* cpu) {$/;"	f
+res_2_e	cpu.c	/^void res_2_e(Cpu* cpu) {$/;"	f
+res_2_h	cpu.c	/^void res_2_h(Cpu* cpu) {$/;"	f
+res_2_hl	cpu.c	/^void res_2_hl(Cpu* cpu) {$/;"	f
+res_2_l	cpu.c	/^void res_2_l(Cpu* cpu) {$/;"	f
+res_3_a	cpu.c	/^void res_3_a(Cpu* cpu) {$/;"	f
+res_3_b	cpu.c	/^void res_3_b(Cpu* cpu) {$/;"	f
+res_3_c	cpu.c	/^void res_3_c(Cpu* cpu) {$/;"	f
+res_3_d	cpu.c	/^void res_3_d(Cpu* cpu) {$/;"	f
+res_3_e	cpu.c	/^void res_3_e(Cpu* cpu) {$/;"	f
+res_3_h	cpu.c	/^void res_3_h(Cpu* cpu) {$/;"	f
+res_3_hl	cpu.c	/^void res_3_hl(Cpu* cpu) {$/;"	f
+res_3_l	cpu.c	/^void res_3_l(Cpu* cpu) {$/;"	f
+res_4_a	cpu.c	/^void res_4_a(Cpu* cpu) {$/;"	f
+res_4_b	cpu.c	/^void res_4_b(Cpu* cpu) {$/;"	f
+res_4_c	cpu.c	/^void res_4_c(Cpu* cpu) {$/;"	f
+res_4_d	cpu.c	/^void res_4_d(Cpu* cpu) {$/;"	f
+res_4_e	cpu.c	/^void res_4_e(Cpu* cpu) {$/;"	f
+res_4_h	cpu.c	/^void res_4_h(Cpu* cpu) {$/;"	f
+res_4_hl	cpu.c	/^void res_4_hl(Cpu* cpu) {$/;"	f
+res_4_l	cpu.c	/^void res_4_l(Cpu* cpu) {$/;"	f
+res_5_a	cpu.c	/^void res_5_a(Cpu* cpu) {$/;"	f
+res_5_b	cpu.c	/^void res_5_b(Cpu* cpu) {$/;"	f
+res_5_c	cpu.c	/^void res_5_c(Cpu* cpu) {$/;"	f
+res_5_d	cpu.c	/^void res_5_d(Cpu* cpu) {$/;"	f
+res_5_e	cpu.c	/^void res_5_e(Cpu* cpu) {$/;"	f
+res_5_h	cpu.c	/^void res_5_h(Cpu* cpu) {$/;"	f
+res_5_hl	cpu.c	/^void res_5_hl(Cpu* cpu) {$/;"	f
+res_5_l	cpu.c	/^void res_5_l(Cpu* cpu) {$/;"	f
+res_6_a	cpu.c	/^void res_6_a(Cpu* cpu) {$/;"	f
+res_6_b	cpu.c	/^void res_6_b(Cpu* cpu) {$/;"	f
+res_6_c	cpu.c	/^void res_6_c(Cpu* cpu) {$/;"	f
+res_6_d	cpu.c	/^void res_6_d(Cpu* cpu) {$/;"	f
+res_6_e	cpu.c	/^void res_6_e(Cpu* cpu) {$/;"	f
+res_6_h	cpu.c	/^void res_6_h(Cpu* cpu) {$/;"	f
+res_6_hl	cpu.c	/^void res_6_hl(Cpu* cpu) {$/;"	f
+res_6_l	cpu.c	/^void res_6_l(Cpu* cpu) {$/;"	f
+res_7_a	cpu.c	/^void res_7_a(Cpu* cpu) {$/;"	f
+res_7_b	cpu.c	/^void res_7_b(Cpu* cpu) {$/;"	f
+res_7_c	cpu.c	/^void res_7_c(Cpu* cpu) {$/;"	f
+res_7_d	cpu.c	/^void res_7_d(Cpu* cpu) {$/;"	f
+res_7_e	cpu.c	/^void res_7_e(Cpu* cpu) {$/;"	f
+res_7_h	cpu.c	/^void res_7_h(Cpu* cpu) {$/;"	f
+res_7_hl	cpu.c	/^void res_7_hl(Cpu* cpu) {$/;"	f
+res_7_l	cpu.c	/^void res_7_l(Cpu* cpu) {$/;"	f
+reset_bit_8bit	cpu.c	/^void reset_bit_8bit(uint8_t* n, uint8_t bit_to_reset) {$/;"	f
+reset_cpu	cpu.c	/^void reset_cpu(Cpu* cpu) {$/;"	f
+reset_gpu	gpu.c	/^void reset_gpu(Gpu* gpu) {$/;"	f
+ret	cpu.c	/^void ret(Cpu* cpu) {$/;"	f
+ret_c	cpu.c	/^void ret_c(Cpu* cpu) {$/;"	f
+ret_nz	cpu.c	/^void ret_nz(Cpu* cpu) {$/;"	f
+ret_z	cpu.c	/^void ret_z(Cpu* cpu) {$/;"	f
+reti	cpu.c	/^void reti(Cpu* cpu) {$/;"	f
+rl_a	cpu.c	/^void rl_a(Cpu* cpu) {$/;"	f
+rl_b	cpu.c	/^void rl_b(Cpu* cpu) {$/;"	f
+rl_c	cpu.c	/^void rl_c(Cpu* cpu) {$/;"	f
+rl_d	cpu.c	/^void rl_d(Cpu* cpu) {$/;"	f
+rl_e	cpu.c	/^void rl_e(Cpu* cpu) {$/;"	f
+rl_h	cpu.c	/^void rl_h(Cpu* cpu) {$/;"	f
+rl_hl	cpu.c	/^void rl_hl(Cpu* cpu) {$/;"	f
+rl_l	cpu.c	/^void rl_l(Cpu* cpu) {$/;"	f
+rla	cpu.c	/^void rla(Cpu* cpu) {$/;"	f
+rlc_a	cpu.c	/^void rlc_a(Cpu* cpu) {$/;"	f
+rlc_b	cpu.c	/^void rlc_b(Cpu* cpu) {$/;"	f
+rlc_c	cpu.c	/^void rlc_c(Cpu* cpu) {$/;"	f
+rlc_d	cpu.c	/^void rlc_d(Cpu* cpu) {$/;"	f
+rlc_e	cpu.c	/^void rlc_e(Cpu* cpu) {$/;"	f
+rlc_h	cpu.c	/^void rlc_h(Cpu* cpu) {$/;"	f
+rlc_hl	cpu.c	/^void rlc_hl(Cpu* cpu) {$/;"	f
+rlc_l	cpu.c	/^void rlc_l(Cpu* cpu) {$/;"	f
+rlca	cpu.c	/^void rlca(Cpu* cpu) {$/;"	f
+rotate_8bit_left	cpu.c	/^void rotate_8bit_left(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_left_arithmetic	cpu.c	/^void rotate_8bit_left_arithmetic(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_left_through_carry	cpu.c	/^void rotate_8bit_left_through_carry(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_right	cpu.c	/^void rotate_8bit_right(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_right_arithmetic	cpu.c	/^void rotate_8bit_right_arithmetic(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_right_logical	cpu.c	/^void rotate_8bit_right_logical(Cpu* cpu, uint8_t* n) {$/;"	f
+rotate_8bit_right_through_carry	cpu.c	/^void rotate_8bit_right_through_carry(Cpu* cpu, uint8_t* n) {$/;"	f
+rr_a	cpu.c	/^void rr_a(Cpu* cpu) {$/;"	f
+rr_b	cpu.c	/^void rr_b(Cpu* cpu) {$/;"	f
+rr_c	cpu.c	/^void rr_c(Cpu* cpu) {$/;"	f
+rr_d	cpu.c	/^void rr_d(Cpu* cpu) {$/;"	f
+rr_e	cpu.c	/^void rr_e(Cpu* cpu) {$/;"	f
+rr_h	cpu.c	/^void rr_h(Cpu* cpu) {$/;"	f
+rr_hl	cpu.c	/^void rr_hl(Cpu* cpu) {$/;"	f
+rr_l	cpu.c	/^void rr_l(Cpu* cpu) {$/;"	f
+rra	cpu.c	/^void rra(Cpu* cpu) {$/;"	f
+rrc_a	cpu.c	/^void rrc_a(Cpu* cpu) {$/;"	f
+rrc_b	cpu.c	/^void rrc_b(Cpu* cpu) {$/;"	f
+rrc_c	cpu.c	/^void rrc_c(Cpu* cpu) {$/;"	f
+rrc_d	cpu.c	/^void rrc_d(Cpu* cpu) {$/;"	f
+rrc_e	cpu.c	/^void rrc_e(Cpu* cpu) {$/;"	f
+rrc_h	cpu.c	/^void rrc_h(Cpu* cpu) {$/;"	f
+rrc_hl	cpu.c	/^void rrc_hl(Cpu* cpu) {$/;"	f
+rrc_l	cpu.c	/^void rrc_l(Cpu* cpu) {$/;"	f
+rrca	cpu.c	/^void rrca(Cpu* cpu) {$/;"	f
+rst_40	cpu.c	/^void rst_40(Cpu* cpu) {$/;"	f
+sbc_a_a	cpu.c	/^void sbc_a_a(Cpu* cpu)  {$/;"	f
+sbc_a_b	cpu.c	/^void sbc_a_b(Cpu* cpu)  {$/;"	f
+sbc_a_c	cpu.c	/^void sbc_a_c(Cpu* cpu)  {$/;"	f
+sbc_a_d	cpu.c	/^void sbc_a_d(Cpu* cpu)  {$/;"	f
+sbc_a_e	cpu.c	/^void sbc_a_e(Cpu* cpu)  {$/;"	f
+sbc_a_h	cpu.c	/^void sbc_a_h(Cpu* cpu)  {$/;"	f
+sbc_a_hl	cpu.c	/^void sbc_a_hl(Cpu* cpu)  {$/;"	f
+sbc_a_l	cpu.c	/^void sbc_a_l(Cpu* cpu)  {$/;"	f
+scf	cpu.c	/^void scf(Cpu* cpu) {$/;"	f
+set_0_a	cpu.c	/^void set_0_a(Cpu* cpu) {$/;"	f
+set_0_b	cpu.c	/^void set_0_b(Cpu* cpu) {$/;"	f
+set_0_c	cpu.c	/^void set_0_c(Cpu* cpu) {$/;"	f
+set_0_d	cpu.c	/^void set_0_d(Cpu* cpu) {$/;"	f
+set_0_e	cpu.c	/^void set_0_e(Cpu* cpu) {$/;"	f
+set_0_h	cpu.c	/^void set_0_h(Cpu* cpu) {$/;"	f
+set_0_hl	cpu.c	/^void set_0_hl(Cpu* cpu) {$/;"	f
+set_0_l	cpu.c	/^void set_0_l(Cpu* cpu) {$/;"	f
+set_1_a	cpu.c	/^void set_1_a(Cpu* cpu) {$/;"	f
+set_1_b	cpu.c	/^void set_1_b(Cpu* cpu) {$/;"	f
+set_1_c	cpu.c	/^void set_1_c(Cpu* cpu) {$/;"	f
+set_1_d	cpu.c	/^void set_1_d(Cpu* cpu) {$/;"	f
+set_1_e	cpu.c	/^void set_1_e(Cpu* cpu) {$/;"	f
+set_1_h	cpu.c	/^void set_1_h(Cpu* cpu) {$/;"	f
+set_1_hl	cpu.c	/^void set_1_hl(Cpu* cpu) {$/;"	f
+set_1_l	cpu.c	/^void set_1_l(Cpu* cpu) {$/;"	f
+set_2_a	cpu.c	/^void set_2_a(Cpu* cpu) {$/;"	f
+set_2_b	cpu.c	/^void set_2_b(Cpu* cpu) {$/;"	f
+set_2_c	cpu.c	/^void set_2_c(Cpu* cpu) {$/;"	f
+set_2_d	cpu.c	/^void set_2_d(Cpu* cpu) {$/;"	f
+set_2_e	cpu.c	/^void set_2_e(Cpu* cpu) {$/;"	f
+set_2_h	cpu.c	/^void set_2_h(Cpu* cpu) {$/;"	f
+set_2_hl	cpu.c	/^void set_2_hl(Cpu* cpu) {$/;"	f
+set_2_l	cpu.c	/^void set_2_l(Cpu* cpu) {$/;"	f
+set_3_a	cpu.c	/^void set_3_a(Cpu* cpu) {$/;"	f
+set_3_b	cpu.c	/^void set_3_b(Cpu* cpu) {$/;"	f
+set_3_c	cpu.c	/^void set_3_c(Cpu* cpu) {$/;"	f
+set_3_d	cpu.c	/^void set_3_d(Cpu* cpu) {$/;"	f
+set_3_e	cpu.c	/^void set_3_e(Cpu* cpu) {$/;"	f
+set_3_h	cpu.c	/^void set_3_h(Cpu* cpu) {$/;"	f
+set_3_hl	cpu.c	/^void set_3_hl(Cpu* cpu) {$/;"	f
+set_3_l	cpu.c	/^void set_3_l(Cpu* cpu) {$/;"	f
+set_4_a	cpu.c	/^void set_4_a(Cpu* cpu) {$/;"	f
+set_4_b	cpu.c	/^void set_4_b(Cpu* cpu) {$/;"	f
+set_4_c	cpu.c	/^void set_4_c(Cpu* cpu) {$/;"	f
+set_4_d	cpu.c	/^void set_4_d(Cpu* cpu) {$/;"	f
+set_4_e	cpu.c	/^void set_4_e(Cpu* cpu) {$/;"	f
+set_4_h	cpu.c	/^void set_4_h(Cpu* cpu) {$/;"	f
+set_4_hl	cpu.c	/^void set_4_hl(Cpu* cpu) {$/;"	f
+set_4_l	cpu.c	/^void set_4_l(Cpu* cpu) {$/;"	f
+set_5_a	cpu.c	/^void set_5_a(Cpu* cpu) {$/;"	f
+set_5_b	cpu.c	/^void set_5_b(Cpu* cpu) {$/;"	f
+set_5_c	cpu.c	/^void set_5_c(Cpu* cpu) {$/;"	f
+set_5_d	cpu.c	/^void set_5_d(Cpu* cpu) {$/;"	f
+set_5_e	cpu.c	/^void set_5_e(Cpu* cpu) {$/;"	f
+set_5_h	cpu.c	/^void set_5_h(Cpu* cpu) {$/;"	f
+set_5_hl	cpu.c	/^void set_5_hl(Cpu* cpu) {$/;"	f
+set_5_l	cpu.c	/^void set_5_l(Cpu* cpu) {$/;"	f
+set_6_a	cpu.c	/^void set_6_a(Cpu* cpu) {$/;"	f
+set_6_b	cpu.c	/^void set_6_b(Cpu* cpu) {$/;"	f
+set_6_c	cpu.c	/^void set_6_c(Cpu* cpu) {$/;"	f
+set_6_d	cpu.c	/^void set_6_d(Cpu* cpu) {$/;"	f
+set_6_e	cpu.c	/^void set_6_e(Cpu* cpu) {$/;"	f
+set_6_h	cpu.c	/^void set_6_h(Cpu* cpu) {$/;"	f
+set_6_hl	cpu.c	/^void set_6_hl(Cpu* cpu) {$/;"	f
+set_6_l	cpu.c	/^void set_6_l(Cpu* cpu) {$/;"	f
+set_7_a	cpu.c	/^void set_7_a(Cpu* cpu) {$/;"	f
+set_7_b	cpu.c	/^void set_7_b(Cpu* cpu) {$/;"	f
+set_7_c	cpu.c	/^void set_7_c(Cpu* cpu) {$/;"	f
+set_7_d	cpu.c	/^void set_7_d(Cpu* cpu) {$/;"	f
+set_7_e	cpu.c	/^void set_7_e(Cpu* cpu) {$/;"	f
+set_7_h	cpu.c	/^void set_7_h(Cpu* cpu) {$/;"	f
+set_7_hl	cpu.c	/^void set_7_hl(Cpu* cpu) {$/;"	f
+set_7_l	cpu.c	/^void set_7_l(Cpu* cpu) {$/;"	f
+set_bit_8bit	cpu.c	/^void set_bit_8bit(uint8_t* n, uint8_t bit_to_set) {$/;"	f
+set_flag	cpu.c	/^void set_flag(Cpu* cpu, int flag) {$/;"	f
+sla_a	cpu.c	/^void sla_a(Cpu* cpu) {$/;"	f
+sla_b	cpu.c	/^void sla_b(Cpu* cpu) {$/;"	f
+sla_c	cpu.c	/^void sla_c(Cpu* cpu) {$/;"	f
+sla_d	cpu.c	/^void sla_d(Cpu* cpu) {$/;"	f
+sla_e	cpu.c	/^void sla_e(Cpu* cpu) {$/;"	f
+sla_h	cpu.c	/^void sla_h(Cpu* cpu) {$/;"	f
+sla_hl	cpu.c	/^void sla_hl(Cpu* cpu) {$/;"	f
+sla_l	cpu.c	/^void sla_l(Cpu* cpu) {$/;"	f
+sp	cpu.h	/^	uint16_t sp, pc;               	\/\/16 bit registers$/;"	m	struct:Cpu
+sra_a	cpu.c	/^void sra_a(Cpu* cpu) {$/;"	f
+sra_b	cpu.c	/^void sra_b(Cpu* cpu) {$/;"	f
+sra_c	cpu.c	/^void sra_c(Cpu* cpu) {$/;"	f
+sra_d	cpu.c	/^void sra_d(Cpu* cpu) {$/;"	f
+sra_e	cpu.c	/^void sra_e(Cpu* cpu) {$/;"	f
+sra_h	cpu.c	/^void sra_h(Cpu* cpu) {$/;"	f
+sra_hl	cpu.c	/^void sra_hl(Cpu* cpu) {$/;"	f
+sra_l	cpu.c	/^void sra_l(Cpu* cpu) {$/;"	f
+srl_a	cpu.c	/^void srl_a(Cpu* cpu) {$/;"	f
+srl_b	cpu.c	/^void srl_b(Cpu* cpu) {$/;"	f
+srl_c	cpu.c	/^void srl_c(Cpu* cpu) {$/;"	f
+srl_d	cpu.c	/^void srl_d(Cpu* cpu) {$/;"	f
+srl_e	cpu.c	/^void srl_e(Cpu* cpu) {$/;"	f
+srl_h	cpu.c	/^void srl_h(Cpu* cpu) {$/;"	f
+srl_hl	cpu.c	/^void srl_hl(Cpu* cpu) {$/;"	f
+srl_l	cpu.c	/^void srl_l(Cpu* cpu) {$/;"	f
+sub_a	cpu.c	/^void sub_a(Cpu* cpu)  {$/;"	f
+sub_b	cpu.c	/^void sub_b(Cpu* cpu)  {$/;"	f
+sub_c	cpu.c	/^void sub_c(Cpu* cpu)  {$/;"	f
+sub_d	cpu.c	/^void sub_d(Cpu* cpu)  {$/;"	f
+sub_e	cpu.c	/^void sub_e(Cpu* cpu)  {$/;"	f
+sub_h	cpu.c	/^void sub_h(Cpu* cpu)  {$/;"	f
+sub_hl	cpu.c	/^void sub_hl(Cpu* cpu)  {$/;"	f
+sub_l	cpu.c	/^void sub_l(Cpu* cpu)  {$/;"	f
+subtract_from_accumulator	cpu.c	/^void subtract_from_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
+subtract_from_accumulator_with_carry	cpu.c	/^void subtract_from_accumulator_with_carry(Cpu* cpu, uint8_t n) {$/;"	f
+swap_8bit	cpu.c	/^void swap_8bit(Cpu* cpu, uint8_t* n) {$/;"	f
+swap_a	cpu.c	/^void swap_a(Cpu* cpu) {$/;"	f
+swap_b	cpu.c	/^void swap_b(Cpu* cpu) {$/;"	f
+swap_c	cpu.c	/^void swap_c(Cpu* cpu) {$/;"	f
+swap_d	cpu.c	/^void swap_d(Cpu* cpu) {$/;"	f
+swap_e	cpu.c	/^void swap_e(Cpu* cpu) {$/;"	f
+swap_h	cpu.c	/^void swap_h(Cpu* cpu) {$/;"	f
+swap_hl	cpu.c	/^void swap_hl(Cpu* cpu) {$/;"	f
+swap_l	cpu.c	/^void swap_l(Cpu* cpu) {$/;"	f
+t	cpu.h	/^	uint8_t m, t;					\/\/clocks for last instruction$/;"	m	struct:Cpu
+test_bit_8bit	cpu.c	/^void test_bit_8bit(Cpu* cpu, uint8_t n, uint8_t bit_to_test) {$/;"	f
+tileset	gpu.h	/^    uint16_t tileset[NUM_OF_INDIVIDUAL_TILES][ROWS_IN_TILE];$/;"	m	struct:Gpu
+total_m	cpu.h	/^	int total_m, total_t;$/;"	m	struct:Cpu
+total_t	cpu.h	/^	int total_m, total_t;$/;"	m	struct:Cpu
+unimplemented_opcode	cpu.c	/^void unimplemented_opcode(uint8_t opcode) {$/;"	f
+write_byte	memory.c	/^void write_byte(Cpu* cpu, uint16_t address, uint8_t value) {$/;"	f
+write_to_16bit_registers	cpu.c	/^void write_to_16bit_registers(uint8_t* r1, uint8_t* r2, uint16_t n) {$/;"	f
+write_word	memory.c	/^void write_word(Cpu* cpu, uint16_t address, uint16_t value) {$/;"	f
+xor_a	cpu.c	/^void xor_a(Cpu* cpu) {$/;"	f
+xor_b	cpu.c	/^void xor_b(Cpu* cpu) {$/;"	f
+xor_c	cpu.c	/^void xor_c(Cpu* cpu) {$/;"	f
+xor_d	cpu.c	/^void xor_d(Cpu* cpu) {$/;"	f
+xor_e	cpu.c	/^void xor_e(Cpu* cpu) {$/;"	f
+xor_h	cpu.c	/^void xor_h(Cpu* cpu) {$/;"	f
+xor_hl	cpu.c	/^void xor_hl(Cpu* cpu) {$/;"	f
+xor_l	cpu.c	/^void xor_l(Cpu* cpu) {$/;"	f
+xor_with_accumulator	cpu.c	/^void xor_with_accumulator(Cpu* cpu, uint8_t n) {$/;"	f
