@@ -30,14 +30,17 @@ void print_cpu_contents(Cpu* cpu) {
 }
 
 void reset_cpu(Cpu* cpu) {
-    cpu->a = 0;
-    cpu->b = 0;
-    cpu->c = 0;
-    cpu->d = 0;
-    cpu->e = 0;
-    cpu->h = 0;
-    cpu->l = 0;
-    cpu->sp = 0;
+	//Default values at startup
+	//See http://bgb.bircd.org/pandocs.txt
+    cpu->a = 0x01;
+    cpu->b = 0x00;	
+    cpu->c = 0x13; 
+    cpu->d = 0x00; 
+    cpu->e = 0xD8;
+    cpu->h = 0x01;
+    cpu->l = 0x4D;
+	cpu->f = 0xB0;
+    cpu->sp = 0xFFFE;
     cpu->pc = 0;
 
     cpu->m = 0;
@@ -47,7 +50,7 @@ void reset_cpu(Cpu* cpu) {
 
     memset(cpu->memory, 0, MEMORY_SIZE);
 
-    cpu->interrupt_master_enable = false;
+    cpu->interrupt_master_enable = true;
     cpu->interrupt_enable = 0x0;
     cpu->interrupt_flags = 0;
     reset_gpu(&cpu->gpu);
