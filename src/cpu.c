@@ -598,8 +598,7 @@ void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {
 }
 //0x31
 void ld_sp_16bit_immediate(Cpu* cpu, uint16_t n) {
-    uint16_t value = read_word(cpu, n);
-    cpu->sp = value;
+    cpu->sp = n;
     cpu->pc += 2;
     cpu->m = 3;
     cpu->t = 12;
