@@ -711,8 +711,11 @@ void loop(Cpu* cpu) {
                 ret(cpu);
                 break;
             case 0xCA:
-                unimplemented_opcode(opcode);
-                break;
+                {
+                    uint16_t immediate = read_word(cpu, cpu->pc);
+					jp_z_16bit_immediate(cpu, immediate);
+                    break;
+                }
             case 0xCB:
                 {
                     uint8_t opcode = read_byte(cpu, cpu->pc);
@@ -735,7 +738,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xD0:
-                unimplemented_opcode(opcode);
+				ret_nc(cpu);
                 break;
             case 0xD1:
                 pop_DE(cpu);
@@ -792,7 +795,7 @@ void loop(Cpu* cpu) {
                 pop_HL(cpu);
                 break;
             case 0xE2:
-                unimplemented_opcode(opcode);
+				ld_C_a(cpu);
                 break;
             case 0xE3:
                 unimplemented_opcode(opcode);
@@ -804,8 +807,11 @@ void loop(Cpu* cpu) {
                 push_HL(cpu);
                 break;
             case 0xE6:
-                unimplemented_opcode(opcode);
+            {
+                uint8_t immediate = read_byte(cpu, cpu->pc);
+				and_8bit_immediate(cpu, immediate);
                 break;
+            }
             case 0xE7:
                 unimplemented_opcode(opcode);
                 break;
@@ -813,10 +819,15 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xE9:
-                unimplemented_opcode(opcode);
+				jp_hl(cpu);
                 break;
             case 0xEA:
-                unimplemented_opcode(opcode);
+            {
+                uint16_t immediate = read_word(cpu, cpu->pc);
+				ld_16_bit_immediate_a(cpu, immediate);
+                break;
+            }
+
                 break;
             case 0xEB:
                 unimplemented_opcode(opcode);
@@ -831,7 +842,7 @@ void loop(Cpu* cpu) {
                 unimplemented_opcode(opcode);
                 break;
             case 0xEF:
-                unimplemented_opcode(opcode);
+				rst_28(cpu);
                 break;
             case 0xF0:
             {

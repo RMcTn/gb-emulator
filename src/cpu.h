@@ -78,6 +78,9 @@ void unimplemented_opcode(uint8_t opcode);
 	Two registers together UPPERCASE means the value held in 
 	those registers.
 	ld_HL_BC, load the value in bc, into registers hl 
+
+	Uppercase single register means use the value in the register as an address.
+	Lowcase single register means use the value in the register as normal.
 */
 
 //0x
@@ -504,6 +507,8 @@ void prefix_cb(Cpu* cpu, uint8_t opcode);
 void call_16bit_immediate(Cpu* cpu, uint16_t n);
 //Dx
 //TODO:
+//0xD0
+void ret_nc(Cpu* cpu);
 //0xD1
 void pop_DE(Cpu* cpu);
 //0xD2
@@ -522,10 +527,18 @@ void jp_c_16bit_immediate(Cpu* cpu, uint16_t n);
 void ldh_8bit_immediate_a(Cpu* cpu, uint8_t n);
 //0xE1
 void pop_HL(Cpu* cpu);
+//0xE2
+void ld_C_a(Cpu* cpu);
 //0xE5
 void push_HL(Cpu* cpu);
+//0xE6
+void and_8bit_immediate(Cpu* cpu, uint8_t n);
 //0xE9
 void jp_hl(Cpu* cpu);
+//0xEA
+void ld_16_bit_immediate_a(Cpu* cpu, uint16_t n);
+//0xEF
+void rst_28(Cpu* cpu);
 //Fx
 //TODO:
 //0xF0

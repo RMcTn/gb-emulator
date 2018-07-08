@@ -228,6 +228,9 @@ void unimplemented_opcode(uint8_t opcode) {
 	Two registers together UPPERCASE means the value held in 
 	those registers.
 	ld_HL_BC, load the value in bc, into registers hl 
+
+	Uppercase single register means use the value in the register as an address.
+	Lowcase single register means use the value in the register as normal.
 */
 
 //0x
@@ -1654,6 +1657,21 @@ void call_16bit_immediate(Cpu* cpu, uint16_t n) {
 }
 //Dx
 //TODO:
+//0xD0
+void ret_nc(Cpu* cpu) {
+    if (is_flag_set(cpu, CARRY_FLAG)) {
+        //Don't return from call
+        cpu->m = 2;
+        cpu->t = 8;
+        return;
+    }
+
+    //Pop pc off stack
+    cpu->pc = read_word(cpu, cpu->sp);
+    cpu->sp += 2;
+    cpu->m = 5;
+    cpu->t = 20;
+}
 //0xD1
 void pop_DE(Cpu* cpu) {
     cpu->e = read_byte(cpu, cpu->sp);
@@ -1742,17 +1760,52 @@ void pop_HL(Cpu* cpu) {
     cpu->m = 3;
     cpu->t = 12;
 }
+//0xE2
+void ld_C_a(Cpu* cpu) {
+	//cpu->c is the address here
+	write_byte(cpu, cpu->c, cpu->a);	
+	cpu->pc++;
+	cpu->m = 2;
+	cpu->t = 8;
+}
 //0xE5
 void push_HL(Cpu* cpu) {
     push_16bit_register(cpu, cpu->h, cpu->l);
     cpu->m = 4;
     cpu->t = 16;
 }
+//0xE6
+void and_8bit_immediate(Cpu* cpu, uint8_t n) {
+	and_with_accumulator(cpu, n);	
+	cpu->pc++;
+    cpu->m = 2;
+    cpu->t = 8;
+}
 //0xE9
 void jp_hl(Cpu* cpu) {
     cpu->pc = join_registers(cpu->h, cpu->l);
     cpu->m = 1;
     cpu->t = 4;
+}
+//0xEA
+void ld_16_bit_immediate_a(Cpu* cpu, uint16_t n) {
+	write_byte(cpu, n, cpu->a);
+	cpu->pc += 2;
+	cpu->m = 4;
+	cpu->t = 16;
+}
+//0xEF
+void rst_28(Cpu* cpu) {
+    //Disable interrupts
+    cpu->interrupt_master_enable = false;
+    //Store pc on stack
+    cpu->sp -= 2;
+    write_word(cpu, cpu->sp, cpu->pc);
+
+    //Jump to interrupt handler
+    cpu->pc = 0x28;
+    cpu->m = 4;
+    cpu->t = 16;
 }
 //Fx
 //TODO:
