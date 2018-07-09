@@ -10,18 +10,24 @@ uint8_t read_byte(Cpu* cpu, uint16_t address) {
 
 	//Hardware i/o registers
 	//Check pandocs for rest
-
-	//0xFF42 - Scroll y
-	//0xFF43 - Scroll x
+	
+	//0xFF40 - LCD and GPU control
+	if (address == 0xFF40) {
+		return cpu->gpu.lcdc;	
+	}	
+	//0xFF42 - Scroll Y
+	if (address == 0xFF42) {
+		return cpu->gpu.scroll_y;
+	}
+	//0xFF43 - Scroll X
+	if (address == 0xFF43) {
+		return cpu->gpu.scroll_x;
+	}
 	//0xFF44 - LCD LY
 	if (address == 0xFF44) {
-		//LCD LY
 		return cpu->gpu.line;
-
-		//0xFF45 - LY compare
-
 	}
-
+	//0xFF45 - LY compare
 	return cpu->memory[address];
 }
 
@@ -38,6 +44,22 @@ void write_byte(Cpu* cpu, uint16_t address, uint8_t value) {
             cpu->memory[address] = value;
 
     }
+	//0xFF40 - LCDC
+	if (address == 0xFF40) {
+		cpu->gpu.lcdc = value;
+	}
+	//0xFF42 - Scroll Y
+	if (address == 0xFF42) {
+		cpu->gpu.scroll_y = value;
+	}
+	//0xFF43 - Scroll X
+	if (address == 0xFF43) {
+		cpu->gpu.scroll_x = value;
+	}
+	//0xFF47 - BG Palette
+	if (address == 0xFF47)  {
+		cpu->gpu.background_palette = value;	
+	}
 }
 
 void write_word(Cpu* cpu, uint16_t address, uint16_t value) {

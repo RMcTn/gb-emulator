@@ -9,8 +9,25 @@
 typedef struct Gpu {
     uint8_t mode;
     int mode_clock;
-    int line; 
+    uint8_t line; 
     uint16_t tileset[NUM_OF_INDIVIDUAL_TILES][ROWS_IN_TILE];
+	uint8_t scroll_y;
+	uint8_t scroll_x;
+
+	/**
+ 	 * LCDC Bits
+	 * 0 = Off,  1 = On, unless stated otherwise
+ 	 * Bit 0 - BG enable
+	 * Bit 1 - OBJ enable
+	 * Bit 2 - OBJ size					0 = 8x8, 1 = 8x16
+	 * Bit 3 - BG map select			0 = 0x9800-9BFF, 1=0x9C00-0x9FFF
+	 * Bit 4 - BG tile select			0 = 0x8800-0x97FF, 1 = 0x8000-0x8FFF
+	 * Bit 5 - Window display enable
+	 * Bit 6 - Window map select		0 = 0x9800-0x9BFF, 1 = 0x9C00-0x9FFF
+	 * Bit 7 - LCD enable
+	 */
+	uint8_t lcdc;
+	uint8_t background_palette;
 } Gpu;
 
 enum GpuModes {
