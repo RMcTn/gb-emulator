@@ -1,6 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra
-
+CFLAGS = -g -Wall -Wextra -lSDL2 
 TARGET = gbc
 
 SRCDIR = src
@@ -9,7 +8,7 @@ SRC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 gbc: $(OBJ)
-	$(CC) $(CFLAGS)	-o $@ $^
+	$(CC) -o $@ $^ $(CFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
