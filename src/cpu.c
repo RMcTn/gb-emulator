@@ -1576,6 +1576,7 @@ void pop_BC(Cpu* cpu) {
 }
 //0xC2
 void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
+	cpu->pc++;
     if (is_flag_set(cpu, ZERO_FLAG)) {
         //Don't jump
         cpu->pc += 2;
