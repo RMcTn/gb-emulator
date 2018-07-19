@@ -67,4 +67,4 @@ void decrement_16bit_register(uint8_t* reg1, uint8_t* reg2);
 
 void push_16bit_register(Cpu* cpu, uint8_t reg1, uint8_t reg2);
 
-void loop(Cpu* cpu);
+int step(Cpu* cpu);
