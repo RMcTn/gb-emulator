@@ -1821,9 +1821,7 @@ void pop_HL(Cpu* cpu) {
 }
 //0xE2
 void ld_C_a(Cpu* cpu) {
-	//cpu->c is the address here
-	write_byte(cpu, cpu->c, cpu->a);	
-	cpu->pc++;
+	write_byte(cpu, MEM_MAPPED_IO + cpu->c, cpu->a);	
 	cpu->m = 2;
 	cpu->t = 8;
 }
