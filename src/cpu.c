@@ -1853,8 +1853,11 @@ void ld_16_bit_immediate_a(Cpu* cpu, uint16_t n) {
 }
 //0xEF
 void rst_28(Cpu* cpu) {
-    //Disable interrupts
-    cpu->interrupt_master_enable = false;
+	/* Not disabling interrupts here for the moment until
+ 	 * tetris works correctly (seems to use it as a normal function)
+	 * May not be the case for other games so a better solution
+	 * will need to be used
+	 */
     //Store pc on stack
     cpu->sp -= 2;
     write_word(cpu, cpu->sp, cpu->pc);
@@ -1918,12 +1921,14 @@ void cp_8bit_immediate(Cpu* cpu, uint8_t n) {
 
 //Vblank interrupt
 void rst_40(Cpu* cpu) {
-    //Disable interrupts
-    cpu->interrupt_master_enable = false;
-
+	/* Not disabling interrupts here for the moment until
+ 	 * tetris works correctly (seems to use it as a normal function)
+	 * May not be the case for other games so a better solution
+	 * will need to be used
+	 */
     //Store pc on stack
     cpu->sp -= 2;
-    write_word(cpu, cpu->sp, cpu->pc);
+    write_word(cpu, cpu->sp, cpu->pc - 1); //-1 to the pc since we're increasing it in the cpu loop, but we want to come back to the pc we left at (look into getting better behaviour in the loop)
 
     //Jump to interrupt handler
     cpu->pc = 0x40;
@@ -1933,9 +1938,14 @@ void rst_40(Cpu* cpu) {
 
 //LCD STAT register interrupt
 void rst_48(Cpu* cpu) {
+	/* Not disabling interrupts here for the moment until
+ 	 * tetris works correctly (seems to use it as a normal function)
+	 * May not be the case for other games so a better solution
+	 * will need to be used
+	 */
     //Store pc on stack
     cpu->sp -= 2;
-    write_word(cpu, cpu->sp, cpu->pc - 1);
+    write_word(cpu, cpu->sp, cpu->pc - 1); //-1 to the pc since we're increasing it in the cpu loop, but we want to come back to the pc we left at (look into getting better behaviour in the loop)
 
     //Jump to interrupt handler
     cpu->pc = 0x48;
