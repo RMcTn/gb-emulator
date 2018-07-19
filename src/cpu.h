@@ -20,6 +20,8 @@ typedef struct Cpu {
 	uint8_t interrupt_enable;		//Bits 1-4
 	uint8_t interrupt_flags;		//Bits 1-4
 
+	uint8_t joypad_register;
+
 	Gpu gpu;
 } Cpu;
 

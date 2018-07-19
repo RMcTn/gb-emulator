@@ -7,6 +7,7 @@
 #define CARTRIDGE_HEADER            0x0100  //0x0100 - 0x014F
 #define CARTRIDGE_ROM_OTHER_BANKS   0x4000  //0x4000 - 0x7FFF
 #define GRAPHICS_RAM                0x8000  //0x8000 - 0x9FFF
+#define GRAPHICS_RAM_END			0x9FFF
 #define EXTERNAL_CARTRIDGE_RAM      0xA000  //0xA000 - 0xBFFF
 #define WORKING_RAM                 0xC000  //0xC000 - 0xDFFF
 #define WORKING_RAM_END             0xDFFF
