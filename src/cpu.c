@@ -170,8 +170,8 @@ void and_with_accumulator(Cpu* cpu, uint8_t n) {
     clear_flag(cpu, ALL_FLAGS);
     set_flag(cpu, HALFCARRY_FLAG);
     cpu->a = cpu->a & n;
-    if (cpu->a == 0)
-        set_flag(cpu, ZERO_FLAG);
+	if (cpu->a == 0)
+		set_flag(cpu, ZERO_FLAG);
 }
 
 void xor_with_accumulator(Cpu* cpu, uint8_t n) {
@@ -1624,10 +1624,27 @@ void jp_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->t = 16;
 }
 //0xC3
-void jp_16bit_immediate(Cpu*cpu, uint16_t n) {
+void jp_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->pc = n;
     cpu->m = 4;
     cpu->t = 16;
+}
+//0xC4
+void call_nz_16bit_immediate(Cpu* cpu, uint16_t n) {
+	if (is_flag_set(cpu, ZERO_FLAG)) {
+		//Don't call 
+		cpu->pc += 2;
+		cpu->m = 3;
+		cpu->t = 12;
+		return;
+	}
+	//Call
+    //Push the resulting program counter after the call
+    cpu->sp -= 2;
+    write_word(cpu, cpu->sp, cpu->pc + 2);
+    cpu->pc = n;
+    cpu->m = 6;
+    cpu->t = 24;
 }
 //0xC5
 void push_BC(Cpu* cpu) {
@@ -1685,7 +1702,6 @@ void call_16bit_immediate(Cpu* cpu, uint16_t n) {
     //Push the resulting program counter after the call
     cpu->sp -= 2;
     write_word(cpu, cpu->sp, cpu->pc + 2);
-
     cpu->pc = n;
     cpu->m = 6;
     cpu->t = 24;
@@ -1735,6 +1751,14 @@ void push_DE(Cpu* cpu) {
     push_16bit_register(cpu, cpu->d, cpu->e);
     cpu->m = 4;
     cpu->t = 16;
+}
+//0xD6
+void sub_8bit_immediate(Cpu* cpu) {
+	uint8_t n = read_byte(cpu, cpu->pc);
+	cpu->pc++;
+    subtract_from_accumulator(cpu, n);
+    cpu->m = 1;
+    cpu->t = 4;
 }
 //0xD8
 void ret_c(Cpu* cpu) {
@@ -1905,6 +1929,18 @@ void rst_40(Cpu* cpu) {
 
     //Jump to interrupt handler
     cpu->pc = 0x40;
+    cpu->m = 3;
+    cpu->t = 12;
+}
+
+//LCD STAT register interrupt
+void rst_48(Cpu* cpu) {
+    //Store pc on stack
+    cpu->sp -= 2;
+    write_word(cpu, cpu->sp, cpu->pc - 1);
+
+    //Jump to interrupt handler
+    cpu->pc = 0x48;
     cpu->m = 3;
     cpu->t = 12;
 }
