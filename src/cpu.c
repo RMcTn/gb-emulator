@@ -446,6 +446,7 @@ void rla(Cpu* cpu) {
 //0x18
 void jr_8bit_immediate(Cpu* cpu, int8_t n) {
     //Not sure if this handles correctly like the gameboy
+	cpu->pc++;
     cpu->pc += n;
     cpu->m = 3;
     cpu->t = 12;
@@ -1878,7 +1879,6 @@ void ldh_a_8bit_immediate(Cpu* cpu, uint8_t n) {
 }
 //0xF1
 void pop_AF(Cpu* cpu) {
-    //TODO: check if flags are affected here at all
     cpu->f = read_byte(cpu, cpu->sp);
     cpu->sp++;
     cpu->a = read_byte(cpu, cpu->sp);
