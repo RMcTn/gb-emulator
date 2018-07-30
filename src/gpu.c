@@ -7,83 +7,90 @@ void reset_gpu(Gpu* gpu) {
 }
 
 uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock) {
-    gpu->mode_clock += last_t_clock;
 	uint8_t interrupts = 0;
-    switch(gpu->mode) {
-        case SCANLINE_OAM:
-            if (gpu->mode_clock >= SCANLINE_OAM_CLOCKS) {
-                gpu->mode_clock = 0;
-                gpu->mode = SCANLINE_VRAM;
-				//Clear the mode bits
-				gpu->lcd_status_register &= ~LCD_MODE_BITS;
-				//Set the mode bits
-				gpu->lcd_status_register |= SCANLINE_VRAM;
-            }
-            break;
-        case SCANLINE_VRAM:
-            //end of this mode is end of scanline
-            if  (gpu->mode_clock >= SCANLINE_VRAM_CLOCKS) {
-                gpu->mode_clock = 0;
-                gpu->mode = HBLANK;
-				//Clear the mode bits
-				gpu->lcd_status_register &= ~LCD_MODE_BITS;
-				//Set the mode bits
-				gpu->lcd_status_register |= HBLANK;
-
-                //TODO: write out scanline to the framebuffer
-				render_background(gpu);
-            }
-            break;
-        case HBLANK:
-            if (gpu->mode_clock >= HBLANK_CLOCKS) {
-                gpu->mode_clock = 0;
-                gpu->line++;
-
-                if (gpu->line == MAX_DISPLAY_LINES) {
-                    gpu->mode = VBLANK;
+	//Check if LCD display bit is enabled
+	if (gpu->lcdc & 0x80) {
+		gpu->mode_clock += last_t_clock;
+		switch(gpu->mode) {
+			case SCANLINE_OAM:
+				if (gpu->mode_clock >= SCANLINE_OAM_CLOCKS) {
+					gpu->mode_clock = 0;
+					gpu->mode = SCANLINE_VRAM;
 					//Clear the mode bits
 					gpu->lcd_status_register &= ~LCD_MODE_BITS;
 					//Set the mode bits
-					gpu->lcd_status_register |= VBLANK;
-                    //vblank flag and check if STAT register has vblank interrupts enabled
-					if (CHECK_BIT(gpu->lcd_status_register, 4)) {
-						interrupts |= STAT_REG_RST48;
-					}
-					interrupts |= VBLANK_RST40;
-				} else {
-					gpu->mode = SCANLINE_OAM;
-					//Check if OAM interrupt is enabled
+					gpu->lcd_status_register |= SCANLINE_VRAM;
+				}
+				break;
+			case SCANLINE_VRAM:
+				//end of this mode is end of scanline
+				if  (gpu->mode_clock >= SCANLINE_VRAM_CLOCKS) {
+					gpu->mode_clock = 0;
+					gpu->mode = HBLANK;
 					//Clear the mode bits
 					gpu->lcd_status_register &= ~LCD_MODE_BITS;
 					//Set the mode bits
-					gpu->lcd_status_register |= SCANLINE_OAM;
-					if (CHECK_BIT(gpu->lcd_status_register, 5)) {
+					gpu->lcd_status_register |= HBLANK;
+					//hblank flag and check if STAT register has hblank interrupts enabled
+					if (CHECK_BIT(gpu->lcd_status_register, 3)) {
 						interrupts |= STAT_REG_RST48;
 					}
-                }
-            }
-            break;
-        case VBLANK:
-            if (gpu->mode_clock >= SINGLE_LINE_CLOCKS) {
-                gpu->mode_clock = 0;
-                gpu->line++;
 
-                if (gpu->line > MAX_LINES) {
-                    //TODO: Double check this if this is correct
-                    gpu->mode = SCANLINE_OAM;
-					//Clear the mode bits
-					gpu->lcd_status_register &= ~LCD_MODE_BITS;
-					//Set the mode bits
-					gpu->lcd_status_register |= SCANLINE_OAM;
-					//Check if OAM interrupt is enabled
-                    gpu->line = 0;
-					if (CHECK_BIT(gpu->lcd_status_register, 5)) {
-						interrupts |= STAT_REG_RST48;
+					//TODO: write out scanline to the framebuffer
+					render_background(gpu);
+				}
+				break;
+			case HBLANK:
+				if (gpu->mode_clock >= HBLANK_CLOCKS) {
+					gpu->mode_clock = 0;
+					gpu->line++;
+
+					if (gpu->line == MAX_DISPLAY_LINES) {
+						gpu->mode = VBLANK;
+						//Clear the mode bits
+						gpu->lcd_status_register &= ~LCD_MODE_BITS;
+						//Set the mode bits
+						gpu->lcd_status_register |= VBLANK;
+						//vblank flag and check if STAT register has vblank interrupts enabled
+						if (CHECK_BIT(gpu->lcd_status_register, 4)) {
+							interrupts |= STAT_REG_RST48;
+						}
+						interrupts |= VBLANK_RST40;
+					} else {
+						gpu->mode = SCANLINE_OAM;
+						//Check if OAM interrupt is enabled
+						//Clear the mode bits
+						gpu->lcd_status_register &= ~LCD_MODE_BITS;
+						//Set the mode bits
+						gpu->lcd_status_register |= SCANLINE_OAM;
+						if (CHECK_BIT(gpu->lcd_status_register, 5)) {
+							interrupts |= STAT_REG_RST48;
+						}
 					}
-                }
-            }
-            break;
-    }
+				}
+				break;
+			case VBLANK:
+				if (gpu->mode_clock >= SINGLE_LINE_CLOCKS) {
+					gpu->mode_clock = 0;
+					gpu->line++;
+
+					if (gpu->line > MAX_LINES) {
+						//TODO: Double check this if this is correct
+						gpu->mode = SCANLINE_OAM;
+						//Clear the mode bits
+						gpu->lcd_status_register &= ~LCD_MODE_BITS;
+						//Set the mode bits
+						gpu->lcd_status_register |= SCANLINE_OAM;
+						//Check if OAM interrupt is enabled
+						gpu->line = 0;
+						if (CHECK_BIT(gpu->lcd_status_register, 5)) {
+							interrupts |= STAT_REG_RST48;
+						}
+					}
+				}
+				break;
+		}
+	}
 
 	if (gpu->line_y_compare == gpu->line) {
 		//Set the register (2nd bit)
@@ -95,8 +102,7 @@ uint8_t gpu_step(Gpu* gpu, uint8_t last_t_clock) {
 		//Clear the register (2nd bit)
 		gpu->lcd_status_register &= ~(LCD_COINCIDENCE_BIT);
 	}
-
-    return interrupts;
+	return interrupts;
 }
 
 void render_background(Gpu* gpu) { 

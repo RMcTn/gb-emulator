@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #define CHECK_BIT(var, pos) ((var) & (1 << (pos)))
+#define CLEAR_BIT(var, pos) ((var) &= ~((1) << (pos)))
 
 #define SCREEN_WIDTH 160
 #define SCREEN_HEIGHT 144
@@ -10,7 +11,7 @@
 #define ROWS_IN_TILE 8                      //Each row of a tile is 8 pixels
 #define NUM_OF_INDIVIDUAL_TILES 348         //2 tilesets of 256 tiles, but half of each tileset is shared
 #define LCD_MODE_BITS		0x03
-#define LCD_COINCIDENCE_BIT	0x02
+#define LCD_COINCIDENCE_BIT	0x04
 
 typedef struct Gpu {
     uint8_t mode;

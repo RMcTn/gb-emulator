@@ -42,6 +42,9 @@ uint8_t read_byte(Cpu* cpu, uint16_t address) {
 		return cpu->gpu.line;
 	}
 	//0xFF45 - LY compare
+	if (address == 0xFF45) {
+		return cpu->gpu.line_y_compare;
+	}
 	return cpu->memory[address];
 }
 
@@ -68,7 +71,7 @@ void write_byte(Cpu* cpu, uint16_t address, uint8_t value) {
 	//0xFF00 - Joypad register
 	if (address == 0xFF00) {
 		cpu->joypad_register = value;
-		//Saet bottom bits for now since we have no joypad
+		//Set bottom bits for now since we have no joypad
 		cpu->joypad_register |= 0xF;
 		//set top 2 bits cause they're set anyway
 		cpu->joypad_register |= 0xC0;
@@ -83,6 +86,17 @@ void write_byte(Cpu* cpu, uint16_t address, uint8_t value) {
 	//0xFF40 - LCDC
 	if (address == 0xFF40) {
 		cpu->gpu.lcdc = value;
+		//Check lcd display enable bit
+		if (!(cpu->gpu.lcdc & 0x80)) {
+			//LCD off, reset line
+			cpu->gpu.line = 0;
+			//Set display to white
+			//TODO: Shouldn't be handled here
+			//memset(cpu->gpu.background_pixels, 0xFF, SCREEN_WIDTH * SCREEN_HEIGHT * 4);
+			cpu->gpu.mode = SCANLINE_OAM;
+			cpu->gpu.mode_clock = 0;
+		}
+		return;
 	}
 	//0xFF41 - LCD Status Register
 	if (address == 0xFF41) {
@@ -97,6 +111,11 @@ void write_byte(Cpu* cpu, uint16_t address, uint8_t value) {
 	//0xFF43 - Scroll X
 	if (address == 0xFF43) {
 		cpu->gpu.scroll_x = value;
+		return;
+	}
+	//0xFF45 - LY compare
+	if (address == 0xFF45) {
+		cpu->gpu.line_y_compare = value;
 		return;
 	}
 	//0xFF47 - BG Palette

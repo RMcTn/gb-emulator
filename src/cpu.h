@@ -22,6 +22,7 @@ typedef struct Cpu {
 
 	uint8_t joypad_register;
 
+	bool halt;
 	Gpu gpu;
 } Cpu;
 
