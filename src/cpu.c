@@ -634,6 +634,7 @@ void jr_nc_8bit_immediate(Cpu* cpu, int8_t n) {
         //Don't jump
         cpu->m = 2;
         cpu->t = 8;
+		return;
     }
     cpu->pc += n;
     cpu->m = 3;
