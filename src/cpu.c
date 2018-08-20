@@ -1714,6 +1714,14 @@ void call_16bit_immediate(Cpu* cpu, uint16_t n) {
     cpu->m = 6;
     cpu->t = 24;
 }
+//0xCE
+void adc_a_8bit_immediate(Cpu* cpu) {
+	uint8_t n = read_byte(cpu, cpu->pc);
+	cpu->pc++;
+	add_to_accumulator_with_carry(cpu, n);
+	cpu->m = 2;
+	cpu->t = 8;
+}
 //Dx
 //TODO:
 //0xD0
@@ -5282,7 +5290,7 @@ int execute(Cpu* cpu, uint8_t opcode) {
 					break;
 				}
 			case 0xCE:
-				unimplemented_opcode(opcode);
+				adc_a_8bit_immediate(cpu);
 				break;
 			case 0xCF:
 				unimplemented_opcode(opcode);
