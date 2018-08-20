@@ -1920,6 +1920,12 @@ void push_AF(Cpu* cpu) {
     cpu->m = 4;
     cpu->t = 16;
 }
+//0xF9
+void ld_sp_hl(Cpu* cpu) {
+	cpu->sp = join_registers(cpu->h, cpu->l);
+	cpu->m = 2;
+	cpu->t = 8;
+}
 //0xFA
 void ld_a_16bit_address(Cpu* cpu, uint16_t address) {
     cpu->a = read_byte(cpu, address);
@@ -5436,7 +5442,7 @@ int execute(Cpu* cpu, uint8_t opcode) {
 				unimplemented_opcode(opcode);
 				break;
 			case 0xF9:
-				unimplemented_opcode(opcode);
+				ld_sp_hl(cpu);
 				break;
 			case 0xFA:
 				{
