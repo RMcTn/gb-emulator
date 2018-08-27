@@ -3405,6 +3405,7 @@ void set_0_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 0);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3455,6 +3456,7 @@ void set_1_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 1);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3506,6 +3508,7 @@ void set_2_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 2);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3556,6 +3559,7 @@ void set_3_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 3);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3607,6 +3611,7 @@ void set_4_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 4);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3657,6 +3662,7 @@ void set_5_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 5);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3708,6 +3714,7 @@ void set_6_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 6);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
@@ -3758,6 +3765,7 @@ void set_7_hl(Cpu* cpu) {
     uint16_t address = join_registers(cpu->h, cpu->l);
     uint8_t value = read_byte(cpu, address);
     set_bit_8bit(&value, 7);
+	write_byte(cpu, address, value);
     cpu->m = 4;
     cpu->t = 16;
 }
