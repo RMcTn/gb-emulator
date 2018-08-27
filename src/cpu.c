@@ -4575,6 +4575,10 @@ bool check_interrupt(Cpu* cpu) {
 	bool vblank_occured = false;
 	if (cpu->interrupt_master_enable) {
 		for (int i = 0; i <= NUM_TOTAL_INTERRUPTS; i++) {
+			//Another check to make sure we don't continue to handle interrupts 
+			//whilst we're currently handling one
+			if (!cpu->interrupt_master_enable)
+				break;
 			//Check which interrupts have been requested
 			if (CHECK_BIT(cpu->interrupt_flags, i)) {
 				//Check which interrupts are actually enabled
